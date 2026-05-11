@@ -32,57 +32,13 @@ export default function MaisonSection() {
       aria-label="The Maison"
       ref={ref}
     >
-      {/* Left text panel */}
-      <motion.div
-        className="w-full md:w-[42%] bg-[#1a2235] flex flex-col justify-center px-10 md:px-16 py-20 md:py-28"
-        initial={{ opacity: 0, x: -30 }}
-        animate={inView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {/* Gold headline */}
-        <motion.p
-          className="font-serif text-sm tracking-luxury text-accent mb-8 leading-relaxed"
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-        >
-          THE HOUSE OF<br />AUDACIOUS ELEGANCE
-        </motion.p>
-
-        {/* Body */}
-        <motion.p
-          className="font-sans text-[13px] leading-relaxed text-white/70 max-w-sm mb-10"
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
-        >
-          Since 1937, Jacques Fath has embodied Parisian sophistication and a pioneering spirit.
-          Discover the story of a visionary couturier who shaped modern elegance.
-        </motion.p>
-
-        {/* CTA */}
-        <motion.a
-          href="#"
-          className="group inline-flex items-center gap-3 font-sans text-[10px] tracking-luxury text-accent w-fit"
-          initial={{ opacity: 0, y: 10 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.44, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <span className="relative">
-            DISCOVER THE MAISON
-            <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-accent group-hover:w-full transition-all duration-400" />
-          </span>
-          <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1" />
-        </motion.a>
-      </motion.div>
-
-      {/* Right image panel with loupe */}
+      {/* Left image panel with loupe */}
       <motion.div
         ref={loupeAreaRef}
         className="flex-1 min-h-[400px] md:min-h-0 relative overflow-hidden cursor-none select-none"
-        initial={{ opacity: 0, x: 30 }}
+        initial={{ opacity: 0, x: -30 }}
         animate={inView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
@@ -138,22 +94,12 @@ export default function MaisonSection() {
               {/* Crosshair vertical */}
               <div
                 className="absolute left-1/2 -translate-x-1/2"
-                style={{
-                  top: "15%",
-                  bottom: "15%",
-                  width: 1,
-                  background: "rgba(180,155,100,0.4)",
-                }}
+                style={{ top: "15%", bottom: "15%", width: 1, background: "rgba(180,155,100,0.4)" }}
               />
               {/* Crosshair horizontal */}
               <div
                 className="absolute top-1/2 -translate-y-1/2"
-                style={{
-                  left: "15%",
-                  right: "15%",
-                  height: 1,
-                  background: "rgba(180,155,100,0.4)",
-                }}
+                style={{ left: "15%", right: "15%", height: 1, background: "rgba(180,155,100,0.4)" }}
               />
 
               {/* Center dot */}
@@ -164,6 +110,76 @@ export default function MaisonSection() {
             </div>
           )
         })()}
+      </motion.div>
+
+      {/* Right text panel */}
+      <motion.div
+        className="w-full md:w-[42%] bg-[#1a2235] flex flex-col justify-center px-10 md:px-16 py-20 md:py-28"
+        initial={{ opacity: 0, x: 30 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+        transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {/* Gold headline */}
+        <motion.p
+          className="font-serif text-sm tracking-luxury text-accent mb-8 leading-relaxed"
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        >
+          THE HOUSE OF<br />AUDACIOUS ELEGANCE
+        </motion.p>
+
+        <motion.div
+          className="w-8 h-px bg-accent/40 mb-8"
+          initial={{ opacity: 0, scaleX: 0 }}
+          animate={inView ? { opacity: 1, scaleX: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          style={{ transformOrigin: "left" }}
+        />
+
+        <motion.p
+          className="font-sans text-[10px] tracking-luxury text-white/30 uppercase mb-3"
+          initial={{ opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        >
+          Editorial Photography
+        </motion.p>
+
+        <motion.p
+          className="font-serif text-2xl text-white/20 mb-10"
+          initial={{ opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.42, ease: [0.22, 1, 0.36, 1] }}
+        >
+          Jacques Fath Atelier
+        </motion.p>
+
+        {/* Body */}
+        <motion.p
+          className="font-sans text-[13px] leading-relaxed text-white/70 max-w-sm mb-10"
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        >
+          Since 1937, Jacques Fath has embodied Parisian sophistication and a pioneering spirit.
+          Discover the story of a visionary couturier who shaped modern elegance.
+        </motion.p>
+
+        {/* CTA */}
+        <motion.a
+          href="#"
+          className="group inline-flex items-center gap-3 font-sans text-[10px] tracking-luxury text-accent w-fit"
+          initial={{ opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <span className="relative">
+            DISCOVER THE MAISON
+            <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-accent group-hover:w-full transition-all duration-400" />
+          </span>
+          <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1" />
+        </motion.a>
       </motion.div>
     </section>
   )
