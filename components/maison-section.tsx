@@ -76,33 +76,30 @@ export default function MaisonSection() {
         </motion.a>
       </motion.div>
 
-      {/* Right image placeholder */}
+      {/* Right image panel */}
       <motion.div
         ref={imageRef}
-        className="flex-1 bg-[#3a3a38] min-h-[400px] md:min-h-0 flex items-center justify-center relative overflow-hidden cursor-none"
+        className="flex-1 min-h-[400px] md:min-h-0 relative overflow-hidden cursor-none"
         initial={{ opacity: 0, x: 30 }}
         animate={inView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Base background layer */}
-        <div className="absolute inset-0 bg-[#2e2e2c]" />
+        {/* Base image */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/fabric-texture.jpg"
+          alt="Close-up of Jacques Fath dark navy fabric texture"
+          className="absolute inset-0 w-full h-full object-cover"
+          draggable={false}
+        />
 
-        {/* Base content */}
-        <div className="relative z-10 flex flex-col items-center justify-center gap-3 text-center px-8 pointer-events-none select-none">
-          <div className="w-16 h-px bg-white/15" />
-          <p className="font-sans text-[10px] tracking-luxury text-white/25 uppercase">
-            Editorial Photography
-          </p>
-          <p className="font-serif text-xl text-white/15">
-            Jacques Fath Atelier
-          </p>
-          <div className="w-16 h-px bg-white/15" />
-        </div>
+        {/* Subtle dark vignette */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
 
         {/* Loupe magnifier */}
-        {loupe && (
+        {loupe && imageRef.current && (
           <div
             className="absolute pointer-events-none z-30"
             style={{
@@ -116,66 +113,44 @@ export default function MaisonSection() {
             <div
               className="absolute inset-0 rounded-full"
               style={{
-                border: "1.5px solid rgba(180,155,100,0.55)",
+                border: "1.5px solid rgba(180,155,100,0.7)",
                 boxShadow:
-                  "0 0 0 1px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(0,0,0,0.2), 0 8px 32px rgba(0,0,0,0.5)",
+                  "0 0 0 1px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(0,0,0,0.25), 0 8px 32px rgba(0,0,0,0.6)",
               }}
             />
 
-            {/* Zoomed content inside the circle */}
+            {/* Zoomed image inside the circle */}
             <div
               className="absolute inset-0 rounded-full overflow-hidden"
-              style={{ isolation: "isolate" }}
             >
-              {/* Zoomed background */}
               <div
-                className="absolute bg-[#2e2e2c]"
+                className="absolute inset-0"
                 style={{
-                  width: `${100 * ZOOM}%`,
-                  height: `${100 * ZOOM}%`,
-                  left: `${50 - loupe.x * ZOOM / (imageRef.current?.offsetWidth || 1) * 100}%`,
-                  top: `${50 - loupe.y * ZOOM / (imageRef.current?.offsetHeight || 1) * 100}%`,
-                  transform: `translate(-50%, -50%) scale(${ZOOM})`,
-                  transformOrigin: `${(loupe.x / (imageRef.current?.offsetWidth || 1)) * 100}% ${(loupe.y / (imageRef.current?.offsetHeight || 1)) * 100}%`,
+                  backgroundImage: "url('/images/fabric-texture.jpg')",
+                  backgroundSize: `${imageRef.current.offsetWidth * ZOOM}px ${imageRef.current.offsetHeight * ZOOM}px`,
+                  backgroundPosition: `-${loupe.x * ZOOM - LOUPE_SIZE / 2}px -${loupe.y * ZOOM - LOUPE_SIZE / 2}px`,
+                  backgroundRepeat: "no-repeat",
                 }}
               />
-
-              {/* Zoomed content labels */}
-              <div
-                className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-center"
-                style={{
-                  transform: `scale(${ZOOM})`,
-                  transformOrigin: `${(loupe.x / (imageRef.current?.offsetWidth || 1)) * 100}% ${(loupe.y / (imageRef.current?.offsetHeight || 1)) * 100}%`,
-                }}
-              >
-                <div className="w-16 h-px bg-white/15" />
-                <p className="font-sans text-[10px] tracking-luxury text-white/25 uppercase whitespace-nowrap">
-                  Editorial Photography
-                </p>
-                <p className="font-serif text-xl text-white/15 whitespace-nowrap">
-                  Jacques Fath Atelier
-                </p>
-                <div className="w-16 h-px bg-white/15" />
-              </div>
             </div>
 
             {/* Crosshair lines */}
             <div
               className="absolute left-1/2 top-[15%] bottom-[15%] w-px -translate-x-1/2"
-              style={{ background: "rgba(180,155,100,0.25)" }}
+              style={{ background: "rgba(180,155,100,0.35)" }}
             />
             <div
               className="absolute top-1/2 left-[15%] right-[15%] h-px -translate-y-1/2"
-              style={{ background: "rgba(180,155,100,0.25)" }}
+              style={{ background: "rgba(180,155,100,0.35)" }}
             />
 
             {/* Center dot */}
             <div
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
               style={{
-                width: 4,
-                height: 4,
-                background: "rgba(180,155,100,0.7)",
+                width: 5,
+                height: 5,
+                background: "rgba(180,155,100,0.85)",
               }}
             />
           </div>
