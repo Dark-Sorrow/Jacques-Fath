@@ -1,12 +1,30 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState, useCallback } from "react"
 import { ArrowRight } from "lucide-react"
 import { motion, useInView } from "framer-motion"
+
+const LOUPE_SIZE = 180
+const ZOOM = 2.2
 
 export default function MaisonSection() {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: "-80px" })
+
+  const imageRef = useRef<HTMLDivElement>(null)
+  const [loupe, setLoupe] = useState<{ x: number; y: number } | null>(null)
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    setLoupe({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    })
+  }, [])
+
+  const handleMouseLeave = useCallback(() => {
+    setLoupe(null)
+  }, [])
 
   return (
     <section
@@ -60,13 +78,19 @@ export default function MaisonSection() {
 
       {/* Right image placeholder */}
       <motion.div
-        className="flex-1 bg-[#3a3a38] min-h-[400px] md:min-h-0 flex items-center justify-center relative overflow-hidden"
+        ref={imageRef}
+        className="flex-1 bg-[#3a3a38] min-h-[400px] md:min-h-0 flex items-center justify-center relative overflow-hidden cursor-none"
         initial={{ opacity: 0, x: 30 }}
         animate={inView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
       >
+        {/* Base background layer */}
         <div className="absolute inset-0 bg-[#2e2e2c]" />
-        <div className="relative z-10 flex flex-col items-center justify-center gap-3 text-center px-8">
+
+        {/* Base content */}
+        <div className="relative z-10 flex flex-col items-center justify-center gap-3 text-center px-8 pointer-events-none select-none">
           <div className="w-16 h-px bg-white/15" />
           <p className="font-sans text-[10px] tracking-luxury text-white/25 uppercase">
             Editorial Photography
@@ -76,6 +100,86 @@ export default function MaisonSection() {
           </p>
           <div className="w-16 h-px bg-white/15" />
         </div>
+
+        {/* Loupe magnifier */}
+        {loupe && (
+          <div
+            className="absolute pointer-events-none z-30"
+            style={{
+              width: LOUPE_SIZE,
+              height: LOUPE_SIZE,
+              left: loupe.x - LOUPE_SIZE / 2,
+              top: loupe.y - LOUPE_SIZE / 2,
+            }}
+          >
+            {/* Outer ring */}
+            <div
+              className="absolute inset-0 rounded-full"
+              style={{
+                border: "1.5px solid rgba(180,155,100,0.55)",
+                boxShadow:
+                  "0 0 0 1px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(0,0,0,0.2), 0 8px 32px rgba(0,0,0,0.5)",
+              }}
+            />
+
+            {/* Zoomed content inside the circle */}
+            <div
+              className="absolute inset-0 rounded-full overflow-hidden"
+              style={{ isolation: "isolate" }}
+            >
+              {/* Zoomed background */}
+              <div
+                className="absolute bg-[#2e2e2c]"
+                style={{
+                  width: `${100 * ZOOM}%`,
+                  height: `${100 * ZOOM}%`,
+                  left: `${50 - loupe.x * ZOOM / (imageRef.current?.offsetWidth || 1) * 100}%`,
+                  top: `${50 - loupe.y * ZOOM / (imageRef.current?.offsetHeight || 1) * 100}%`,
+                  transform: `translate(-50%, -50%) scale(${ZOOM})`,
+                  transformOrigin: `${(loupe.x / (imageRef.current?.offsetWidth || 1)) * 100}% ${(loupe.y / (imageRef.current?.offsetHeight || 1)) * 100}%`,
+                }}
+              />
+
+              {/* Zoomed content labels */}
+              <div
+                className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-center"
+                style={{
+                  transform: `scale(${ZOOM})`,
+                  transformOrigin: `${(loupe.x / (imageRef.current?.offsetWidth || 1)) * 100}% ${(loupe.y / (imageRef.current?.offsetHeight || 1)) * 100}%`,
+                }}
+              >
+                <div className="w-16 h-px bg-white/15" />
+                <p className="font-sans text-[10px] tracking-luxury text-white/25 uppercase whitespace-nowrap">
+                  Editorial Photography
+                </p>
+                <p className="font-serif text-xl text-white/15 whitespace-nowrap">
+                  Jacques Fath Atelier
+                </p>
+                <div className="w-16 h-px bg-white/15" />
+              </div>
+            </div>
+
+            {/* Crosshair lines */}
+            <div
+              className="absolute left-1/2 top-[15%] bottom-[15%] w-px -translate-x-1/2"
+              style={{ background: "rgba(180,155,100,0.25)" }}
+            />
+            <div
+              className="absolute top-1/2 left-[15%] right-[15%] h-px -translate-y-1/2"
+              style={{ background: "rgba(180,155,100,0.25)" }}
+            />
+
+            {/* Center dot */}
+            <div
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+              style={{
+                width: 4,
+                height: 4,
+                background: "rgba(180,155,100,0.7)",
+              }}
+            />
+          </div>
+        )}
       </motion.div>
     </section>
   )
