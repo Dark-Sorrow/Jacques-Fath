@@ -100,8 +100,39 @@ export default function MaisonSection() {
 
         {/* Loupe magnifier */}
         {loupe && loupeAreaRef.current && (() => {
-          const w = loupeAreaRef.current.offsetWidth
-          const h = loupeAreaRef.current.offsetHeight
+          const cW = loupeAreaRef.current.offsetWidth
+          const cH = loupeAreaRef.current.offsetHeight
+
+          // Natural image dimensions (fabric-texture.jpg)
+          const IMG_W = 1300
+          const IMG_H = 868
+
+          // Replicate object-fit: cover — find the rendered size of the image inside the container
+          const containerRatio = cW / cH
+          const imageRatio = IMG_W / IMG_H
+          let renderedW: number
+          let renderedH: number
+          if (containerRatio > imageRatio) {
+            // Container is wider → fit by width
+            renderedW = cW
+            renderedH = cW / imageRatio
+          } else {
+            // Container is taller → fit by height
+            renderedH = cH
+            renderedW = cH * imageRatio
+          }
+
+          // The image is centered inside the container (object-position: center)
+          const offsetX = (cW - renderedW) / 2
+          const offsetY = (cH - renderedH) / 2
+
+          // Background props to replicate the same cover rendering
+          const bgW = renderedW * ZOOM
+          const bgH = renderedH * ZOOM
+          // Shift so the pixel under the cursor is at the center of the loupe
+          const bgX = -(loupe.x - offsetX) * ZOOM + LOUPE_SIZE / 2
+          const bgY = -(loupe.y - offsetY) * ZOOM + LOUPE_SIZE / 2
+
           return (
             <div
               className="absolute pointer-events-none z-30"
@@ -118,8 +149,8 @@ export default function MaisonSection() {
                   className="absolute inset-0"
                   style={{
                     backgroundImage: "url('/images/fabric-texture.jpg')",
-                    backgroundSize: `${w * ZOOM}px ${h * ZOOM}px`,
-                    backgroundPosition: `-${loupe.x * ZOOM - LOUPE_SIZE / 2}px -${loupe.y * ZOOM - LOUPE_SIZE / 2}px`,
+                    backgroundSize: `${bgW}px ${bgH}px`,
+                    backgroundPosition: `${bgX}px ${bgY}px`,
                     backgroundRepeat: "no-repeat",
                   }}
                 />
