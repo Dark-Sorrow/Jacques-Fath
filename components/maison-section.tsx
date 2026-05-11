@@ -4,14 +4,14 @@ import { useRef, useState, useCallback } from "react"
 import { ArrowRight } from "lucide-react"
 import { motion, useInView } from "framer-motion"
 
-const LOUPE_SIZE = 180
-const ZOOM = 2.2
+const LOUPE_SIZE = 200
+const ZOOM = 2.5
 
 export default function MaisonSection() {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: "-80px" })
 
-  const imageRef = useRef<HTMLDivElement>(null)
+  const loupeAreaRef = useRef<HTMLDivElement>(null)
   const [loupe, setLoupe] = useState<{ x: number; y: number } | null>(null)
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
@@ -76,85 +76,94 @@ export default function MaisonSection() {
         </motion.a>
       </motion.div>
 
-      {/* Right image panel */}
+      {/* Right image panel with loupe */}
       <motion.div
-        ref={imageRef}
-        className="flex-1 min-h-[400px] md:min-h-0 relative overflow-hidden cursor-none"
+        ref={loupeAreaRef}
+        className="flex-1 min-h-[400px] md:min-h-0 relative overflow-hidden cursor-none select-none"
         initial={{ opacity: 0, x: 30 }}
         animate={inView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Base image */}
+        {/* Background image */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/fabric-texture.jpg"
           alt="Close-up of Jacques Fath dark navy fabric texture"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           draggable={false}
         />
 
-        {/* Subtle dark vignette */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
+        {/* Subtle vignette */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
 
         {/* Loupe magnifier */}
-        {loupe && imageRef.current && (
-          <div
-            className="absolute pointer-events-none z-30"
-            style={{
-              width: LOUPE_SIZE,
-              height: LOUPE_SIZE,
-              left: loupe.x - LOUPE_SIZE / 2,
-              top: loupe.y - LOUPE_SIZE / 2,
-            }}
-          >
-            {/* Outer ring */}
+        {loupe && loupeAreaRef.current && (() => {
+          const w = loupeAreaRef.current.offsetWidth
+          const h = loupeAreaRef.current.offsetHeight
+          return (
             <div
-              className="absolute inset-0 rounded-full"
+              className="absolute pointer-events-none z-30"
               style={{
-                border: "1.5px solid rgba(180,155,100,0.7)",
-                boxShadow:
-                  "0 0 0 1px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(0,0,0,0.25), 0 8px 32px rgba(0,0,0,0.6)",
+                width: LOUPE_SIZE,
+                height: LOUPE_SIZE,
+                left: loupe.x - LOUPE_SIZE / 2,
+                top: loupe.y - LOUPE_SIZE / 2,
               }}
-            />
-
-            {/* Zoomed image inside the circle */}
-            <div
-              className="absolute inset-0 rounded-full overflow-hidden"
             >
+              {/* Zoomed image inside circle */}
+              <div className="absolute inset-0 rounded-full overflow-hidden">
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    backgroundImage: "url('/images/fabric-texture.jpg')",
+                    backgroundSize: `${w * ZOOM}px ${h * ZOOM}px`,
+                    backgroundPosition: `-${loupe.x * ZOOM - LOUPE_SIZE / 2}px -${loupe.y * ZOOM - LOUPE_SIZE / 2}px`,
+                    backgroundRepeat: "no-repeat",
+                  }}
+                />
+              </div>
+
+              {/* Outer ring */}
               <div
-                className="absolute inset-0"
+                className="absolute inset-0 rounded-full"
                 style={{
-                  backgroundImage: "url('/images/fabric-texture.jpg')",
-                  backgroundSize: `${imageRef.current.offsetWidth * ZOOM}px ${imageRef.current.offsetHeight * ZOOM}px`,
-                  backgroundPosition: `-${loupe.x * ZOOM - LOUPE_SIZE / 2}px -${loupe.y * ZOOM - LOUPE_SIZE / 2}px`,
-                  backgroundRepeat: "no-repeat",
+                  border: "1.5px solid rgba(180,155,100,0.75)",
+                  boxShadow:
+                    "0 0 0 1px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(0,0,0,0.2), 0 8px 40px rgba(0,0,0,0.6)",
                 }}
               />
+
+              {/* Crosshair vertical */}
+              <div
+                className="absolute left-1/2 -translate-x-1/2"
+                style={{
+                  top: "15%",
+                  bottom: "15%",
+                  width: 1,
+                  background: "rgba(180,155,100,0.4)",
+                }}
+              />
+              {/* Crosshair horizontal */}
+              <div
+                className="absolute top-1/2 -translate-y-1/2"
+                style={{
+                  left: "15%",
+                  right: "15%",
+                  height: 1,
+                  background: "rgba(180,155,100,0.4)",
+                }}
+              />
+
+              {/* Center dot */}
+              <div
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                style={{ width: 5, height: 5, background: "rgba(180,155,100,0.9)" }}
+              />
             </div>
-
-            {/* Crosshair lines */}
-            <div
-              className="absolute left-1/2 top-[15%] bottom-[15%] w-px -translate-x-1/2"
-              style={{ background: "rgba(180,155,100,0.35)" }}
-            />
-            <div
-              className="absolute top-1/2 left-[15%] right-[15%] h-px -translate-y-1/2"
-              style={{ background: "rgba(180,155,100,0.35)" }}
-            />
-
-            {/* Center dot */}
-            <div
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-              style={{
-                width: 5,
-                height: 5,
-                background: "rgba(180,155,100,0.85)",
-              }}
-            />
-          </div>
-        )}
+          )
+        })()}
       </motion.div>
     </section>
   )
