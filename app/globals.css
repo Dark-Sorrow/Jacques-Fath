@@ -1,0 +1,88 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Jacques Fath luxury palette */
+  --background: oklch(0.972 0.005 75);          /* warm ivory */
+  --foreground: oklch(0.18 0.02 250);            /* deep navy-charcoal */
+  --card: oklch(0.965 0.006 75);
+  --card-foreground: oklch(0.18 0.02 250);
+  --popover: oklch(0.965 0.006 75);
+  --popover-foreground: oklch(0.18 0.02 250);
+  --primary: oklch(0.22 0.06 252);               /* deep navy */
+  --primary-foreground: oklch(0.972 0.005 75);   /* ivory */
+  --secondary: oklch(0.94 0.01 75);
+  --secondary-foreground: oklch(0.22 0.06 252);
+  --muted: oklch(0.93 0.01 75);
+  --muted-foreground: oklch(0.48 0.02 250);
+  --accent: oklch(0.68 0.09 65);                 /* warm gold */
+  --accent-foreground: oklch(0.18 0.02 250);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.87 0.008 75);
+  --input: oklch(0.87 0.008 75);
+  --ring: oklch(0.68 0.09 65);
+  --radius: 0rem;
+
+  /* Custom brand tokens */
+  --navy: oklch(0.22 0.06 252);
+  --navy-dark: oklch(0.16 0.05 252);
+  --ivory: oklch(0.972 0.005 75);
+  --ivory-dark: oklch(0.93 0.01 75);
+  --gold: oklch(0.68 0.09 65);
+  --gold-light: oklch(0.78 0.07 65);
+}
+
+@theme inline {
+  --font-sans: var(--font-mulish), 'Mulish', ui-sans-serif, sans-serif;
+  --font-serif: 'Trajan Pro 3', 'Trajan Pro', 'TrajanPro3', 'Cormorant Garamond', Georgia, serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius));
+  --radius-md: calc(var(--radius));
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius));
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply text-foreground;
+    background-color: transparent;
+  }
+}
+
+/* Trajan Pro 3 fallback via system / CDN */
+.font-serif {
+  font-family: 'Trajan Pro 3', 'Trajan Pro', Georgia, 'Times New Roman', serif;
+}
+
+/* Letter spacing for luxury headings */
+.tracking-luxury {
+  letter-spacing: 0.18em;
+}
+
+.tracking-luxury-sm {
+  letter-spacing: 0.12em;
+}
