@@ -7,14 +7,9 @@ export default function HeroSection() {
     <section className="relative w-full" style={{ minHeight: "75vh" }} aria-label="Hero">
       {/* Full-width image placeholder */}
       <div className="w-full bg-[#3a3732]" style={{ minHeight: "75vh", position: "relative" }}>
-        {/* Placeholder numbered box */}
-        <div className="absolute inset-0 flex items-center justify-end">
-          <div className="w-1/2 h-full bg-[#ccc8c0] flex items-center justify-center">
-            <div className="flex flex-col items-center gap-2 text-center">
-              <span className="font-serif text-6xl text-foreground/20">1</span>
-              <span className="font-sans text-[9px] tracking-luxury text-foreground/30 uppercase">Hero Image</span>
-            </div>
-          </div>
+        {/* Placeholder — full width */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="font-serif text-[160px] leading-none text-white/8 select-none">1</span>
         </div>
 
         {/* Text overlay — left side */}

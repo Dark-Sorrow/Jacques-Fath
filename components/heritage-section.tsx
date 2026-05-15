@@ -5,8 +5,7 @@ export default function HeritageSection() {
     <section className="w-full flex flex-col md:flex-row" aria-label="Heritage">
       {/* Left image placeholder — dark/B&W */}
       <div className="w-full md:w-1/2 bg-[#1a1a18] min-h-[340px] md:min-h-[420px] relative flex items-center justify-center overflow-hidden">
-        <span className="font-serif text-9xl text-white/8">11</span>
-        <span className="absolute bottom-6 left-6 font-sans text-[9px] tracking-luxury text-white/25 uppercase">Heritage Photography</span>
+        <span className="font-sans text-[10px] tracking-luxury text-white/20 uppercase select-none">Photo placeholder</span>
       </div>
 
       {/* Right text panel */}
