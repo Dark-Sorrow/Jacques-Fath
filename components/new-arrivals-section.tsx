@@ -1,101 +1,64 @@
 "use client"
 
-import { useRef } from "react"
-import { ArrowRight } from "lucide-react"
-import { motion, useInView } from "framer-motion"
-
 const products = [
-  { name: "EVENING DRESS", price: "€4,900", bg: "bg-[#c8c3bb]", label: "Robe du Soir" },
-  { name: "TAILORED JACKET", price: "€3,200", bg: "bg-[#d0d0cc]", label: "Veste Tailleur" },
-  { name: "LE SAC BOWLING", price: "€2,150", bg: "bg-[#c4c8cc]", label: "Sac à Main" },
-  { name: "EARRINGS", price: "€890", bg: "bg-[#d6d0c4]", label: "Boucles d'Oreilles" },
+  { number: "6", name: "EVENING DRESS", price: "€2,450", bg: "#c4c0b8" },
+  { number: "7", name: "LEATHER BAG", price: "€1,950", bg: "#aaa69e" },
+  { number: "8", name: "WOOL COAT", price: "€2,950", bg: "#2a2a28" },
+  { number: "9", name: "SILK TOP", price: "€990", bg: "#d8d4cc" },
+  { number: "10", name: "LEATHER LOAFERS", price: "€890", bg: "#1c1c1a" },
 ]
 
 export default function NewArrivalsSection() {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-80px" })
-
   return (
-    <section className="py-20 bg-background" aria-label="New Arrivals" ref={ref}>
+    <section className="py-14 bg-background" aria-label="New Arrivals">
       {/* Header */}
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: 20 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <h2 className="font-serif text-2xl tracking-luxury text-foreground mb-3">NEW ARRIVALS</h2>
-        <div className="flex items-center justify-center gap-3">
-          <div className="h-px w-12 bg-accent" />
-          <div className="w-1.5 h-1.5 rounded-full bg-accent" />
-          <div className="h-px w-12 bg-accent" />
-        </div>
-      </motion.div>
+      <div className="text-center mb-10">
+        <h2 className="font-serif text-lg tracking-luxury text-foreground">NEW ARRIVALS</h2>
+      </div>
 
-      {/* Products */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-px mx-4 md:mx-10 bg-border">
-        {products.map((product, i) => (
-          <motion.a
+      {/* Products grid — 5 columns */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-0 px-6 md:px-10">
+        {products.map((product) => (
+          <a
             key={product.name}
             href="#"
-            className="group bg-background block"
+            className="group block"
             aria-label={product.name}
-            initial={{ opacity: 0, y: 24 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.75, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
           >
             {/* Image placeholder */}
-            <div className={`${product.bg} aspect-[3/4] flex flex-col items-center justify-center gap-2 overflow-hidden relative`}>
-              <div className="flex flex-col items-center gap-2 text-center px-4">
-                <div className="w-10 h-px bg-foreground/20" />
-                <p className="font-sans text-[9px] tracking-luxury-sm text-foreground/30 uppercase">
-                  {product.label}
-                </p>
-                <div className="w-10 h-px bg-foreground/20" />
-              </div>
-
-              {/* Hover — subtle veil */}
-              <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/6 transition-colors duration-500" />
-
-              {/* "QUICK VIEW" appears on hover */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 overflow-hidden">
-                <p className="font-sans text-[9px] tracking-luxury text-foreground/60 translate-y-5 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400 ease-out whitespace-nowrap">
-                  QUICK VIEW
-                </p>
-              </div>
+            <div
+              className="aspect-[3/4] flex flex-col items-center justify-center relative overflow-hidden"
+              style={{ backgroundColor: product.bg }}
+            >
+              <span
+                className="font-serif text-6xl"
+                style={{ color: parseInt(product.number) >= 8 && product.bg.startsWith('#1') ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.12)' }}
+              >
+                {product.number}
+              </span>
+              {/* Hover overlay */}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-400" />
             </div>
-
-            {/* Product info */}
-            <div className="py-4 px-1">
-              <p className="font-sans text-[10px] tracking-luxury text-foreground mb-1 transition-colors duration-300 group-hover:text-accent">
+            {/* Info */}
+            <div className="py-3">
+              <p className="font-sans text-[9px] tracking-luxury text-foreground mb-1 group-hover:text-gold transition-colors duration-300">
                 {product.name}
               </p>
-              <p className="font-sans text-[12px] text-muted-foreground">
-                {product.price}
-              </p>
+              <p className="font-sans text-[11px] text-muted-foreground">{product.price}</p>
             </div>
-          </motion.a>
+          </a>
         ))}
       </div>
 
       {/* View all */}
-      <motion.div
-        className="flex justify-center mt-10"
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.6, delay: 0.5 }}
-      >
+      <div className="flex justify-center mt-10">
         <a
           href="#"
-          className="group inline-flex items-center gap-3 font-sans text-[10px] tracking-luxury text-foreground hover:text-accent transition-colors duration-300"
+          className="group font-sans text-[10px] tracking-luxury text-foreground border-b border-foreground/30 pb-0.5 hover:border-gold hover:text-gold transition-colors duration-300"
         >
-          <span className="relative">
-            VIEW ALL NEW ARRIVALS
-            <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-accent group-hover:w-full transition-all duration-400" />
-          </span>
-          <ArrowRight size={12} className="transition-transform duration-300 group-hover:translate-x-1" />
+          VIEW ALL
         </a>
-      </motion.div>
+      </div>
     </section>
   )
 }

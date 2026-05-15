@@ -10,8 +10,8 @@ const mulish = Mulish({
 })
 
 export const metadata: Metadata = {
-  title: 'Jacques Fath Paris — Haute Couture',
-  description: 'Since 1937, Jacques Fath has embodied Parisian sophistication and a pioneering spirit. Discover the story of a visionary couturier who shaped modern elegance.',
+  title: 'Maison Jacques Fath — Timeless French Elegance',
+  description: 'Since 1937, Maison Jacques Fath has embodied the spirit of Parisian couture with boldness, refinement and vision. Discover the new collection.',
   generator: 'v0.app',
 }
 
@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="fr">
+    <html lang="fr" className="bg-background">
       <head>
         <link
           href="https://fonts.cdnfonts.com/css/trajan-pro-3"
