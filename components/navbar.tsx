@@ -1,24 +1,45 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Search, User, ShoppingBag, Menu, X } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 import Image from "next/image"
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 60)
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
-    <>
-      {/* Announcement bar */}
-      <div className="w-full bg-charcoal text-center py-2.5">
-        <p className="font-sans text-[10px] tracking-luxury text-white/80">
+    <div className="fixed top-0 left-0 right-0 z-50">
+      {/* Announcement bar — visible only when not scrolled */}
+      <div
+        className="w-full text-center overflow-hidden transition-all duration-500 ease-in-out"
+        style={{
+          maxHeight: scrolled ? "0px" : "36px",
+          opacity: scrolled ? 0 : 1,
+          backgroundColor: "#1c1b19",
+        }}
+      >
+        <p className="font-sans text-[10px] tracking-luxury text-white/80 py-2.5">
           COMPLIMENTARY DELIVERY &amp; RETURNS ON ALL ORDERS
         </p>
       </div>
 
       {/* Main nav */}
-      <header className="bg-charcoal border-b border-white/10 sticky top-0 z-50">
+      <header
+        className="border-b transition-all duration-500 ease-in-out"
+        style={{
+          backgroundColor: scrolled ? "rgba(28,27,25,0.97)" : "transparent",
+          borderBottomColor: scrolled ? "rgba(255,255,255,0.1)" : "transparent",
+          backdropFilter: scrolled ? "blur(8px)" : "none",
+        }}
+      >
         <div className="flex items-center justify-between px-5 md:px-8 h-12">
           {/* Left nav */}
           <nav className="hidden md:flex items-center gap-7">
@@ -105,7 +126,8 @@ export default function Navbar() {
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="md:hidden overflow-hidden bg-charcoal border-t border-white/10"
+              className="md:hidden overflow-hidden border-t border-white/10"
+              style={{ backgroundColor: "rgba(28,27,25,0.97)" }}
             >
               <div className="px-6 py-6 flex flex-col gap-5">
                 {["WOMEN", "MEN", "HOUSE"].map((item, i) => (
@@ -129,6 +151,6 @@ export default function Navbar() {
           )}
         </AnimatePresence>
       </header>
-    </>
+    </div>
   )
 }
