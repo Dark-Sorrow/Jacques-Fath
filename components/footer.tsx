@@ -49,11 +49,7 @@ export default function Footer() {
               </form>
             </div>
 
-            {/* Model image placeholder */}
-            <div className="hidden md:flex items-center justify-center bg-[#2a2826] h-52 relative overflow-hidden max-w-[260px]">
-              <span className="font-serif text-6xl text-white/8">12</span>
-              <span className="absolute bottom-4 left-4 font-sans text-[8px] tracking-luxury text-white/20 uppercase">Fashion Photography</span>
-            </div>
+
           </div>
 
           {/* Right — link columns */}

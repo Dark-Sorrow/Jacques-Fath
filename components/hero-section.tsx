@@ -4,9 +4,9 @@ import Image from "next/image"
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full" style={{ minHeight: "75vh" }} aria-label="Hero">
+    <section className="relative w-full" style={{ minHeight: "100vh" }} aria-label="Hero">
       {/* Full-width image placeholder */}
-      <div className="w-full bg-[#3a3732]" style={{ minHeight: "75vh", position: "relative" }}>
+      <div className="w-full bg-[#3a3732]" style={{ minHeight: "100vh", position: "relative" }}>
         {/* Placeholder — full width */}
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="font-serif text-[160px] leading-none text-white/8 select-none">1</span>
