@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Search, User, ShoppingBag, Menu, X } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
+import Image from "next/image"
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -58,6 +59,26 @@ export default function Navbar() {
               </motion.div>
             </AnimatePresence>
           </button>
+
+          {/* Center logo */}
+          <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-0.5">
+            <a href="#" aria-label="Maison Jacques Fath — Home" className="flex flex-col items-center group opacity-90 hover:opacity-100 transition-opacity duration-300">
+              <Image
+                src="/logo-monogram.png"
+                alt="Jacques Fath monogram"
+                width={28}
+                height={28}
+                className="object-contain w-7 h-auto"
+                priority
+              />
+              <span className="font-serif text-[8px] tracking-[0.22em] text-white/75 leading-none mt-0.5">
+                MAISON JACQUES FATH
+              </span>
+              <span className="font-sans text-[7px] tracking-[0.28em] text-white/40 leading-none mt-px">
+                PARIS
+              </span>
+            </a>
+          </div>
 
           {/* Right nav */}
           <div className="flex items-center gap-5">
