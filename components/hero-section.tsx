@@ -37,6 +37,31 @@ export default function HeroSection() {
         {/* Right vignette */}
         <div className="absolute inset-y-0 right-0 w-1/3 pointer-events-none" style={{ background: "linear-gradient(to left, rgba(0,0,0,0.35) 0%, transparent 100%)" }} />
 
+        {/* Center logo — top of hero */}
+        <motion.div
+          className="absolute top-0 left-0 right-0 flex flex-col items-center pt-10 z-10 pointer-events-none"
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+        >
+          <a href="#" className="flex flex-col items-center gap-2 pointer-events-auto" aria-label="Maison Jacques Fath">
+            <Image
+              src="/logo-monogram.png"
+              alt="Jacques Fath monogram"
+              width={72}
+              height={88}
+              className="object-contain drop-shadow-lg"
+              priority
+            />
+            <span className="font-serif text-[11px] tracking-[0.28em] text-white/85 leading-none drop-shadow">
+              MAISON JACQUES FATH
+            </span>
+            <span className="font-sans text-[9px] tracking-[0.35em] text-white/50 leading-none">
+              PARIS
+            </span>
+          </a>
+        </motion.div>
+
         {/* Text overlay — left side */}
         <motion.div
           className="absolute inset-0 flex flex-col justify-end pb-14 pl-8 md:pl-14 pr-8 max-w-sm"
