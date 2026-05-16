@@ -15,6 +15,11 @@ export default function HeroSection() {
           priority
         />
 
+        {/* Left vignette */}
+        <div className="absolute inset-y-0 left-0 w-1/3 pointer-events-none" style={{ background: "linear-gradient(to right, rgba(0,0,0,0.45) 0%, transparent 100%)" }} />
+        {/* Right vignette */}
+        <div className="absolute inset-y-0 right-0 w-1/3 pointer-events-none" style={{ background: "linear-gradient(to left, rgba(0,0,0,0.35) 0%, transparent 100%)" }} />
+
         {/* Text overlay — left side */}
         <div className="absolute inset-0 flex flex-col justify-end pb-14 pl-8 md:pl-14 pr-8 max-w-sm">
           <p className="font-sans text-[10px] tracking-luxury text-white/50 mb-4 uppercase">
