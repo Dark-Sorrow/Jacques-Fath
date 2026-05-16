@@ -5,12 +5,15 @@ import Image from "next/image"
 export default function HeroSection() {
   return (
     <section className="relative w-full" style={{ minHeight: "100vh" }} aria-label="Hero">
-      {/* Full-width image placeholder */}
-      <div className="w-full bg-[#3a3732]" style={{ minHeight: "100vh", position: "relative" }}>
-        {/* Placeholder — full width */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="font-serif text-[160px] leading-none text-white/8 select-none">1</span>
-        </div>
+      {/* Full-width hero image */}
+      <div className="w-full" style={{ minHeight: "100vh", position: "relative" }}>
+        <Image
+          src="/hero-image.png"
+          alt="Maison Jacques Fath — Timeless French Elegance"
+          fill
+          className="object-cover object-center"
+          priority
+        />
 
         {/* Text overlay — left side */}
         <div className="absolute inset-0 flex flex-col justify-end pb-14 pl-8 md:pl-14 pr-8 max-w-sm">
