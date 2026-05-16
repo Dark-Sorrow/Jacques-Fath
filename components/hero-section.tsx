@@ -11,7 +11,7 @@ export default function HeroSection() {
           src="/hero-image.png"
           alt="Maison Jacques Fath — Timeless French Elegance"
           fill
-          className="object-cover object-center"
+          className="object-cover object-top"
           priority
         />
 
