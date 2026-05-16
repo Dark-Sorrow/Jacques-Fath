@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { motion } from "framer-motion"
 
 const categories = [
@@ -8,55 +9,87 @@ const categories = [
   { name: "THE HOUSE", number: "4", bg: "#5a1a1a" },
 ]
 
-const container = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.15 } },
-}
-
-const card = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.22, 1, 0.36, 1] } },
-}
-
 export default function CollectionsSection() {
+  const [hovered, setHovered] = useState<string | null>(null)
+
   return (
-    <section className="w-full" aria-label="Categories">
-      <motion.div
-        className="grid grid-cols-3"
-        variants={container}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-      >
-        {categories.map((cat) => (
+    <section
+      className="w-full flex"
+      style={{ height: "75vh" }}
+      aria-label="Categories"
+      onMouseLeave={() => setHovered(null)}
+    >
+      {categories.map((cat, i) => {
+        const isActive = hovered === cat.name
+        const isInactive = hovered !== null && hovered !== cat.name
+
+        return (
           <motion.a
             key={cat.name}
             href="#"
-            variants={card}
-            className="group relative aspect-[3/4] flex flex-col justify-end overflow-hidden cursor-pointer"
-            style={{ backgroundColor: cat.bg }}
             aria-label={cat.name}
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            onMouseEnter={() => setHovered(cat.name)}
+            className="relative flex flex-col justify-end overflow-hidden cursor-pointer"
+            style={{
+              backgroundColor: cat.bg,
+              flex: isActive ? "2.2" : isInactive ? "0.8" : "1",
+              transition: "flex 0.7s cubic-bezier(0.22, 1, 0.36, 1)",
+            }}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: i * 0.15 }}
           >
             {/* Numbered placeholder */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="font-serif text-7xl md:text-8xl text-white/10">{cat.number}</span>
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <span
+                className="font-serif text-white/10 select-none"
+                style={{
+                  fontSize: "clamp(4rem, 8vw, 8rem)",
+                  transition: "opacity 0.5s ease",
+                  opacity: isInactive ? 0.4 : 1,
+                }}
+              >
+                {cat.number}
+              </span>
             </div>
 
-            {/* Gradient */}
+            {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
 
+            {/* Expand line accent */}
+            <div
+              className="absolute bottom-0 left-0 h-[2px] bg-gold"
+              style={{
+                width: isActive ? "100%" : "0%",
+                transition: "width 0.7s cubic-bezier(0.22, 1, 0.36, 1)",
+              }}
+            />
+
             {/* Label */}
-            <div className="relative z-10 p-5 pb-6">
-              <p className="font-serif text-sm tracking-luxury text-white mb-1">{cat.name}</p>
-              <p className="font-sans text-[9px] tracking-luxury text-white/60 group-hover:text-gold transition-colors duration-300">
+            <div className="relative z-10 p-5 pb-7">
+              <p
+                className="font-serif tracking-luxury text-white"
+                style={{
+                  fontSize: isActive ? "1rem" : "0.8rem",
+                  transition: "font-size 0.5s ease",
+                }}
+              >
+                {cat.name}
+              </p>
+              <p
+                className="font-sans text-[9px] tracking-luxury mt-1"
+                style={{
+                  color: isActive ? "var(--color-gold)" : "rgba(255,255,255,0.5)",
+                  transition: "color 0.4s ease",
+                }}
+              >
                 Discover
               </p>
             </div>
           </motion.a>
-        ))}
-      </motion.div>
+        )
+      })}
     </section>
   )
 }
