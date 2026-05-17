@@ -27,7 +27,8 @@ export default function MaisonSection() {
     <section className="w-full flex flex-col md:flex-row" aria-label="The Essence">
       {/* Left text panel — light ivory */}
       <motion.div
-        className="w-full md:w-[38%] bg-background flex flex-col justify-center px-10 md:px-14 py-16 md:py-24"
+        className="w-full md:w-[38%] flex flex-col justify-center px-10 md:px-14 py-16 md:py-24"
+        style={{ backgroundColor: "#E0DBE3" }}
         variants={slideLeft}
         initial="hidden"
         whileInView="visible"
