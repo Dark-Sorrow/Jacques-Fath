@@ -34,7 +34,7 @@
 
 @theme inline {
   --font-sans: var(--font-mulish), 'Mulish', ui-sans-serif, sans-serif;
-  --font-serif: 'Trajan Pro 3', 'Trajan Pro', 'Cormorant Garamond', Georgia, serif;
+  --font-serif: var(--font-cinzel), 'Cinzel', 'Trajan Pro 3', 'Trajan Pro', Georgia, serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -74,7 +74,7 @@
 }
 
 .font-serif {
-  font-family: 'Trajan Pro 3', 'Trajan Pro', Georgia, 'Times New Roman', serif;
+  font-family: var(--font-cinzel), 'Cinzel', 'Trajan Pro 3', 'Trajan Pro', Georgia, serif;
 }
 
 .tracking-luxury {

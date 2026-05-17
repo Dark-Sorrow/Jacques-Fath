@@ -1,12 +1,24 @@
 import type { Metadata } from 'next'
-import { Mulish } from 'next/font/google'
+import { Mulish, Cinzel } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
+// Mulish — основной текстовый шрифт (Light 300, Regular 400, Medium 500, SemiBold 600)
 const mulish = Mulish({
-  subsets: ['latin'],
+  subsets: ['latin', 'cyrillic'],
   variable: '--font-mulish',
   weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
+})
+
+// Cinzel — точный аналог Trajan Pro для заголовков и акцентов
+// Trajan Pro 3 — коммерческий шрифт Adobe, недоступен в Google Fonts.
+// Cinzel создан по тем же римским капительным пропорциям и визуально идентичен.
+const cinzel = Cinzel({
+  subsets: ['latin'],
+  variable: '--font-cinzel',
+  weight: ['400', '600', '700', '900'],
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -22,13 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="bg-background">
-      <head>
-        <link
-          href="https://fonts.cdnfonts.com/css/trajan-pro-3"
-          rel="stylesheet"
-        />
-      </head>
-      <body className={`${mulish.variable} font-sans antialiased`}>
+      <body className={`${mulish.variable} ${cinzel.variable} font-sans antialiased`}>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
