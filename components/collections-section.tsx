@@ -2,11 +2,12 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
+import Image from "next/image"
 
 const categories = [
-  { name: "WOMEN", number: "2", bg: "#2e2c29" },
-  { name: "MEN", number: "3", bg: "#1e1e1e" },
-  { name: "THE HOUSE", number: "4", bg: "#5a1a1a" },
+  { name: "WOMEN", number: "2", bg: "#2e2c29", image: null },
+  { name: "MEN", number: "3", bg: "#1e1e1e", image: null },
+  { name: "THE HOUSE", number: null, bg: "#1a0a0a", image: "/collection-house.png" },
 ]
 
 export default function CollectionsSection() {
@@ -40,19 +41,34 @@ export default function CollectionsSection() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: i * 0.15 }}
           >
-            {/* Numbered placeholder */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <span
-                className="font-serif text-white/10 select-none"
-                style={{
-                  fontSize: "clamp(4rem, 8vw, 8rem)",
-                  transition: "opacity 0.5s ease",
-                  opacity: isInactive ? 0.4 : 1,
-                }}
-              >
-                {cat.number}
-              </span>
-            </div>
+            {/* Image or numbered placeholder */}
+            {cat.image ? (
+              <div className="absolute inset-0">
+                <Image
+                  src={cat.image}
+                  alt={cat.name}
+                  fill
+                  className="object-cover object-center"
+                  style={{
+                    transition: "transform 0.9s cubic-bezier(0.22, 1, 0.36, 1)",
+                    transform: isActive ? "scale(1.04)" : "scale(1)",
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <span
+                  className="font-serif text-white/10 select-none"
+                  style={{
+                    fontSize: "clamp(4rem, 8vw, 8rem)",
+                    transition: "opacity 0.5s ease",
+                    opacity: isInactive ? 0.4 : 1,
+                  }}
+                >
+                  {cat.number}
+                </span>
+              </div>
+            )}
 
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
