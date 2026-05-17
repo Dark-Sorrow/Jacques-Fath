@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 
 const slideLeft = {
   hidden: { opacity: 0, x: -50 },
@@ -51,19 +52,20 @@ export default function MaisonSection() {
         </motion.div>
       </motion.div>
 
-      {/* Right image placeholder */}
+      {/* Right editorial image */}
       <motion.div
-        className="flex-1 bg-[#b8b4ae] min-h-[320px] md:min-h-0 relative flex items-center justify-center overflow-hidden"
+        className="flex-1 min-h-[320px] md:min-h-0 relative overflow-hidden"
         variants={slideRight}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
       >
-        <div className="absolute inset-0 bg-[#9a9590]" />
-        <div className="relative z-10 flex flex-col items-center justify-center gap-3 text-center px-8">
-          <span className="font-serif text-8xl text-white/15">5</span>
-          <span className="font-sans text-[9px] tracking-luxury text-white/30 uppercase">Editorial Image</span>
-        </div>
+        <Image
+          src="/maison-editorial.png"
+          alt="Jacques Fath devant sa maison — Paris"
+          fill
+          className="object-cover object-center"
+        />
       </motion.div>
     </section>
   )
