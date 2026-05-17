@@ -6,7 +6,7 @@ import Image from "next/image"
 
 const categories = [
   { name: "WOMEN", number: "2", bg: "#2e2c29", image: null },
-  { name: "MEN", number: "3", bg: "#1e1e1e", image: null },
+  { name: "MEN", number: null, bg: "#1e1e1e", image: "/collection-men.png" },
   { name: "THE HOUSE", number: null, bg: "#1a0a0a", image: "/collection-house.png" },
 ]
 
