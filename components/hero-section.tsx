@@ -70,9 +70,10 @@ export default function HeroSection() {
           </motion.a>
         </motion.div>
 
-        {/* Monogram logo — top center */}
+        {/* Monogram logo — top center, large */}
         <motion.div
-          className="absolute top-0 left-0 right-0 flex flex-col items-center pt-8 pointer-events-none z-10"
+          className="absolute top-0 left-0 right-0 flex flex-col items-center pointer-events-none z-10"
+          style={{ paddingTop: "clamp(32px, 6vh, 72px)" }}
           variants={fadeIn(0.4)}
           initial="hidden"
           animate="visible"
@@ -80,9 +81,10 @@ export default function HeroSection() {
           <Image
             src="/logo-monogram.png"
             alt="Maison Jacques Fath"
-            width={80}
-            height={96}
-            className="object-contain drop-shadow-lg"
+            width={200}
+            height={240}
+            className="object-contain"
+            style={{ filter: "drop-shadow(0 4px 32px rgba(0,0,0,0.45))", width: "clamp(140px, 14vw, 220px)", height: "auto" }}
             priority
           />
         </motion.div>
