@@ -70,21 +70,25 @@ export default function HeroSection() {
           </motion.a>
         </motion.div>
 
-        {/* Monogram logo — top center, large */}
+        {/* Monogram logo — centered, dominant */}
         <motion.div
-          className="absolute top-0 left-0 right-0 flex flex-col items-center pointer-events-none z-10"
-          style={{ paddingTop: "clamp(32px, 6vh, 72px)" }}
-          variants={fadeIn(0.4)}
+          className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
+          variants={fadeIn(0.5)}
           initial="hidden"
           animate="visible"
         >
           <Image
             src="/logo-monogram.png"
             alt="Maison Jacques Fath"
-            width={200}
-            height={240}
+            width={600}
+            height={720}
             className="object-contain"
-            style={{ filter: "drop-shadow(0 4px 32px rgba(0,0,0,0.45))", width: "clamp(140px, 14vw, 220px)", height: "auto" }}
+            style={{
+              width: "clamp(260px, 38vw, 560px)",
+              height: "auto",
+              filter: "drop-shadow(0 8px 60px rgba(0,0,0,0.55))",
+              opacity: 0.92,
+            }}
             priority
           />
         </motion.div>
