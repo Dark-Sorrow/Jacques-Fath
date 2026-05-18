@@ -1,38 +1,82 @@
 "use client"
 
 import Image from "next/image"
+import { motion } from "framer-motion"
+
+const fadeUp = (delay = 0) => ({
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 1.1, ease: [0.22, 1, 0.36, 1], delay } },
+})
+
+const fadeIn = (delay = 0) => ({
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 1.4, ease: "easeOut", delay } },
+})
 
 export default function HeroSection() {
   return (
     <section className="relative w-full" style={{ minHeight: "100vh" }} aria-label="Hero">
-      {/* Full-width image placeholder */}
-      <div className="w-full bg-[#3a3732]" style={{ minHeight: "100vh", position: "relative" }}>
-        {/* Placeholder — full width */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="font-serif text-[160px] leading-none text-white/8 select-none">1</span>
-        </div>
+      <div className="w-full" style={{ minHeight: "100vh", position: "relative" }}>
+        <motion.div
+          className="absolute inset-0"
+          initial={{ scale: 1.06, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Image
+            src="/hero-image.png"
+            alt="Maison Jacques Fath — Timeless French Elegance"
+            fill
+            className="object-cover object-top"
+            priority
+          />
+        </motion.div>
+
+        {/* Left vignette */}
+        <div className="absolute inset-y-0 left-0 w-1/3 pointer-events-none" style={{ background: "linear-gradient(to right, rgba(0,0,0,0.45) 0%, transparent 100%)" }} />
+        {/* Right vignette */}
+        <div className="absolute inset-y-0 right-0 w-1/3 pointer-events-none" style={{ background: "linear-gradient(to left, rgba(0,0,0,0.35) 0%, transparent 100%)" }} />
 
         {/* Text overlay — left side */}
-        <div className="absolute inset-0 flex flex-col justify-end pb-14 pl-8 md:pl-14 pr-8 max-w-sm">
-          <p className="font-sans text-[10px] tracking-luxury text-white/50 mb-4 uppercase">
+        <motion.div
+          className="absolute inset-0 flex flex-col justify-end pb-14 pl-8 md:pl-14 pr-8 max-w-sm"
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.p
+            variants={fadeUp(0.6)}
+            className="font-sans text-[10px] tracking-luxury text-white/50 mb-4 uppercase"
+          >
             Maison Jacques Fath
-          </p>
-          <h1 className="font-serif text-4xl md:text-5xl leading-tight text-white mb-5 text-balance">
+          </motion.p>
+          <motion.h1
+            variants={fadeUp(0.85)}
+            className="font-serif text-4xl md:text-5xl leading-tight text-white mb-5 text-balance"
+          >
             TIMELESS<br />FRENCH ELEGANCE
-          </h1>
-          <p className="font-sans text-[12px] leading-relaxed text-white/70 mb-8 max-w-[240px]">
+          </motion.h1>
+          <motion.p
+            variants={fadeUp(1.05)}
+            className="font-sans text-[12px] leading-relaxed text-white/70 mb-8 max-w-[240px]"
+          >
             Discover the Maison Jacques Fath online boutique and explore our new collection.
-          </p>
-          <a
+          </motion.p>
+          <motion.a
+            variants={fadeUp(1.2)}
             href="#"
             className="group inline-flex items-center gap-2 font-sans text-[10px] tracking-luxury text-white border-b border-white/40 pb-1 w-fit hover:border-gold hover:text-gold transition-colors duration-300"
           >
             SHOP THE COLLECTION
-          </a>
-        </div>
+          </motion.a>
+        </motion.div>
 
         {/* Watermark logo bottom-right */}
-        <div className="absolute bottom-8 right-8 opacity-20">
+        <motion.div
+          className="absolute bottom-8 right-8 opacity-20"
+          variants={fadeIn(1.4)}
+          initial="hidden"
+          animate="visible"
+        >
           <Image
             src="/logo-monogram.png"
             alt=""
@@ -41,7 +85,7 @@ export default function HeroSection() {
             height={58}
             className="object-contain invert"
           />
-        </div>
+        </motion.div>
       </div>
     </section>
   )

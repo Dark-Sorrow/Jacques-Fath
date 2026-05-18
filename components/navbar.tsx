@@ -17,20 +17,6 @@ export default function Navbar() {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50">
-      {/* Announcement bar — visible only when not scrolled */}
-      <div
-        className="w-full text-center overflow-hidden transition-all duration-500 ease-in-out"
-        style={{
-          maxHeight: scrolled ? "0px" : "36px",
-          opacity: scrolled ? 0 : 1,
-          backgroundColor: "#1c1b19",
-        }}
-      >
-        <p className="font-sans text-[10px] tracking-luxury text-white/80 py-2.5">
-          COMPLIMENTARY DELIVERY &amp; RETURNS ON ALL ORDERS
-        </p>
-      </div>
-
       {/* Main nav */}
       <header
         className="border-b transition-all duration-500 ease-in-out"
