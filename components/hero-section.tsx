@@ -70,20 +70,20 @@ export default function HeroSection() {
           </motion.a>
         </motion.div>
 
-        {/* Watermark logo bottom-right */}
+        {/* Monogram logo — top center */}
         <motion.div
-          className="absolute bottom-8 right-8 opacity-20"
-          variants={fadeIn(1.4)}
+          className="absolute top-0 left-0 right-0 flex flex-col items-center pt-8 pointer-events-none z-10"
+          variants={fadeIn(0.4)}
           initial="hidden"
           animate="visible"
         >
           <Image
             src="/logo-monogram.png"
-            alt=""
-            aria-hidden="true"
-            width={48}
-            height={58}
-            className="object-contain invert"
+            alt="Maison Jacques Fath"
+            width={80}
+            height={96}
+            className="object-contain drop-shadow-lg"
+            priority
           />
         </motion.div>
       </div>
