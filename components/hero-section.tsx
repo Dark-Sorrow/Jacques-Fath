@@ -70,28 +70,62 @@ export default function HeroSection() {
           </motion.a>
         </motion.div>
 
-        {/* Monogram logo — centered, dominant */}
+        {/* Center brand block — monogram + name + tagline */}
         <motion.div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
-          variants={fadeIn(0.5)}
+          className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 gap-3"
           initial="hidden"
           animate="visible"
         >
-          <Image
-            src="/logo-monogram.png"
-            alt="Maison Jacques Fath"
-            width={600}
-            height={720}
-            className="object-contain"
-            style={{
-              width: "clamp(280px, 40vw, 580px)",
-              height: "auto",
-              filter:
-                "brightness(0) invert(1) drop-shadow(0 0 40px rgba(255,255,255,0.25)) drop-shadow(0 12px 80px rgba(0,0,0,0.6))",
-              opacity: 0.95,
-            }}
-            priority
-          />
+          <motion.div variants={fadeIn(0.4)}>
+            <Image
+              src="/logo-monogram.png"
+              alt="Maison Jacques Fath"
+              width={120}
+              height={144}
+              className="object-contain"
+              style={{
+                width: "clamp(80px, 8vw, 130px)",
+                height: "auto",
+                filter: "brightness(0) invert(1) drop-shadow(0 0 24px rgba(255,255,255,0.2)) drop-shadow(0 8px 40px rgba(0,0,0,0.55))",
+              }}
+              priority
+            />
+          </motion.div>
+
+          <motion.p
+            variants={fadeUp(0.65)}
+            className="font-sans text-[9px] tracking-[0.35em] text-white/60"
+          >
+            PARIS
+          </motion.p>
+
+          <motion.div variants={fadeUp(0.85)} className="flex flex-col items-center gap-1">
+            <span
+              className="font-serif text-white text-center"
+              style={{
+                fontSize: "clamp(22px, 3vw, 42px)",
+                letterSpacing: "0.12em",
+                textShadow: "0 2px 32px rgba(0,0,0,0.5)",
+                fontWeight: 400,
+              }}
+            >
+              Maison Jacques Fath
+            </span>
+          </motion.div>
+
+          <motion.p
+            variants={fadeUp(1.0)}
+            className="font-sans text-[9px] tracking-[0.28em] text-white/60 uppercase"
+          >
+            Vêtements avec intelligence éternelle
+          </motion.p>
+
+          <motion.p
+            variants={fadeUp(1.15)}
+            className="font-sans text-[10px] tracking-[0.22em] text-white/50"
+          >
+            <span className="text-[8px] tracking-widest align-middle mr-0.5">est</span>1937
+          </motion.p>
         </motion.div>
       </div>
     </section>
