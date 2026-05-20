@@ -37,31 +37,36 @@ export default function HeroSection() {
         {/* Right vignette */}
         <div className="absolute inset-y-0 right-0 w-1/3 pointer-events-none" style={{ background: "linear-gradient(to left, rgba(0,0,0,0.35) 0%, transparent 100%)" }} />
 
-        {/* Left block — monogram logo + text stacked */}
+        {/* Monogram logo — top left, anchored independently */}
         <motion.div
-          className="absolute inset-0 flex flex-col justify-end pb-14 pl-8 md:pl-14 pr-8 max-w-md"
+          className="absolute top-0 left-0 pt-24 pl-8 md:pl-14 pointer-events-none z-10"
+          variants={fadeIn(0.3)}
           initial="hidden"
           animate="visible"
         >
-          {/* Monogram logo */}
-          <motion.div variants={fadeIn(0.3)} className="mb-7">
-            <Image
-              src="/logo-monogram.png"
-              alt="Maison Jacques Fath"
-              width={200}
-              height={240}
-              className="object-contain"
-              style={{
-                width: "clamp(160px, 16vw, 260px)",
-                height: "auto",
-                filter:
-                  "brightness(0) invert(1) drop-shadow(0 0 30px rgba(255,255,255,0.18)) drop-shadow(0 8px 40px rgba(0,0,0,0.55))",
-                opacity: 0.95,
-              }}
-              priority
-            />
-          </motion.div>
+          <Image
+            src="/logo-monogram.png"
+            alt="Maison Jacques Fath"
+            width={200}
+            height={240}
+            className="object-contain"
+            style={{
+              width: "clamp(120px, 12vw, 200px)",
+              height: "auto",
+              filter:
+                "brightness(0) invert(1) drop-shadow(0 0 24px rgba(255,255,255,0.15)) drop-shadow(0 8px 40px rgba(0,0,0,0.5))",
+              opacity: 0.93,
+            }}
+            priority
+          />
+        </motion.div>
 
+        {/* Text block — bottom left */}
+        <motion.div
+          className="absolute bottom-0 left-0 pb-14 pl-8 md:pl-14 pr-8 max-w-md"
+          initial="hidden"
+          animate="visible"
+        >
           <motion.p
             variants={fadeUp(0.6)}
             className="font-sans text-[10px] tracking-luxury text-white/50 mb-4 uppercase"
