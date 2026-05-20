@@ -37,12 +37,31 @@ export default function HeroSection() {
         {/* Right vignette */}
         <div className="absolute inset-y-0 right-0 w-1/3 pointer-events-none" style={{ background: "linear-gradient(to left, rgba(0,0,0,0.35) 0%, transparent 100%)" }} />
 
-        {/* Text overlay — left side */}
+        {/* Left block — monogram logo + text stacked */}
         <motion.div
-          className="absolute inset-0 flex flex-col justify-end pb-14 pl-8 md:pl-14 pr-8 max-w-sm"
+          className="absolute inset-0 flex flex-col justify-end pb-14 pl-8 md:pl-14 pr-8 max-w-md"
           initial="hidden"
           animate="visible"
         >
+          {/* Monogram logo */}
+          <motion.div variants={fadeIn(0.3)} className="mb-7">
+            <Image
+              src="/logo-monogram.png"
+              alt="Maison Jacques Fath"
+              width={200}
+              height={240}
+              className="object-contain"
+              style={{
+                width: "clamp(72px, 7vw, 120px)",
+                height: "auto",
+                filter:
+                  "brightness(0) invert(1) drop-shadow(0 0 20px rgba(255,255,255,0.15)) drop-shadow(0 6px 30px rgba(0,0,0,0.5))",
+                opacity: 0.92,
+              }}
+              priority
+            />
+          </motion.div>
+
           <motion.p
             variants={fadeUp(0.6)}
             className="font-sans text-[10px] tracking-luxury text-white/50 mb-4 uppercase"
@@ -68,30 +87,6 @@ export default function HeroSection() {
           >
             SHOP THE COLLECTION
           </motion.a>
-        </motion.div>
-
-        {/* Monogram logo — centered, dominant */}
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
-          variants={fadeIn(0.5)}
-          initial="hidden"
-          animate="visible"
-        >
-          <Image
-            src="/logo-monogram.png"
-            alt="Maison Jacques Fath"
-            width={600}
-            height={720}
-            className="object-contain"
-            style={{
-              width: "clamp(280px, 40vw, 580px)",
-              height: "auto",
-              filter:
-                "brightness(0) invert(1) drop-shadow(0 0 40px rgba(255,255,255,0.25)) drop-shadow(0 12px 80px rgba(0,0,0,0.6))",
-              opacity: 0.95,
-            }}
-            priority
-          />
         </motion.div>
       </div>
     </section>
