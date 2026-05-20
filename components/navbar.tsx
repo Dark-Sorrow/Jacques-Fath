@@ -4,9 +4,12 @@ import { useState, useEffect } from "react"
 import { Search, User, ShoppingBag, Menu, X } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 
+type Lang = "EN" | "FR"
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [lang, setLang] = useState<Lang>("EN")
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60)
@@ -84,10 +87,41 @@ export default function Navbar() {
                   {label}
                 </button>
               ))}
+
+              {/* Language switcher */}
+              <div className="flex items-center gap-0 border-l border-white/20 pl-5">
+                {(["EN", "FR"] as Lang[]).map((l, i) => (
+                  <button
+                    key={l}
+                    onClick={() => setLang(l)}
+                    className="relative font-sans text-[10px] tracking-luxury transition-colors duration-300 px-1.5"
+                    style={{ color: lang === l ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.35)" }}
+                    aria-label={`Switch to ${l}`}
+                  >
+                    {l}
+                    {i === 0 && (
+                      <span className="mx-0.5 text-white/20 select-none">/</span>
+                    )}
+                  </button>
+                ))}
+              </div>
             </div>
             <div className="flex md:hidden items-center gap-4 text-white/80">
               <button aria-label="Search"><Search size={15} /></button>
               <button aria-label="Bag"><ShoppingBag size={15} /></button>
+              {/* Mobile language switcher */}
+              <div className="flex items-center">
+                {(["EN", "FR"] as Lang[]).map((l, i) => (
+                  <button
+                    key={l}
+                    onClick={() => setLang(l)}
+                    className="font-sans text-[9px] tracking-luxury px-1"
+                    style={{ color: lang === l ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.35)" }}
+                  >
+                    {l}{i === 0 && <span className="text-white/20 mx-0.5">/</span>}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
