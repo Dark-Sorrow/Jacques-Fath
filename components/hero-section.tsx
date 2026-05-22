@@ -51,11 +51,11 @@ export default function HeroSection() {
             height={240}
             className="object-contain"
             style={{
-              width: "clamp(120px, 12vw, 200px)",
+              width: "clamp(220px, 22vw, 360px)",
               height: "auto",
               filter:
-                "brightness(0) invert(1) drop-shadow(0 0 24px rgba(255,255,255,0.15)) drop-shadow(0 8px 40px rgba(0,0,0,0.5))",
-              opacity: 0.93,
+                "brightness(0) invert(1) drop-shadow(0 0 32px rgba(255,255,255,0.18)) drop-shadow(0 10px 50px rgba(0,0,0,0.55))",
+              opacity: 0.95,
             }}
             priority
           />
