@@ -53,9 +53,8 @@ export default function HeroSection() {
             style={{
               width: "clamp(220px, 22vw, 360px)",
               height: "auto",
-              filter:
-                "brightness(0) invert(1) drop-shadow(0 0 32px rgba(255,255,255,0.18)) drop-shadow(0 10px 50px rgba(0,0,0,0.55))",
-              opacity: 0.95,
+              filter: "brightness(0) invert(1) drop-shadow(0 0 32px rgba(255,255,255,0.18)) drop-shadow(0 10px 50px rgba(0,0,0,0.55))",
+              opacity: 0.93,
             }}
             priority
           />
