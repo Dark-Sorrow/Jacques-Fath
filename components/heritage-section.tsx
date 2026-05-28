@@ -30,10 +30,25 @@ export default function HeritageSection() {
           fill
           className="object-cover object-center"
         />
-        {/* Subtle dark vignette on the right edge to blend into text panel */}
+        {/* Left vignette */}
         <div
-          className="absolute inset-y-0 right-0 w-1/4 pointer-events-none"
-          style={{ background: "linear-gradient(to right, transparent 0%, rgba(10,10,8,0.55) 100%)" }}
+          className="absolute inset-y-0 left-0 w-1/3 pointer-events-none"
+          style={{ background: "linear-gradient(to right, rgba(0,0,0,0.55) 0%, transparent 100%)" }}
+        />
+        {/* Right vignette — blends into dark text panel */}
+        <div
+          className="absolute inset-y-0 right-0 w-1/3 pointer-events-none"
+          style={{ background: "linear-gradient(to left, rgba(10,10,8,0.75) 0%, transparent 100%)" }}
+        />
+        {/* Top vignette */}
+        <div
+          className="absolute inset-x-0 top-0 h-1/4 pointer-events-none"
+          style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 100%)" }}
+        />
+        {/* Bottom vignette */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-1/4 pointer-events-none"
+          style={{ background: "linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 100%)" }}
         />
       </motion.div>
 
