@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 
 const textStagger = {
   hidden: {},
@@ -17,13 +18,23 @@ export default function HeritageSection() {
     <section className="w-full flex flex-col md:flex-row" aria-label="Heritage">
       {/* Left image placeholder — dark/B&W */}
       <motion.div
-        className="w-full md:w-1/2 bg-[#1a1a18] min-h-[340px] md:min-h-[420px] relative flex items-center justify-center overflow-hidden"
+        className="w-full md:w-1/2 min-h-[340px] md:min-h-[520px] relative overflow-hidden"
         initial={{ opacity: 0, scale: 1.04 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
       >
-        <span className="font-sans text-[10px] tracking-luxury text-white/20 uppercase select-none">Photo placeholder</span>
+        <Image
+          src="/heritage-runway.png"
+          alt="Jacques Fath runway show — Maison de couture"
+          fill
+          className="object-cover object-center"
+        />
+        {/* Subtle dark vignette on the right edge to blend into text panel */}
+        <div
+          className="absolute inset-y-0 right-0 w-1/4 pointer-events-none"
+          style={{ background: "linear-gradient(to right, transparent 0%, rgba(10,10,8,0.55) 100%)" }}
+        />
       </motion.div>
 
       {/* Right text panel */}
