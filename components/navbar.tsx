@@ -109,19 +109,6 @@ export default function Navbar() {
             <div className="flex md:hidden items-center gap-4 text-white/80">
               <button aria-label="Search"><Search size={15} /></button>
               <button aria-label="Bag"><ShoppingBag size={15} /></button>
-              {/* Mobile language switcher */}
-              <div className="flex items-center">
-                {(["EN", "FR"] as Lang[]).map((l, i) => (
-                  <button
-                    key={l}
-                    onClick={() => setLang(l)}
-                    className="font-sans text-[9px] tracking-luxury px-1"
-                    style={{ color: lang === l ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.35)" }}
-                  >
-                    {l}{i === 0 && <span className="text-white/20 mx-0.5">/</span>}
-                  </button>
-                ))}
-              </div>
             </div>
           </div>
         </div>
@@ -153,6 +140,19 @@ export default function Navbar() {
                 ))}
                 <div className="border-t border-white/10 pt-4 flex flex-col gap-4">
                   <a href="#" className="font-sans text-[11px] tracking-luxury text-white/60">ACCOUNT</a>
+                  {/* Language switcher inside hamburger */}
+                  <div className="flex items-center gap-3 pt-1">
+                    {(["EN", "FR"] as Lang[]).map((l) => (
+                      <button
+                        key={l}
+                        onClick={() => setLang(l)}
+                        className="font-sans text-[11px] tracking-luxury transition-colors duration-300"
+                        style={{ color: lang === l ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.3)" }}
+                      >
+                        {l}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             </motion.div>

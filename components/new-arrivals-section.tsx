@@ -1,13 +1,14 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 
 const products = [
-  { number: "6", name: "EVENING DRESS", price: "€2,450", bg: "#c4c0b8" },
-  { number: "7", name: "LEATHER BAG", price: "€1,950", bg: "#aaa69e" },
-  { number: "8", name: "WOOL COAT", price: "€2,950", bg: "#2a2a28" },
-  { number: "9", name: "SILK TOP", price: "€990", bg: "#d8d4cc" },
-  { number: "10", name: "LEATHER LOAFERS", price: "€890", bg: "#1c1c1a" },
+  { name: "EVENING DRESS", price: "€2,450" },
+  { name: "LEATHER BAG", price: "€1,950" },
+  { name: "WOOL COAT", price: "€2,950" },
+  { name: "SILK TOP", price: "€990" },
+  { name: "LEATHER LOAFERS", price: "€890" },
 ]
 
 const container = {
@@ -51,20 +52,17 @@ export default function NewArrivalsSection() {
             aria-label={product.name}
           >
             {/* Image placeholder */}
-            <div
-              className="aspect-[3/4] flex flex-col items-center justify-center relative overflow-hidden"
-              style={{ backgroundColor: product.bg }}
-            >
-              <span
-                className="font-serif text-6xl"
-                style={{ color: parseInt(product.number) >= 8 && product.bg.startsWith('#1') ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.12)' }}
-              >
-                {product.number}
-              </span>
+            <div className="aspect-[3/4] relative overflow-hidden bg-[#f0eee9]">
+              <Image
+                src="/product-placeholder.png"
+                alt={product.name}
+                fill
+                className="object-contain p-6 transition-transform duration-700 group-hover:scale-105"
+              />
               {/* Hover overlay */}
               <motion.div
                 className="absolute inset-0 bg-black/0"
-                whileHover={{ backgroundColor: "rgba(0,0,0,0.08)" }}
+                whileHover={{ backgroundColor: "rgba(0,0,0,0.04)" }}
                 transition={{ duration: 0.4 }}
               />
             </div>

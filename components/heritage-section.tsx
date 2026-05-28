@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 
 const textStagger = {
   hidden: {},
@@ -17,13 +18,38 @@ export default function HeritageSection() {
     <section className="w-full flex flex-col md:flex-row" aria-label="Heritage">
       {/* Left image placeholder — dark/B&W */}
       <motion.div
-        className="w-full md:w-1/2 bg-[#1a1a18] min-h-[340px] md:min-h-[420px] relative flex items-center justify-center overflow-hidden"
+        className="w-full md:w-1/2 min-h-[340px] md:min-h-[520px] relative overflow-hidden"
         initial={{ opacity: 0, scale: 1.04 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
       >
-        <span className="font-sans text-[10px] tracking-luxury text-white/20 uppercase select-none">Photo placeholder</span>
+        <Image
+          src="/heritage-runway.png"
+          alt="Jacques Fath runway show — Maison de couture"
+          fill
+          className="object-cover object-center"
+        />
+        {/* Left vignette */}
+        <div
+          className="absolute inset-y-0 left-0 w-1/3 pointer-events-none"
+          style={{ background: "linear-gradient(to right, rgba(0,0,0,0.55) 0%, transparent 100%)" }}
+        />
+        {/* Right vignette — blends into dark text panel */}
+        <div
+          className="absolute inset-y-0 right-0 w-1/3 pointer-events-none"
+          style={{ background: "linear-gradient(to left, rgba(10,10,8,0.75) 0%, transparent 100%)" }}
+        />
+        {/* Top vignette */}
+        <div
+          className="absolute inset-x-0 top-0 h-1/4 pointer-events-none"
+          style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 100%)" }}
+        />
+        {/* Bottom vignette */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-1/4 pointer-events-none"
+          style={{ background: "linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 100%)" }}
+        />
       </motion.div>
 
       {/* Right text panel */}
