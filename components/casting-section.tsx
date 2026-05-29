@@ -30,9 +30,9 @@ export default function CastingSection() {
         <Image
           src="/images/logo-black.png"
           alt="Maison Jacques Fath"
-          width={320}
-          height={320}
-          className="w-52 md:w-64 h-auto object-contain"
+          width={700}
+          height={700}
+          className="w-72 sm:w-96 md:w-[480px] lg:w-[560px] h-auto object-contain"
           priority
         />
       </motion.div>
