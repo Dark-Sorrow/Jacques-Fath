@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { motion } from "framer-motion"
 
 const fadeUp = (delay = 0) => ({
@@ -18,30 +19,25 @@ export default function CastingSection() {
       style={{ backgroundColor: "#f7f5f0" }}
       aria-label="Casting — Maison Jacques Fath"
     >
-      {/* Logo / Wordmark */}
+      {/* Logo */}
       <motion.div
-        className="flex flex-col items-center gap-1 mb-14"
+        className="flex flex-col items-center mb-14"
         variants={fadeUp(0.05)}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
       >
-        <span
-          className="font-serif tracking-[0.32em] text-foreground"
-          style={{ fontSize: "clamp(0.65rem, 1.2vw, 0.8rem)" }}
-        >
-          MAISON
-        </span>
-        <span
-          className="font-serif tracking-[0.18em] text-foreground"
-          style={{ fontSize: "clamp(1.5rem, 3.5vw, 2.6rem)", lineHeight: 1 }}
-        >
-          JACQUES FATH
-        </span>
-        <div className="h-px w-10 mt-2" style={{ backgroundColor: "#B8962E" }} />
+        <Image
+          src="/images/logo-black.png"
+          alt="Maison Jacques Fath"
+          width={320}
+          height={320}
+          className="w-52 md:w-64 h-auto object-contain"
+          priority
+        />
       </motion.div>
 
-      {/* Casting label */}
+      {/* Section label */}
       <motion.p
         className="font-sans text-[9px] tracking-[0.38em] uppercase mb-8"
         style={{ color: "#B8962E" }}
@@ -53,28 +49,11 @@ export default function CastingSection() {
         Casting
       </motion.p>
 
-      {/* Headline */}
-      <motion.h2
-        className="font-serif text-center text-balance mb-10"
-        style={{
-          fontSize: "clamp(1.4rem, 3vw, 2.5rem)",
-          letterSpacing: "0.1em",
-          color: "#1c1b19",
-          lineHeight: 1.2,
-        }}
-        variants={fadeUp(0.25)}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-      >
-        CASTING — MAISON JACQUES FATH
-      </motion.h2>
-
       {/* Divider */}
       <motion.div
         className="h-px w-10 mb-12"
         style={{ backgroundColor: "#B8962E", opacity: 0.5 }}
-        variants={fadeUp(0.3)}
+        variants={fadeUp(0.2)}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
