@@ -21,7 +21,7 @@ export default function CastingSection() {
     >
       {/* Logo */}
       <motion.div
-        className="flex flex-col items-center -mb-8"
+        className="flex flex-col items-center mb-14"
         variants={fadeUp(0.05)}
         initial="hidden"
         whileInView="visible"
@@ -39,7 +39,7 @@ export default function CastingSection() {
 
       {/* Section label */}
       <motion.p
-        className="font-sans text-[9px] tracking-[0.38em] uppercase mb-6"
+        className="font-sans text-[9px] tracking-[0.38em] uppercase mb-8"
         style={{ color: "#B8962E" }}
         variants={fadeUp(0.15)}
         initial="hidden"
