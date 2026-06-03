@@ -4,6 +4,17 @@ import { createContext, useContext, useState, ReactNode } from "react"
 
 export type Lang = "RU" | "EN" | "FR"
 
+export type MegaMenuColumn = {
+  title: string
+  links: string[]
+}
+
+export type MegaMenuData = {
+  women: MegaMenuColumn[]
+  men: MegaMenuColumn[]
+  house: MegaMenuColumn[]
+}
+
 export type Translations = {
   nav: {
     women: string
@@ -13,6 +24,7 @@ export type Translations = {
     account: string
     bag: string
   }
+  megaMenu: MegaMenuData
   hero: {
     eyebrow: string
     headline: string[]
@@ -76,6 +88,26 @@ const translations: Record<Lang, Translations> = {
       search: "SEARCH",
       account: "ACCOUNT",
       bag: "BAG (0)",
+    },
+    megaMenu: {
+      women: [
+        { title: "NEW IN", links: ["New Arrivals", "View All"] },
+        { title: "CLOTHING", links: ["Dresses", "Coats & Jackets", "Tops & Blouses", "Trousers & Skirts", "Knitwear", "Evening Wear"] },
+        { title: "ACCESSORIES", links: ["Bags", "Shoes", "Scarves & Silk", "Jewellery", "Belts"] },
+        { title: "COLLECTIONS", links: ["Couture", "Prêt-à-Porter", "Resort", "Archive"] },
+      ],
+      men: [
+        { title: "NEW IN", links: ["New Arrivals", "View All"] },
+        { title: "CLOTHING", links: ["Suits", "Coats & Jackets", "Shirts", "Trousers", "Knitwear", "Tailoring"] },
+        { title: "ACCESSORIES", links: ["Bags", "Shoes", "Ties & Pocket Squares", "Belts", "Cufflinks"] },
+        { title: "COLLECTIONS", links: ["Couture", "Prêt-à-Porter", "Resort", "Archive"] },
+      ],
+      house: [
+        { title: "THE HOUSE", links: ["Our Story", "Heritage", "Jacques Fath"] },
+        { title: "SAVOIR-FAIRE", links: ["Couture Ateliers", "Materials", "Archive"] },
+        { title: "NEWS", links: ["Latest News", "Events", "Press"] },
+        { title: "SERVICES", links: ["Personal Shopping", "Bespoke", "Boutiques"] },
+      ],
     },
     hero: {
       eyebrow: "Maison Jacques Fath",
@@ -166,6 +198,26 @@ const translations: Record<Lang, Translations> = {
       account: "COMPTE",
       bag: "PANIER (0)",
     },
+    megaMenu: {
+      women: [
+        { title: "NOUVEAUTÉS", links: ["Nouvelles Arrivées", "Tout Voir"] },
+        { title: "VÊTEMENTS", links: ["Robes", "Manteaux & Vestes", "Tops & Blouses", "Pantalons & Jupes", "Maille", "Tenues de Soirée"] },
+        { title: "ACCESSOIRES", links: ["Sacs", "Chaussures", "Foulards & Soie", "Bijoux", "Ceintures"] },
+        { title: "COLLECTIONS", links: ["Couture", "Prêt-à-Porter", "Resort", "Archives"] },
+      ],
+      men: [
+        { title: "NOUVEAUTÉS", links: ["Nouvelles Arrivées", "Tout Voir"] },
+        { title: "VÊTEMENTS", links: ["Costumes", "Manteaux & Vestes", "Chemises", "Pantalons", "Maille", "Tailleur"] },
+        { title: "ACCESSOIRES", links: ["Sacs", "Chaussures", "Cravates & Pochettes", "Ceintures", "Boutons de Manchette"] },
+        { title: "COLLECTIONS", links: ["Couture", "Prêt-à-Porter", "Resort", "Archives"] },
+      ],
+      house: [
+        { title: "LA MAISON", links: ["Notre Histoire", "Héritage", "Jacques Fath"] },
+        { title: "SAVOIR-FAIRE", links: ["Ateliers Couture", "Matières", "Archives"] },
+        { title: "ACTUALITÉS", links: ["Dernières Nouvelles", "Événements", "Presse"] },
+        { title: "SERVICES", links: ["Shopping Personnalisé", "Sur-Mesure", "Boutiques"] },
+      ],
+    },
     hero: {
       eyebrow: "Maison Jacques Fath",
       headline: ["ÉLÉGANCE", "FRANÇAISE INTEMPORELLE"],
@@ -254,6 +306,26 @@ const translations: Record<Lang, Translations> = {
       search: "ПОИСК",
       account: "АККАУНТ",
       bag: "КОРЗИНА (0)",
+    },
+    megaMenu: {
+      women: [
+        { title: "НОВИНКИ", links: ["Новые Поступления", "Смотреть Все"] },
+        { title: "ОДЕЖДА", links: ["Платья", "Пальто и Жакеты", "Топы и Блузки", "Брюки и Юбки", "Трикотаж", "Вечерние Наряды"] },
+        { title: "АКСЕССУАРЫ", links: ["Сумки", "Обувь", "Платки и Шёлк", "Украшения", "Ремни"] },
+        { title: "КОЛЛЕКЦИИ", links: ["Кутюр", "Прет-а-порте", "Резорт", "Архив"] },
+      ],
+      men: [
+        { title: "НОВИНКИ", links: ["Новые Поступления", "Смотреть Все"] },
+        { title: "ОДЕЖДА", links: ["Костюмы", "Пальто и Жакеты", "Рубашки", "Брюки", "Трикотаж", "Пошив"] },
+        { title: "АКСЕССУАРЫ", links: ["Сумки", "Обувь", "Галстуки и Платки", "Ремни", "Запонки"] },
+        { title: "КОЛЛЕКЦИИ", links: ["Кутюр", "Прет-а-порте", "Резорт", "Архив"] },
+      ],
+      house: [
+        { title: "ДОМ", links: ["Наша История", "Наследие", "Jacques Fath"] },
+        { title: "МАСТЕРСТВО", links: ["Ателье Кутюр", "Материалы", "Архив"] },
+        { title: "НОВОСТИ", links: ["Последние Новости", "Мероприятия", "Пресса"] },
+        { title: "СЕРВИС", links: ["Персональный Шопинг", "На Заказ", "Бутики"] },
+      ],
     },
     hero: {
       eyebrow: "Maison Jacques Fath",
