@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Mulish, Cinzel } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { LangProvider } from '@/lib/i18n'
 import './globals.css'
 
 // Mulish — основной текстовый шрифт (Light 300, Regular 400, Medium 500, SemiBold 600)
@@ -35,7 +36,9 @@ export default function RootLayout({
   return (
     <html lang="fr" className="bg-background">
       <body className={`${mulish.variable} ${cinzel.variable} font-sans antialiased`}>
-        {children}
+        <LangProvider>
+          {children}
+        </LangProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

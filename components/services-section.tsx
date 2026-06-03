@@ -2,29 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Truck, RefreshCw, User, Star } from "lucide-react"
-
-const services = [
-  {
-    icon: <Truck size={22} strokeWidth={1.25} />,
-    title: "COMPLIMENTARY SHIPPING",
-    description: "Enjoy complimentary shipping on all orders.",
-  },
-  {
-    icon: <RefreshCw size={22} strokeWidth={1.25} />,
-    title: "EASY RETURNS",
-    description: "Complimentary returns within 30 days.",
-  },
-  {
-    icon: <User size={22} strokeWidth={1.25} />,
-    title: "PERSONAL SHOPPING",
-    description: "Book an appointment with our style advisors.",
-  },
-  {
-    icon: <Star size={22} strokeWidth={1.25} />,
-    title: "MADE IN FRANCE",
-    description: "Crafted with exceptional savoir-faire in France.",
-  },
-]
+import { useLang } from "@/lib/i18n"
 
 const container = {
   hidden: {},
@@ -37,6 +15,15 @@ const item = {
 }
 
 export default function ServicesSection() {
+  const { t } = useLang()
+
+  const services = [
+    { icon: <Truck size={22} strokeWidth={1.25} />, ...t.services.shipping },
+    { icon: <RefreshCw size={22} strokeWidth={1.25} />, ...t.services.returns },
+    { icon: <User size={22} strokeWidth={1.25} />, ...t.services.shopping },
+    { icon: <Star size={22} strokeWidth={1.25} />, ...t.services.madeIn },
+  ]
+
   return (
     <section className="bg-background border-t border-border py-12 px-6 md:px-10" aria-label="Services">
       <motion.div

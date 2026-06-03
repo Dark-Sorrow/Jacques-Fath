@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import Image from "next/image"
+import { useLang } from "@/lib/i18n"
 
 const textStagger = {
   hidden: {},
@@ -14,9 +15,11 @@ const fadeUp = {
 }
 
 export default function HeritageSection() {
+  const { t } = useLang()
+
   return (
     <section className="w-full flex flex-col md:flex-row" aria-label="Heritage">
-      {/* Left image placeholder — dark/B&W */}
+      {/* Left image */}
       <motion.div
         className="w-full md:w-1/2 min-h-[340px] md:min-h-[520px] relative overflow-hidden"
         initial={{ opacity: 0, scale: 1.04 }}
@@ -30,26 +33,10 @@ export default function HeritageSection() {
           fill
           className="object-cover object-center"
         />
-        {/* Left vignette */}
-        <div
-          className="absolute inset-y-0 left-0 w-1/3 pointer-events-none"
-          style={{ background: "linear-gradient(to right, rgba(0,0,0,0.55) 0%, transparent 100%)" }}
-        />
-        {/* Right vignette — blends into dark text panel */}
-        <div
-          className="absolute inset-y-0 right-0 w-1/3 pointer-events-none"
-          style={{ background: "linear-gradient(to left, rgba(10,10,8,0.75) 0%, transparent 100%)" }}
-        />
-        {/* Top vignette */}
-        <div
-          className="absolute inset-x-0 top-0 h-1/4 pointer-events-none"
-          style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 100%)" }}
-        />
-        {/* Bottom vignette */}
-        <div
-          className="absolute inset-x-0 bottom-0 h-1/4 pointer-events-none"
-          style={{ background: "linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 100%)" }}
-        />
+        <div className="absolute inset-y-0 left-0 w-1/3 pointer-events-none" style={{ background: "linear-gradient(to right, rgba(0,0,0,0.55) 0%, transparent 100%)" }} />
+        <div className="absolute inset-y-0 right-0 w-1/3 pointer-events-none" style={{ background: "linear-gradient(to left, rgba(10,10,8,0.75) 0%, transparent 100%)" }} />
+        <div className="absolute inset-x-0 top-0 h-1/4 pointer-events-none" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 100%)" }} />
+        <div className="absolute inset-x-0 bottom-0 h-1/4 pointer-events-none" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 100%)" }} />
       </motion.div>
 
       {/* Right text panel */}
@@ -61,20 +48,20 @@ export default function HeritageSection() {
         viewport={{ once: true, amount: 0.3 }}
       >
         <motion.p variants={fadeUp} className="font-sans text-[9px] tracking-luxury text-gold mb-6 uppercase">
-          Since 1937
+          {t.heritage.since}
         </motion.p>
         <motion.h2 variants={fadeUp} className="font-serif text-2xl md:text-3xl leading-tight text-white mb-6 text-balance">
-          AN ICONIC HERITAGE
+          {t.heritage.headline}
         </motion.h2>
         <motion.p variants={fadeUp} className="font-sans text-[13px] leading-relaxed text-white/60 mb-8 max-w-[300px]">
-          Since 1937, Maison Jacques Fath has embodied the spirit of Parisian couture with boldness, refinement and vision.
+          {t.heritage.body}
         </motion.p>
         <motion.a
           variants={fadeUp}
           href="#"
           className="group inline-flex items-center gap-2 font-sans text-[10px] tracking-luxury text-white/80 border-b border-white/20 pb-0.5 w-fit hover:border-gold hover:text-gold transition-colors duration-300"
         >
-          EXPLORE OUR HISTORY
+          {t.heritage.cta}
         </motion.a>
       </motion.div>
     </section>

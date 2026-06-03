@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import Image from "next/image"
+import { useLang } from "@/lib/i18n"
 
 const slideLeft = {
   hidden: { opacity: 0, x: -50 },
@@ -24,9 +25,11 @@ const fadeUp = {
 }
 
 export default function MaisonSection() {
+  const { t } = useLang()
+
   return (
     <section className="w-full flex flex-col md:flex-row" aria-label="The Essence">
-      {/* Left text panel — light ivory */}
+      {/* Left text panel */}
       <motion.div
         className="w-full md:w-[38%] flex flex-col justify-center px-10 md:px-14 py-16 md:py-24"
         style={{ backgroundColor: "#E0DBE3" }}
@@ -37,17 +40,17 @@ export default function MaisonSection() {
       >
         <motion.div variants={textStagger} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }}>
           <motion.h2 variants={fadeUp} className="font-serif text-2xl md:text-3xl leading-tight text-foreground mb-6 text-balance">
-            THE ESSENCE<br />OF PARISIAN<br />COUTURE
+            {t.maison.headline[0]}<br />{t.maison.headline[1]}<br />{t.maison.headline[2]}
           </motion.h2>
           <motion.p variants={fadeUp} className="font-sans text-[13px] leading-relaxed text-muted-foreground mb-8 max-w-[280px]">
-            Rooted in heritage. Defined by modernity. Jacques Fath continues to shape the language of elegance with a timeless vision.
+            {t.maison.body}
           </motion.p>
           <motion.a
             variants={fadeUp}
             href="#"
             className="group inline-flex items-center gap-2 font-sans text-[10px] tracking-luxury text-foreground border-b border-foreground/30 pb-0.5 w-fit hover:border-gold hover:text-gold transition-colors duration-300"
           >
-            DISCOVER THE HOUSE
+            {t.maison.cta}
           </motion.a>
         </motion.div>
       </motion.div>

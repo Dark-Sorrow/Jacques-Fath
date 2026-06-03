@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useLang } from "@/lib/i18n"
 
 const fadeUp = (delay = 0) => ({
   hidden: { opacity: 0, y: 28 },
@@ -12,6 +13,8 @@ const fadeUp = (delay = 0) => ({
 })
 
 export default function AnnouncementSection() {
+  const { t } = useLang()
+
   return (
     <section
       className="w-full flex flex-col items-center justify-center py-24 md:py-32 px-6"
@@ -79,7 +82,7 @@ export default function AnnouncementSection() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.4 }}
       >
-        11 мая 2026 — Maison de couture возобновил работу по адресу:
+        {t.announcement.address}
       </motion.p>
       <motion.p
         className="font-serif text-center mb-14"
@@ -101,7 +104,7 @@ export default function AnnouncementSection() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.4 }}
       >
-        Презентация обновлённого дома состоится 6 сентября 2026 года
+        {t.announcement.presentation}
       </motion.p>
 
       {/* September SIX — large accent */}

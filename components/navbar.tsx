@@ -3,13 +3,14 @@
 import { useState, useEffect } from "react"
 import { Search, User, ShoppingBag, Menu, X } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
+import { useLang, type Lang } from "@/lib/i18n"
 
-type Lang = "EN" | "FR"
+const LANGS: Lang[] = ["RU", "EN", "FR"]
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [lang, setLang] = useState<Lang>("EN")
+  const { lang, setLang, t } = useLang()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60)
@@ -31,7 +32,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between px-5 md:px-8 h-12">
           {/* Left nav */}
           <nav className="hidden md:flex items-center gap-7">
-            {["WOMEN", "MEN", "HOUSE"].map((item) => (
+            {[t.nav.women, t.nav.men, t.nav.house].map((item) => (
               <a
                 key={item}
                 href="#"
@@ -62,7 +63,7 @@ export default function Navbar() {
             </AnimatePresence>
           </button>
 
-          {/* Center — text only */}
+          {/* Center — wordmark */}
           <div className="absolute left-1/2 -translate-x-1/2">
             <a href="#" aria-label="Maison Jacques Fath — Home" className="opacity-90 hover:opacity-100 transition-opacity duration-300">
               <span className="font-serif text-[11px] tracking-[0.28em] text-white/90 leading-none whitespace-nowrap">
@@ -75,9 +76,9 @@ export default function Navbar() {
           <div className="flex items-center gap-5">
             <div className="hidden md:flex items-center gap-6">
               {[
-                { icon: <Search size={11} />, label: "SEARCH" },
-                { icon: <User size={11} />, label: "ACCOUNT" },
-                { icon: <ShoppingBag size={11} />, label: "BAG (0)" },
+                { icon: <Search size={11} />, label: t.nav.search },
+                { icon: <User size={11} />, label: t.nav.account },
+                { icon: <ShoppingBag size={11} />, label: t.nav.bag },
               ].map(({ icon, label }) => (
                 <button
                   key={label}
@@ -88,21 +89,22 @@ export default function Navbar() {
                 </button>
               ))}
 
-              {/* Language switcher */}
-              <div className="flex items-center gap-0 border-l border-white/20 pl-5">
-                {(["EN", "FR"] as Lang[]).map((l, i) => (
-                  <button
-                    key={l}
-                    onClick={() => setLang(l)}
-                    className="relative font-sans text-[10px] tracking-luxury transition-colors duration-300 px-1.5"
-                    style={{ color: lang === l ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.35)" }}
-                    aria-label={`Switch to ${l}`}
-                  >
-                    {l}
-                    {i === 0 && (
-                      <span className="mx-0.5 text-white/20 select-none">/</span>
+              {/* Language switcher — 3 langs */}
+              <div className="flex items-center border-l border-white/20 pl-5 gap-0.5">
+                {LANGS.map((l, i) => (
+                  <span key={l} className="flex items-center">
+                    <button
+                      onClick={() => setLang(l)}
+                      className="font-sans text-[10px] tracking-luxury transition-colors duration-300 px-1"
+                      style={{ color: lang === l ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.32)" }}
+                      aria-label={`Switch to ${l}`}
+                    >
+                      {l}
+                    </button>
+                    {i < LANGS.length - 1 && (
+                      <span className="text-white/20 text-[10px] select-none">/</span>
                     )}
-                  </button>
+                  </span>
                 ))}
               </div>
             </div>
@@ -125,7 +127,7 @@ export default function Navbar() {
               style={{ backgroundColor: "rgba(28,27,25,0.97)" }}
             >
               <div className="px-6 py-6 flex flex-col gap-5">
-                {["WOMEN", "MEN", "HOUSE"].map((item, i) => (
+                {[t.nav.women, t.nav.men, t.nav.house].map((item, i) => (
                   <motion.a
                     key={item}
                     href="#"
@@ -139,18 +141,22 @@ export default function Navbar() {
                   </motion.a>
                 ))}
                 <div className="border-t border-white/10 pt-4 flex flex-col gap-4">
-                  <a href="#" className="font-sans text-[11px] tracking-luxury text-white/60">ACCOUNT</a>
+                  <a href="#" className="font-sans text-[11px] tracking-luxury text-white/60">{t.nav.account}</a>
                   {/* Language switcher inside hamburger */}
                   <div className="flex items-center gap-3 pt-1">
-                    {(["EN", "FR"] as Lang[]).map((l) => (
-                      <button
-                        key={l}
-                        onClick={() => setLang(l)}
-                        className="font-sans text-[11px] tracking-luxury transition-colors duration-300"
-                        style={{ color: lang === l ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.3)" }}
-                      >
-                        {l}
-                      </button>
+                    {LANGS.map((l, i) => (
+                      <span key={l} className="flex items-center gap-3">
+                        <button
+                          onClick={() => setLang(l)}
+                          className="font-sans text-[11px] tracking-luxury transition-colors duration-300"
+                          style={{ color: lang === l ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.3)" }}
+                        >
+                          {l}
+                        </button>
+                        {i < LANGS.length - 1 && (
+                          <span className="text-white/20 text-[10px] select-none">/</span>
+                        )}
+                      </span>
                     ))}
                   </div>
                 </div>

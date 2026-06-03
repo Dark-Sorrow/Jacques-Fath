@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { motion } from "framer-motion"
+import { useLang } from "@/lib/i18n"
 
 const fadeUp = (delay = 0) => ({
   hidden: { opacity: 0, y: 28 },
@@ -14,6 +15,8 @@ const fadeIn = (delay = 0) => ({
 })
 
 export default function HeroSection() {
+  const { t } = useLang()
+
   return (
     <section className="relative w-full" style={{ minHeight: "100vh" }} aria-label="Hero">
       <div className="w-full" style={{ minHeight: "100vh", position: "relative" }}>
@@ -37,7 +40,7 @@ export default function HeroSection() {
         {/* Right vignette */}
         <div className="absolute inset-y-0 right-0 w-1/3 pointer-events-none" style={{ background: "linear-gradient(to left, rgba(0,0,0,0.35) 0%, transparent 100%)" }} />
 
-        {/* Monogram logo — top left, anchored independently */}
+        {/* Monogram logo */}
         <motion.div
           className="absolute top-0 left-0 pt-24 pl-8 md:pl-14 pointer-events-none z-10"
           variants={fadeIn(0.3)}
@@ -71,26 +74,26 @@ export default function HeroSection() {
             variants={fadeUp(0.6)}
             className="font-sans text-[10px] tracking-luxury text-white/50 mb-4 uppercase"
           >
-            Maison Jacques Fath
+            {t.hero.eyebrow}
           </motion.p>
           <motion.h1
             variants={fadeUp(0.85)}
             className="font-serif text-4xl md:text-5xl leading-tight text-white mb-5 text-balance"
           >
-            TIMELESS<br />FRENCH ELEGANCE
+            {t.hero.headline[0]}<br />{t.hero.headline[1]}
           </motion.h1>
           <motion.p
             variants={fadeUp(1.05)}
             className="font-sans text-[12px] leading-relaxed text-white/70 mb-8 max-w-[240px]"
           >
-            Discover the Maison Jacques Fath online boutique and explore our new collection.
+            {t.hero.body}
           </motion.p>
           <motion.a
             variants={fadeUp(1.2)}
             href="#"
             className="group inline-flex items-center gap-2 font-sans text-[10px] tracking-luxury text-white border-b border-white/40 pb-1 w-fit hover:border-gold hover:text-gold transition-colors duration-300"
           >
-            SHOP THE COLLECTION
+            {t.hero.cta}
           </motion.a>
         </motion.div>
       </div>

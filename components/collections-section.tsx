@@ -3,15 +3,17 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
-
-const categories = [
-  { name: "WOMEN", number: null, bg: "#2e2c29", image: "/collection-women.png" },
-  { name: "MEN", number: null, bg: "#1e1e1e", image: "/collection-men.png" },
-  { name: "THE HOUSE", number: null, bg: "#1a0a0a", image: "/collection-house.png" },
-]
+import { useLang } from "@/lib/i18n"
 
 export default function CollectionsSection() {
   const [hovered, setHovered] = useState<string | null>(null)
+  const { t } = useLang()
+
+  const categories = [
+    { key: "women", label: t.collections.women, bg: "#2e2c29", image: "/collection-women.png" },
+    { key: "men", label: t.collections.men, bg: "#1e1e1e", image: "/collection-men.png" },
+    { key: "house", label: t.collections.house, bg: "#1a0a0a", image: "/collection-house.png" },
+  ]
 
   return (
     <section
@@ -21,15 +23,15 @@ export default function CollectionsSection() {
       onMouseLeave={() => setHovered(null)}
     >
       {categories.map((cat, i) => {
-        const isActive = hovered === cat.name
-        const isInactive = hovered !== null && hovered !== cat.name
+        const isActive = hovered === cat.key
+        const isInactive = hovered !== null && hovered !== cat.key
 
         return (
           <motion.a
-            key={cat.name}
+            key={cat.key}
             href="#"
-            aria-label={cat.name}
-            onMouseEnter={() => setHovered(cat.name)}
+            aria-label={cat.label}
+            onMouseEnter={() => setHovered(cat.key)}
             className="relative flex flex-col justify-end overflow-hidden cursor-pointer"
             style={{
               backgroundColor: cat.bg,
@@ -41,34 +43,18 @@ export default function CollectionsSection() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: i * 0.15 }}
           >
-            {/* Image or numbered placeholder */}
-            {cat.image ? (
-              <div className="absolute inset-0">
-                <Image
-                  src={cat.image}
-                  alt={cat.name}
-                  fill
-                  className="object-cover object-center"
-                  style={{
-                    transition: "transform 0.9s cubic-bezier(0.22, 1, 0.36, 1)",
-                    transform: isActive ? "scale(1.04)" : "scale(1)",
-                  }}
-                />
-              </div>
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <span
-                  className="font-serif text-white/10 select-none"
-                  style={{
-                    fontSize: "clamp(4rem, 8vw, 8rem)",
-                    transition: "opacity 0.5s ease",
-                    opacity: isInactive ? 0.4 : 1,
-                  }}
-                >
-                  {cat.number}
-                </span>
-              </div>
-            )}
+            <div className="absolute inset-0">
+              <Image
+                src={cat.image}
+                alt={cat.label}
+                fill
+                className="object-cover object-center"
+                style={{
+                  transition: "transform 0.9s cubic-bezier(0.22, 1, 0.36, 1)",
+                  transform: isActive ? "scale(1.04)" : "scale(1)",
+                }}
+              />
+            </div>
 
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
@@ -91,7 +77,7 @@ export default function CollectionsSection() {
                   transition: "font-size 0.5s ease",
                 }}
               >
-                {cat.name}
+                {cat.label}
               </p>
               <p
                 className="font-sans text-[9px] tracking-luxury mt-1"
@@ -100,7 +86,7 @@ export default function CollectionsSection() {
                   transition: "color 0.4s ease",
                 }}
               >
-                Discover
+                {t.collections.discover}
               </p>
             </div>
           </motion.a>

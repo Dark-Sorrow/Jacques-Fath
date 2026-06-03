@@ -2,14 +2,9 @@
 
 import { motion } from "framer-motion"
 import Image from "next/image"
+import { useLang } from "@/lib/i18n"
 
-const products = [
-  { name: "EVENING DRESS", price: "€2,450" },
-  { name: "LEATHER BAG", price: "€1,950" },
-  { name: "WOOL COAT", price: "€2,950" },
-  { name: "SILK TOP", price: "€990" },
-  { name: "LEATHER LOAFERS", price: "€890" },
-]
+const prices = ["€2,450", "€1,950", "€2,950", "€990", "€890"]
 
 const container = {
   hidden: {},
@@ -22,6 +17,8 @@ const card = {
 }
 
 export default function NewArrivalsSection() {
+  const { t } = useLang()
+
   return (
     <section className="py-14 bg-background" aria-label="New Arrivals">
       {/* Header */}
@@ -32,10 +29,10 @@ export default function NewArrivalsSection() {
         viewport={{ once: true, amount: 0.5 }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
       >
-        <h2 className="font-serif text-lg tracking-luxury text-foreground">NEW ARRIVALS</h2>
+        <h2 className="font-serif text-lg tracking-luxury text-foreground">{t.newArrivals.title}</h2>
       </motion.div>
 
-      {/* Products grid — 5 columns */}
+      {/* Products grid */}
       <motion.div
         className="grid grid-cols-2 md:grid-cols-5 gap-0 px-6 md:px-10"
         variants={container}
@@ -43,23 +40,22 @@ export default function NewArrivalsSection() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.15 }}
       >
-        {products.map((product) => (
+        {t.newArrivals.products.map((name, idx) => (
           <motion.a
-            key={product.name}
+            key={name}
             href="#"
             variants={card}
             className="group block"
-            aria-label={product.name}
+            aria-label={name}
           >
-            {/* Image placeholder */}
+            {/* Image */}
             <div className="aspect-[3/4] relative overflow-hidden bg-[#f0eee9]">
               <Image
                 src="/product-placeholder.png"
-                alt={product.name}
+                alt={name}
                 fill
                 className="object-contain p-6 transition-transform duration-700 group-hover:scale-105"
               />
-              {/* Hover overlay */}
               <motion.div
                 className="absolute inset-0 bg-black/0"
                 whileHover={{ backgroundColor: "rgba(0,0,0,0.04)" }}
@@ -69,9 +65,9 @@ export default function NewArrivalsSection() {
             {/* Info */}
             <div className="py-3">
               <p className="font-sans text-[9px] tracking-luxury text-foreground mb-1 group-hover:text-gold transition-colors duration-300">
-                {product.name}
+                {name}
               </p>
-              <p className="font-sans text-[11px] text-muted-foreground">{product.price}</p>
+              <p className="font-sans text-[11px] text-muted-foreground">{prices[idx]}</p>
             </div>
           </motion.a>
         ))}
@@ -89,7 +85,7 @@ export default function NewArrivalsSection() {
           href="#"
           className="group font-sans text-[10px] tracking-luxury text-foreground border-b border-foreground/30 pb-0.5 hover:border-gold hover:text-gold transition-colors duration-300"
         >
-          VIEW ALL
+          {t.newArrivals.viewAll}
         </a>
       </motion.div>
     </section>
