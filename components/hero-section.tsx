@@ -30,10 +30,8 @@ export default function HeroSection() {
   const { t } = useLang()
   const videoRef = useRef<HTMLVideoElement>(null)
 
-  // Black overlay: 0 = transparent, 1 = fully black
   const blackOpacity = useMotionValue(0)
-  // Static image opacity: 0 = hidden, 1 = visible
-  const imageOpacity = useMotionValue(0)
+  const videoOpacity = useMotionValue(1)
   const [textVisible, setTextVisible] = useState(false)
   const fadingRef = useRef(false)
 
@@ -41,43 +39,40 @@ export default function HeroSection() {
     const video = videoRef.current
     if (!video) return
 
+    const startTransition = () => {
+      if (fadingRef.current) return
+      fadingRef.current = true
+
+      // Step 1: fade to black
+      animate(blackOpacity, 1, {
+        duration: 1.4,
+        ease: "easeIn",
+        onComplete: () => {
+          // Step 2: while black — hide video so static image is revealed underneath
+          videoOpacity.set(0)
+          video.pause()
+
+          // Step 3: fade black away revealing the static image
+          animate(blackOpacity, 0, {
+            duration: 1.8,
+            ease: "easeOut",
+            onComplete: () => {
+              setTextVisible(true)
+            },
+          })
+        },
+      })
+    }
+
     const onTimeUpdate = () => {
       if (fadingRef.current) return
       const remaining = video.duration - video.currentTime
       if (remaining <= FADE_BEFORE_END && video.duration > 0) {
-        fadingRef.current = true
-
-        // Step 1: fade video to black over ~1.4s
-        animate(blackOpacity, 1, {
-          duration: 1.4,
-          ease: "easeIn",
-          onComplete: () => {
-            // Step 2: show static image behind black overlay
-            imageOpacity.set(1)
-            video.pause()
-
-            // Step 3: fade black overlay away, revealing the static image
-            animate(blackOpacity, 0, {
-              duration: 1.6,
-              ease: "easeOut",
-              onComplete: () => {
-                // Step 4: reveal text
-                setTextVisible(true)
-              },
-            })
-          },
-        })
+        startTransition()
       }
     }
 
-    // Fallback if video ends before timeupdate fires correctly
-    const onEnded = () => {
-      if (fadingRef.current) return
-      fadingRef.current = true
-      imageOpacity.set(1)
-      animate(blackOpacity, 0, { duration: 1.2, ease: "easeOut" })
-      setTextVisible(true)
-    }
+    const onEnded = () => startTransition()
 
     video.addEventListener("timeupdate", onTimeUpdate)
     video.addEventListener("ended", onEnded)
@@ -85,7 +80,7 @@ export default function HeroSection() {
       video.removeEventListener("timeupdate", onTimeUpdate)
       video.removeEventListener("ended", onEnded)
     }
-  }, [blackOpacity, imageOpacity])
+  }, [blackOpacity, videoOpacity])
 
   return (
     <section
@@ -93,10 +88,10 @@ export default function HeroSection() {
       style={{ minHeight: "100vh" }}
       aria-label="Hero"
     >
-      {/* ── STATIC IMAGE LAYER — sits below everything, revealed after black fade ── */}
-      <motion.div className="absolute inset-0" style={{ opacity: imageOpacity }}>
+      {/* ── STATIC IMAGE LAYER — always rendered, revealed when video hides ── */}
+      <div className="absolute inset-0">
         <Image
-          src="/hero-image.png"
+          src="/hero-still.png"
           alt="Maison Jacques Fath — Timeless French Elegance"
           fill
           className="object-cover object-top"
@@ -109,10 +104,10 @@ export default function HeroSection() {
               "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%)",
           }}
         />
-      </motion.div>
+      </div>
 
-      {/* ── VIDEO LAYER — sits above static image ─────────────── */}
-      <div className="absolute inset-0">
+      {/* ── VIDEO LAYER — hides after transition via videoOpacity ─ */}
+      <motion.div className="absolute inset-0" style={{ opacity: videoOpacity }}>
         <video
           ref={videoRef}
           src={VIDEO_SRC}
@@ -128,7 +123,7 @@ export default function HeroSection() {
               "linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 50%)",
           }}
         />
-      </div>
+      </motion.div>
 
       {/* ── BLACK OVERLAY — fades in then out for cinematic transition ── */}
       <motion.div
