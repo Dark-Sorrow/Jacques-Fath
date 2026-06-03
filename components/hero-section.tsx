@@ -123,7 +123,7 @@ export default function HeroSection() {
       {/* ── MONOGRAM (always visible) ─────────────────────────── */}
       <motion.div
         className="absolute top-0 left-0 pt-24 pl-8 md:pl-14 pointer-events-none z-10"
-        variants={fadeIn(0.3)}
+        variants={fadeUp(0.3)}
         initial="hidden"
         animate="visible"
       >
