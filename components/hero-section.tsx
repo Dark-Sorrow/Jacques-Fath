@@ -3,7 +3,7 @@
 import Image from "next/image"
 import { motion, animate, useMotionValue } from "framer-motion"
 import { useLang } from "@/lib/i18n"
-import { useRef, useEffect, useState } from "react"
+import { useRef, useEffect } from "react"
 
 const VIDEO_SRC = "/videos/Video-Object-Remover-1780510099782.webm"
 // Seconds before end to start fading to black
@@ -18,13 +18,6 @@ const fadeUp = (delay = 0) => ({
   },
 })
 
-const fadeIn = (delay = 0) => ({
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { duration: 1.4, ease: "easeOut", delay },
-  },
-})
 
 export default function HeroSection() {
   const { t } = useLang()
@@ -32,7 +25,6 @@ export default function HeroSection() {
 
   const blackOpacity = useMotionValue(0)
   const videoOpacity = useMotionValue(1)
-  const [textVisible, setTextVisible] = useState(false)
   const fadingRef = useRef(false)
 
   useEffect(() => {
@@ -56,9 +48,6 @@ export default function HeroSection() {
           animate(blackOpacity, 0, {
             duration: 1.8,
             ease: "easeOut",
-            onComplete: () => {
-              setTextVisible(true)
-            },
           })
         },
       })
@@ -134,7 +123,7 @@ export default function HeroSection() {
       {/* ── MONOGRAM (always visible) ─────────────────────────── */}
       <motion.div
         className="absolute top-0 left-0 pt-24 pl-8 md:pl-14 pointer-events-none z-10"
-        variants={fadeIn(0.3)}
+        variants={fadeUp(0.3)}
         initial="hidden"
         animate="visible"
       >
@@ -155,20 +144,12 @@ export default function HeroSection() {
         />
       </motion.div>
 
-      {/* ── TEXT BLOCK — appears after video ends ─────────────── */}
-      <motion.div
-        className="absolute bottom-0 left-0 pb-14 pl-8 md:pl-14 pr-8 max-w-md z-10"
-        initial="hidden"
-        animate={textVisible ? "visible" : "hidden"}
-      >
-        <motion.p
-          variants={fadeUp(0)}
-          className="font-sans text-[10px] tracking-luxury text-white/50 mb-4 uppercase"
-        >
-          {t.hero.eyebrow}
-        </motion.p>
+      {/* ── TEXT BLOCK — always visible ───────────────────────── */}
+      <div className="absolute bottom-0 left-0 pb-14 pl-8 md:pl-14 pr-8 max-w-md z-20">
         <motion.h1
-          variants={fadeUp(0.2)}
+          variants={fadeUp(0)}
+          initial="hidden"
+          animate="visible"
           className="font-serif text-4xl md:text-5xl leading-tight text-white mb-5 text-balance"
         >
           {t.hero.headline[0]}
@@ -176,19 +157,23 @@ export default function HeroSection() {
           {t.hero.headline[1]}
         </motion.h1>
         <motion.p
-          variants={fadeUp(0.4)}
+          variants={fadeUp(0.2)}
+          initial="hidden"
+          animate="visible"
           className="font-sans text-[12px] leading-relaxed text-white/70 mb-8 max-w-[240px]"
         >
           {t.hero.body}
         </motion.p>
         <motion.a
-          variants={fadeUp(0.55)}
+          variants={fadeUp(0.35)}
+          initial="hidden"
+          animate="visible"
           href="#"
           className="group inline-flex items-center gap-2 font-sans text-[10px] tracking-luxury text-white border-b border-white/40 pb-1 w-fit hover:border-gold hover:text-gold transition-colors duration-300"
         >
           {t.hero.cta}
         </motion.a>
-      </motion.div>
+      </div>
     </section>
   )
 }
