@@ -69,6 +69,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeNav, setActiveNav] = useState<NavKey>(null)
+  const [mobileExpanded, setMobileExpanded] = useState<NavKey>(null)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const { lang, setLang, t } = useLang()
 
@@ -249,28 +250,97 @@ export default function Navbar() {
               className="md:hidden overflow-hidden border-t border-white/10"
               style={{ backgroundColor: "rgba(18,17,15,0.98)" }}
             >
-              <div className="px-6 py-6 flex flex-col gap-5">
-                {navItems.map(({ key, label }, i) => (
-                  <motion.a
-                    key={key}
-                    href="#"
-                    initial={{ opacity: 0, x: -12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.06, duration: 0.3 }}
-                    className="font-sans text-[11px] tracking-luxury text-white/80 hover:text-gold transition-colors"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {label}
-                  </motion.a>
-                ))}
-                <div className="border-t border-white/10 pt-4 flex flex-col gap-4">
+              <div className="px-6 py-6 flex flex-col">
+                {/* Accordion nav items */}
+                {navItems.map(({ key, label }, i) => {
+                  const isOpen = mobileExpanded === key
+                  const columns = t.megaMenu[key as Exclude<NavKey, null>]
+                  return (
+                    <motion.div
+                      key={key}
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.06, duration: 0.3 }}
+                      className="border-b border-white/8"
+                    >
+                      {/* Row trigger */}
+                      <button
+                        className="w-full flex items-center justify-between py-4"
+                        onClick={() =>
+                          setMobileExpanded(isOpen ? null : key)
+                        }
+                      >
+                        <span
+                          className="font-sans text-[11px] tracking-luxury transition-colors duration-200"
+                          style={{
+                            color: isOpen
+                              ? "rgba(255,255,255,1)"
+                              : "rgba(255,255,255,0.7)",
+                          }}
+                        >
+                          {label}
+                        </span>
+                        <motion.span
+                          animate={{ rotate: isOpen ? 45 : 0 }}
+                          transition={{ duration: 0.22 }}
+                          className="text-white/40 text-base leading-none select-none"
+                        >
+                          +
+                        </motion.span>
+                      </button>
+
+                      {/* Accordion body */}
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div
+                            key="body"
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                            className="overflow-hidden"
+                          >
+                            <div className="pb-5 flex flex-col gap-5">
+                              {columns.map((col) => (
+                                <div key={col.title} className="flex flex-col gap-2.5">
+                                  <span className="font-sans text-[9px] tracking-[0.22em] text-white/30 uppercase">
+                                    {col.title}
+                                  </span>
+                                  <ul className="flex flex-col gap-2">
+                                    {col.links.map((link) => (
+                                      <li key={link}>
+                                        <a
+                                          href="#"
+                                          className="font-sans text-[11px] tracking-[0.1em] text-white/55 hover:text-white transition-colors duration-200"
+                                          onClick={() => {
+                                            setMobileExpanded(null)
+                                            setMenuOpen(false)
+                                          }}
+                                        >
+                                          {link}
+                                        </a>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  )
+                })}
+
+                {/* Footer row: account + language */}
+                <div className="pt-5 flex flex-col gap-4">
                   <a
                     href="#"
-                    className="font-sans text-[11px] tracking-luxury text-white/60"
+                    className="font-sans text-[11px] tracking-luxury text-white/50"
                   >
                     {t.nav.account}
                   </a>
-                  <div className="flex items-center gap-3 pt-1">
+                  <div className="flex items-center gap-3">
                     {LANGS.map((l, i) => (
                       <span key={l} className="flex items-center gap-3">
                         <button
