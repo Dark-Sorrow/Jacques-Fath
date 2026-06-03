@@ -3,7 +3,7 @@
 import Image from "next/image"
 import { motion, animate, useMotionValue } from "framer-motion"
 import { useLang } from "@/lib/i18n"
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 
 const VIDEO_SRC = "/videos/Video-Object-Remover-1780510099782.webm"
 // Seconds before end to start fading to black
@@ -34,6 +34,7 @@ export default function HeroSection() {
   const blackOpacity = useMotionValue(0)
   // Static image opacity: 0 = hidden, 1 = visible
   const imageOpacity = useMotionValue(0)
+  const [textVisible, setTextVisible] = useState(false)
   const fadingRef = useRef(false)
 
   useEffect(() => {
@@ -59,6 +60,10 @@ export default function HeroSection() {
             animate(blackOpacity, 0, {
               duration: 1.6,
               ease: "easeOut",
+              onComplete: () => {
+                // Step 4: reveal text
+                setTextVisible(true)
+              },
             })
           },
         })
@@ -71,6 +76,7 @@ export default function HeroSection() {
       fadingRef.current = true
       imageOpacity.set(1)
       animate(blackOpacity, 0, { duration: 1.2, ease: "easeOut" })
+      setTextVisible(true)
     }
 
     video.addEventListener("timeupdate", onTimeUpdate)
@@ -90,7 +96,7 @@ export default function HeroSection() {
       {/* ── STATIC IMAGE LAYER — sits below everything, revealed after black fade ── */}
       <motion.div className="absolute inset-0" style={{ opacity: imageOpacity }}>
         <Image
-          src="/hero-still.png"
+          src="/hero-image.png"
           alt="Maison Jacques Fath — Timeless French Elegance"
           fill
           className="object-cover object-top"
@@ -126,13 +132,13 @@ export default function HeroSection() {
 
       {/* ── BLACK OVERLAY — fades in then out for cinematic transition ── */}
       <motion.div
-        className="absolute inset-0 pointer-events-none z-[5]"
+        className="absolute inset-0 pointer-events-none"
         style={{ opacity: blackOpacity, backgroundColor: "#000" }}
       />
 
       {/* ── MONOGRAM (always visible) ─────────────────────────── */}
       <motion.div
-        className="absolute top-0 left-0 pt-24 pl-8 md:pl-14 pointer-events-none z-20"
+        className="absolute top-0 left-0 pt-24 pl-8 md:pl-14 pointer-events-none z-10"
         variants={fadeIn(0.3)}
         initial="hidden"
         animate="visible"
@@ -154,11 +160,11 @@ export default function HeroSection() {
         />
       </motion.div>
 
-      {/* ── TEXT BLOCK — always visible ───────────────────────── */}
+      {/* ── TEXT BLOCK — appears after video ends ─────────────── */}
       <motion.div
-        className="absolute bottom-0 left-0 pb-14 pl-8 md:pl-14 pr-8 max-w-md z-20"
+        className="absolute bottom-0 left-0 pb-14 pl-8 md:pl-14 pr-8 max-w-md z-10"
         initial="hidden"
-        animate="visible"
+        animate={textVisible ? "visible" : "hidden"}
       >
         <motion.p
           variants={fadeUp(0)}
