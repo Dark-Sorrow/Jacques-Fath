@@ -90,7 +90,7 @@ export default function HeroSection() {
       {/* ── STATIC IMAGE LAYER — sits below everything, revealed after black fade ── */}
       <motion.div className="absolute inset-0" style={{ opacity: imageOpacity }}>
         <Image
-          src="/hero-image.png"
+          src="/hero-still.png"
           alt="Maison Jacques Fath — Timeless French Elegance"
           fill
           className="object-cover object-top"
