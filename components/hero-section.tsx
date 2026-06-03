@@ -1,13 +1,13 @@
 "use client"
 
 import Image from "next/image"
-import { motion, animate, useMotionValue, useTransform } from "framer-motion"
+import { motion, animate, useMotionValue } from "framer-motion"
 import { useLang } from "@/lib/i18n"
 import { useRef, useEffect, useState } from "react"
 
 const VIDEO_SRC = "/videos/Video-Object-Remover-1780510099782.webm"
-// How many seconds before end to start the fade-to-image transition
-const FADE_BEFORE_END = 1.8
+// Seconds before end to start fading to black
+const FADE_BEFORE_END = 2.5
 
 const fadeUp = (delay = 0) => ({
   hidden: { opacity: 0, y: 28 },
@@ -30,32 +30,52 @@ export default function HeroSection() {
   const { t } = useLang()
   const videoRef = useRef<HTMLVideoElement>(null)
 
-  // 0 = video fully visible, 1 = image fully visible
+  // Black overlay: 0 = transparent, 1 = fully black
+  const blackOpacity = useMotionValue(0)
+  // Static image opacity: 0 = hidden, 1 = visible
   const imageOpacity = useMotionValue(0)
-  const [imageVisible, setImageVisible] = useState(false)
   const [textVisible, setTextVisible] = useState(false)
+  const fadingRef = useRef(false)
 
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
 
-    // Show image layer as soon as we begin fading
     const onTimeUpdate = () => {
+      if (fadingRef.current) return
       const remaining = video.duration - video.currentTime
       if (remaining <= FADE_BEFORE_END && video.duration > 0) {
-        if (!imageVisible) setImageVisible(true)
-        // progress 0→1 over FADE_BEFORE_END seconds
-        const progress = Math.min(
-          1,
-          (FADE_BEFORE_END - remaining) / FADE_BEFORE_END
-        )
-        imageOpacity.set(progress)
+        fadingRef.current = true
+
+        // Step 1: fade video to black over ~1.4s
+        animate(blackOpacity, 1, {
+          duration: 1.4,
+          ease: "easeIn",
+          onComplete: () => {
+            // Step 2: show static image behind black overlay
+            imageOpacity.set(1)
+            video.pause()
+
+            // Step 3: fade black overlay away, revealing the static image
+            animate(blackOpacity, 0, {
+              duration: 1.6,
+              ease: "easeOut",
+              onComplete: () => {
+                // Step 4: reveal text
+                setTextVisible(true)
+              },
+            })
+          },
+        })
       }
     }
 
+    // Fallback if video ends before timeupdate fires correctly
     const onEnded = () => {
-      // Snap to fully showing image and reveal text
-      animate(imageOpacity, 1, { duration: 0.3 })
+      if (fadingRef.current) return
+      fadingRef.current = true
+      imageOpacity.set(1)
+      animate(blackOpacity, 0, { duration: 1.2, ease: "easeOut" })
       setTextVisible(true)
     }
 
@@ -65,7 +85,7 @@ export default function HeroSection() {
       video.removeEventListener("timeupdate", onTimeUpdate)
       video.removeEventListener("ended", onEnded)
     }
-  }, [imageOpacity, imageVisible])
+  }, [blackOpacity, imageOpacity])
 
   return (
     <section
@@ -73,7 +93,25 @@ export default function HeroSection() {
       style={{ minHeight: "100vh" }}
       aria-label="Hero"
     >
-      {/* ── VIDEO LAYER ─────────────────────────────────────────── */}
+      {/* ── STATIC IMAGE LAYER — sits below everything, revealed after black fade ── */}
+      <motion.div className="absolute inset-0" style={{ opacity: imageOpacity }}>
+        <Image
+          src="/hero-image.png"
+          alt="Maison Jacques Fath — Timeless French Elegance"
+          fill
+          className="object-cover object-top"
+          priority
+        />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%)",
+          }}
+        />
+      </motion.div>
+
+      {/* ── VIDEO LAYER — sits above static image ─────────────── */}
       <div className="absolute inset-0">
         <video
           ref={videoRef}
@@ -83,51 +121,20 @@ export default function HeroSection() {
           playsInline
           className="w-full h-full object-cover object-center"
         />
-        {/* dark vignettes on the video */}
         <div
-          className="absolute inset-y-0 left-0 w-1/3 pointer-events-none"
+          className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(to right, rgba(0,0,0,0.45) 0%, transparent 100%)",
-          }}
-        />
-        <div
-          className="absolute inset-y-0 right-0 w-1/3 pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(to left, rgba(0,0,0,0.35) 0%, transparent 100%)",
+              "linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 50%)",
           }}
         />
       </div>
 
-      {/* ── STATIC IMAGE LAYER — fades in over video end ─────── */}
+      {/* ── BLACK OVERLAY — fades in then out for cinematic transition ── */}
       <motion.div
-        className="absolute inset-0"
-        style={{ opacity: imageOpacity }}
-      >
-        <Image
-          src="/hero-image.png"
-          alt="Maison Jacques Fath — Timeless French Elegance"
-          fill
-          className="object-cover object-top"
-          priority
-        />
-        {/* vignettes on the static image too */}
-        <div
-          className="absolute inset-y-0 left-0 w-1/3 pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(to right, rgba(0,0,0,0.45) 0%, transparent 100%)",
-          }}
-        />
-        <div
-          className="absolute inset-y-0 right-0 w-1/3 pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(to left, rgba(0,0,0,0.35) 0%, transparent 100%)",
-          }}
-        />
-      </motion.div>
+        className="absolute inset-0 pointer-events-none"
+        style={{ opacity: blackOpacity, backgroundColor: "#000" }}
+      />
 
       {/* ── MONOGRAM (always visible) ─────────────────────────── */}
       <motion.div
