@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import { motion, animate, useMotionValue } from "framer-motion"
 import { useLang } from "@/lib/i18n"
 import { useRef, useEffect } from "react"
@@ -164,15 +165,18 @@ export default function HeroSection() {
         >
           {t.hero.body}
         </motion.p>
-        <motion.a
+        <motion.div
           variants={fadeUp(0.35)}
           initial="hidden"
           animate="visible"
-          href="#"
-          className="group inline-flex items-center gap-2 font-sans text-[10px] tracking-luxury text-white border-b border-white/40 pb-1 w-fit hover:border-gold hover:text-gold transition-colors duration-300"
         >
-          {t.hero.cta}
-        </motion.a>
+          <Link
+            href="/catalog"
+            className="group inline-flex items-center gap-2 font-sans text-[10px] tracking-luxury text-white border-b border-white/40 pb-1 w-fit hover:border-gold hover:text-gold transition-colors duration-300"
+          >
+            {t.hero.cta}
+          </Link>
+        </motion.div>
       </div>
     </section>
   )

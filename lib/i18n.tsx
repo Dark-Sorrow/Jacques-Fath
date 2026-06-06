@@ -63,6 +63,32 @@ export type Translations = {
     shopping: { title: string; description: string }
     madeIn: { title: string; description: string }
   }
+  catalog: {
+    title: string
+    subtitle: string
+    filters: string
+    sortBy: string
+    sortOptions: { value: string; label: string }[]
+    categories: { value: string; label: string }[]
+    sizes: string[]
+    colors: { value: string; label: string }[]
+    filterLabels: {
+      category: string
+      size: string
+      color: string
+      price: string
+    }
+    products: {
+      id: number
+      name: string
+      price: string
+      category: string
+    }[]
+    resultsCount: string
+    addToBag: string
+    wishlist: string
+    newLabel: string
+  }
   footer: {
     joinTitle: string
     joinBody: string
@@ -158,6 +184,60 @@ const translations: Record<Lang, Translations> = {
         title: "MADE IN FRANCE",
         description: "Crafted with exceptional savoir-faire in France.",
       },
+    },
+    catalog: {
+      title: "COLLECTION",
+      subtitle: "New Season 2026",
+      filters: "FILTERS",
+      sortBy: "SORT BY",
+      sortOptions: [
+        { value: "newest", label: "Newest First" },
+        { value: "price-asc", label: "Price: Low to High" },
+        { value: "price-desc", label: "Price: High to Low" },
+      ],
+      categories: [
+        { value: "all", label: "All Pieces" },
+        { value: "dresses", label: "Dresses" },
+        { value: "coats", label: "Coats & Jackets" },
+        { value: "tops", label: "Tops & Blouses" },
+        { value: "trousers", label: "Trousers & Skirts" },
+        { value: "knitwear", label: "Knitwear" },
+        { value: "bags", label: "Bags" },
+        { value: "shoes", label: "Shoes" },
+        { value: "accessories", label: "Accessories" },
+      ],
+      sizes: ["XS", "S", "M", "L", "XL"],
+      colors: [
+        { value: "ivory", label: "Ivory" },
+        { value: "noir", label: "Noir" },
+        { value: "beige", label: "Beige" },
+        { value: "camel", label: "Camel" },
+        { value: "bordeaux", label: "Bordeaux" },
+      ],
+      filterLabels: {
+        category: "CATEGORY",
+        size: "SIZE",
+        color: "COLOR",
+        price: "PRICE",
+      },
+      products: [
+        { id: 1, name: "Silk Evening Dress", price: "€ 3 200", category: "dresses" },
+        { id: 2, name: "Cashmere Wrap Coat", price: "€ 4 800", category: "coats" },
+        { id: 3, name: "Structured Leather Bag", price: "€ 2 100", category: "bags" },
+        { id: 4, name: "Pleated Chiffon Blouse", price: "€ 890", category: "tops" },
+        { id: 5, name: "Wide-Leg Wool Trousers", price: "€ 1 450", category: "trousers" },
+        { id: 6, name: "Merino Turtleneck", price: "€ 760", category: "knitwear" },
+        { id: 7, name: "Leather Pumps", price: "€ 1 100", category: "shoes" },
+        { id: 8, name: "Belted Midi Dress", price: "€ 2 700", category: "dresses" },
+        { id: 9, name: "Double-Breasted Blazer", price: "€ 3 400", category: "coats" },
+        { id: 10, name: "Chain Minaudière", price: "€ 1 800", category: "bags" },
+        { id: 11, name: "Silk Slip Skirt", price: "€ 1 200", category: "trousers" },
+        { id: 12, name: "Fine-Knit Cardigan", price: "€ 980", category: "knitwear" },
+      ],
+      resultsCount: "pieces",
+      addToBag: "ADD TO BAG",
+      wishlist: "Save",
+      newLabel: "NEW",
     },
     footer: {
       joinTitle: "JOIN THE MAISON",
@@ -268,6 +348,60 @@ const translations: Record<Lang, Translations> = {
         description: "Confectionné avec un savoir-faire exceptionnel en France.",
       },
     },
+    catalog: {
+      title: "COLLECTION",
+      subtitle: "Nouvelle Saison 2026",
+      filters: "FILTRES",
+      sortBy: "TRIER PAR",
+      sortOptions: [
+        { value: "newest", label: "Plus Récents" },
+        { value: "price-asc", label: "Prix Croissant" },
+        { value: "price-desc", label: "Prix Décroissant" },
+      ],
+      categories: [
+        { value: "all", label: "Toutes les Pièces" },
+        { value: "dresses", label: "Robes" },
+        { value: "coats", label: "Manteaux & Vestes" },
+        { value: "tops", label: "Tops & Blouses" },
+        { value: "trousers", label: "Pantalons & Jupes" },
+        { value: "knitwear", label: "Maille" },
+        { value: "bags", label: "Sacs" },
+        { value: "shoes", label: "Chaussures" },
+        { value: "accessories", label: "Accessoires" },
+      ],
+      sizes: ["XS", "S", "M", "L", "XL"],
+      colors: [
+        { value: "ivory", label: "Ivoire" },
+        { value: "noir", label: "Noir" },
+        { value: "beige", label: "Beige" },
+        { value: "camel", label: "Camel" },
+        { value: "bordeaux", label: "Bordeaux" },
+      ],
+      filterLabels: {
+        category: "CATÉGORIE",
+        size: "TAILLE",
+        color: "COULEUR",
+        price: "PRIX",
+      },
+      products: [
+        { id: 1, name: "Robe du Soir en Soie", price: "€ 3 200", category: "dresses" },
+        { id: 2, name: "Manteau Enveloppant Cachemire", price: "€ 4 800", category: "coats" },
+        { id: 3, name: "Sac en Cuir Structuré", price: "€ 2 100", category: "bags" },
+        { id: 4, name: "Blouse en Mousseline Plissée", price: "€ 890", category: "tops" },
+        { id: 5, name: "Pantalon Large en Laine", price: "€ 1 450", category: "trousers" },
+        { id: 6, name: "Col Roulé en Mérinos", price: "€ 760", category: "knitwear" },
+        { id: 7, name: "Escarpins en Cuir", price: "€ 1 100", category: "shoes" },
+        { id: 8, name: "Robe Midi Ceinturée", price: "€ 2 700", category: "dresses" },
+        { id: 9, name: "Blazer Croisé", price: "€ 3 400", category: "coats" },
+        { id: 10, name: "Minaudière à Chaîne", price: "€ 1 800", category: "bags" },
+        { id: 11, name: "Jupe Lingerie en Soie", price: "€ 1 200", category: "trousers" },
+        { id: 12, name: "Cardigan en Fine Maille", price: "€ 980", category: "knitwear" },
+      ],
+      resultsCount: "pièces",
+      addToBag: "AJOUTER AU PANIER",
+      wishlist: "Sauvegarder",
+      newLabel: "NOUVEAU",
+    },
     footer: {
       joinTitle: "REJOINDRE LA MAISON",
       joinBody: "Abonnez-vous à notre newsletter et soyez le premier à découvrir les nouvelles collections, les articles exclusifs et les événements privés.",
@@ -329,7 +463,7 @@ const translations: Record<Lang, Translations> = {
     },
     hero: {
       eyebrow: "Maison Jacques Fath",
-      headline: ["ВЕЧНАЯ", "ФРАНЦУЗСКАЯ ЭЛЕГАНТНОСТЬ"],
+      headline: ["ВЕЧНА��", "ФРАНЦУЗСКАЯ ЭЛЕГАНТНОСТЬ"],
       body: "Откройте для себя интернет-бутик Maison Jacques Fath и изучите нашу новую коллекцию.",
       cta: "СМОТРЕТЬ КОЛЛЕКЦИЮ",
     },
@@ -376,6 +510,60 @@ const translations: Record<Lang, Translations> = {
         title: "СДЕЛАНО ВО ФРАНЦИИ",
         description: "Изготовлено с исключительным мастерством во Франции.",
       },
+    },
+    catalog: {
+      title: "КОЛЛЕКЦИЯ",
+      subtitle: "Новый Сезон 2026",
+      filters: "ФИЛЬТРЫ",
+      sortBy: "СОРТИРОВКА",
+      sortOptions: [
+        { value: "newest", label: "Сначала Новые" },
+        { value: "price-asc", label: "Цена: По возрастанию" },
+        { value: "price-desc", label: "Цена: По убыванию" },
+      ],
+      categories: [
+        { value: "all", label: "Все Позиции" },
+        { value: "dresses", label: "Платья" },
+        { value: "coats", label: "Пальто и Жакеты" },
+        { value: "tops", label: "Топы и Блузки" },
+        { value: "trousers", label: "Брюки и Юбки" },
+        { value: "knitwear", label: "Трикотаж" },
+        { value: "bags", label: "Сумки" },
+        { value: "shoes", label: "Обувь" },
+        { value: "accessories", label: "Аксессуары" },
+      ],
+      sizes: ["XS", "S", "M", "L", "XL"],
+      colors: [
+        { value: "ivory", label: "Слоновая Кость" },
+        { value: "noir", label: "Чёрный" },
+        { value: "beige", label: "Бежевый" },
+        { value: "camel", label: "Кэмел" },
+        { value: "bordeaux", label: "Бордо" },
+      ],
+      filterLabels: {
+        category: "КАТЕГОРИЯ",
+        size: "РАЗМЕР",
+        color: "ЦВЕТ",
+        price: "ЦЕНА",
+      },
+      products: [
+        { id: 1, name: "Вечернее Платье из Шёлка", price: "€ 3 200", category: "dresses" },
+        { id: 2, name: "Кашемировое Пальто", price: "€ 4 800", category: "coats" },
+        { id: 3, name: "Структурированная Кожаная Сумка", price: "€ 2 100", category: "bags" },
+        { id: 4, name: "Плиссированная Блуза из Шифона", price: "€ 890", category: "tops" },
+        { id: 5, name: "Широкие Шерстяные Брюки", price: "€ 1 450", category: "trousers" },
+        { id: 6, name: "Водолазка из Мериноса", price: "€ 760", category: "knitwear" },
+        { id: 7, name: "Кожаные Туфли", price: "€ 1 100", category: "shoes" },
+        { id: 8, name: "Платье Миди с Поясом", price: "€ 2 700", category: "dresses" },
+        { id: 9, name: "Двубортный Блейзер", price: "€ 3 400", category: "coats" },
+        { id: 10, name: "Минодьер на Цепочке", price: "€ 1 800", category: "bags" },
+        { id: 11, name: "Шёлковая Юбка-комбинация", price: "€ 1 200", category: "trousers" },
+        { id: 12, name: "Кардиган тонкой вязки", price: "€ 980", category: "knitwear" },
+      ],
+      resultsCount: "позиций",
+      addToBag: "В КОРЗИНУ",
+      wishlist: "Сохранить",
+      newLabel: "НОВИНКА",
     },
     footer: {
       joinTitle: "ПРИСОЕДИНИТЬСЯ К MAISON",
