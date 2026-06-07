@@ -57,10 +57,10 @@ function ProductCard({
       style={{ height: tall ? "100vh" : "50vh" }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: (index % 6) * 0.06 }}
+      initial={{ opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: (index % 3) * 0.18 }}
     >
       {/* Full-bleed placeholder */}
       <Placeholder index={product.id} tone={tone} />
