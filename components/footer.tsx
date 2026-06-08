@@ -75,10 +75,10 @@ export default function Footer() {
             variants={colStagger}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: false, amount: 0.1 }}
           >
             {columns.map((col) => (
-              <motion.div key={col.title} variants={colItem} className="flex flex-col gap-2.5">
+              <motion.div key={`${col.title}-${col.links[0]}`} variants={colItem} className="flex flex-col gap-2.5">
                 <p className="font-sans text-[9px] tracking-luxury text-white/50 mb-1 uppercase">{col.title}</p>
                 {col.links.map((link) => (
                   <a
