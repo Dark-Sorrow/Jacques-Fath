@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useMemo } from "react"
+import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import Navbar from "@/components/navbar"
@@ -50,10 +51,12 @@ function ProductCard({
 }) {
   const [hovered, setHovered] = useState(false)
   const tone = TONES[index % TONES.length]
+  const router = useRouter()
 
   return (
     <motion.article
       className="group relative cursor-pointer overflow-hidden"
+      onClick={() => router.push(`/catalog/${product.id}`)}
       style={{ height: tall ? "100vh" : "50vh" }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
