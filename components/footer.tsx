@@ -6,15 +6,6 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { useLang } from "@/lib/i18n"
 
-const colStagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
-}
-
-const colItem = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
-}
 
 export default function Footer() {
   const [email, setEmail] = useState("")
@@ -70,15 +61,9 @@ export default function Footer() {
           </motion.div>
 
           {/* Right — link columns */}
-          <motion.div
-            className="grid grid-cols-2 md:grid-cols-3 gap-8"
-            variants={colStagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: false, amount: 0.1 }}
-          >
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
             {columns.map((col) => (
-              <motion.div key={`${col.title}-${col.links[0]}`} variants={colItem} className="flex flex-col gap-2.5">
+              <div key={col.title} className="flex flex-col gap-2.5">
                 <p className="font-sans text-[9px] tracking-luxury text-white/50 mb-1 uppercase">{col.title}</p>
                 {col.links.map((link) => (
                   <a
@@ -89,9 +74,9 @@ export default function Footer() {
                     {link}
                   </a>
                 ))}
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
 
