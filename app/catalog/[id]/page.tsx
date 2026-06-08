@@ -1,7 +1,7 @@
 "use client"
 
-import { use, useState, useRef } from "react"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
+import { use, useState, useRef, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import Navbar from "@/components/navbar"
 import { useLang } from "@/lib/i18n"
@@ -21,86 +21,37 @@ const COLOR_SWATCHES = [
   { value: "bordeaux", hex: "#6b2232", label: "Bordeaux" },
 ]
 
-/* ── Single image panel driven by a 0→1 progress value ─────────── */
-function PhotoSlide({
-  num,
-  tone,
-  index,
-  scrollContainer,
-}: {
-  num: number
-  tone: string
-  index: number
-  scrollContainer: React.RefObject<HTMLElement | null>
-}) {
-  // Each slide occupies 1/PHOTO_COUNT of the total scroll range
-  const segmentSize = 1 / PHOTO_COUNT
-  const start = index * segmentSize
-  const end   = start + segmentSize
-
-  const { scrollYProgress } = useScroll({ container: scrollContainer as React.RefObject<HTMLElement> })
-
-  // slide enters from left → rests at 0 → stays as next one arrives
-  const x = useTransform(
-    scrollYProgress,
-    [Math.max(0, start - segmentSize), start, end],
-    ["100%", "0%", "0%"]
-  )
-  const opacity = useTransform(
-    scrollYProgress,
-    [Math.max(0, start - segmentSize * 0.5), start],
-    [0, 1]
-  )
-  // scale subtly breathes in
-  const scale = useTransform(
-    scrollYProgress,
-    [start, end],
-    [1, 1.03]
-  )
-
-  return (
-    <motion.div
-      className="absolute inset-0"
-      style={{ x, opacity, scale, backgroundColor: tone, zIndex: index + 1 }}
-    >
-      {/* large muted number watermark */}
-      <div className="absolute inset-0 flex items-end justify-start p-12 pointer-events-none select-none">
-        <span
-          className="font-serif leading-none"
-          style={{
-            fontSize: "clamp(140px, 22vw, 320px)",
-            color: "rgba(80,65,50,0.06)",
-            letterSpacing: "-0.04em",
-          }}
-        >
-          {String(num).padStart(2, "0")}
-        </span>
-      </div>
-      {/* counter */}
-      <div
-        className="absolute top-8 right-8 font-sans text-[9px] tracking-[0.28em]"
-        style={{ color: "rgba(80,65,50,0.35)" }}
-      >
-        {String(index + 1).padStart(2, "0")} / {String(PHOTO_COUNT).padStart(2, "0")}
-      </div>
-    </motion.div>
-  )
-}
-
-/* ── Main page ──────────────────────────────────────────────────── */
 export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
   const { t } = useLang()
   const c = t.catalog
-
   const product = c.products.find((p) => String(p.id) === id) ?? c.products[0]
 
   const [selectedColor, setSelectedColor] = useState(COLOR_SWATCHES[0].value)
   const [selectedSize,  setSelectedSize]  = useState<string | null>(null)
   const [added, setAdded] = useState(false)
+  const [activeSlide, setActiveSlide] = useState(0)
 
-  // The scrollable container — the outer wrapper
-  const scrollRef = useRef<HTMLDivElement>(null)
+  // One sentinel div per slide — when it enters viewport, that slide activates
+  const sentinelRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = []
+
+    sentinelRefs.current.forEach((el, i) => {
+      if (!el) return
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) setActiveSlide(i)
+        },
+        { threshold: 0.5 }
+      )
+      obs.observe(el)
+      observers.push(obs)
+    })
+
+    return () => observers.forEach((o) => o.disconnect())
+  }, [])
 
   const handleAdd = () => {
     if (!selectedSize) return
@@ -109,42 +60,99 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
   }
 
   return (
-    // Full viewport, flex row, overflow on this element drives the scroll
-    <div
-      ref={scrollRef}
-      className="flex flex-col md:flex-row"
-      style={{ height: "100svh", overflowY: "auto", backgroundColor: "#f8f5f0" }}
-    >
+    <div className="min-h-screen" style={{ backgroundColor: "#f8f5f0" }}>
       <Navbar />
 
-      {/* ── INNER ROW ─────────────────────────────────────── */}
-      <div className="flex flex-col md:flex-row w-full" style={{ minHeight: "100svh" }}>
+      <div className="flex flex-col md:flex-row" style={{ paddingTop: "0px" }}>
 
-        {/* LEFT — sticky viewport, slides stack inside */}
-        <div
-          className="hidden md:block md:w-1/2 sticky top-0"
-          style={{ height: "100svh" }}
-        >
-          {/* scroll driver: tall enough to let each slide animate */}
-          <div
-            className="relative overflow-hidden"
-            style={{ height: "100svh", width: "100%" }}
-          >
-            {Array.from({ length: PHOTO_COUNT }, (_, i) => (
-              <PhotoSlide
-                key={i}
-                num={product.id * 10 + i + 1}
-                tone={TONES[(product.id - 1 + i) % TONES.length]}
-                index={i}
-                scrollContainer={scrollRef}
-              />
-            ))}
+        {/* ── LEFT: sticky photo viewer ───────────────────────────── */}
+        <div className="hidden md:block md:w-1/2 relative" style={{ height: `${PHOTO_COUNT * 100}vh` }}>
+
+          {/* sticky frame that holds the slides */}
+          <div className="sticky top-0 h-screen overflow-hidden">
+            {Array.from({ length: PHOTO_COUNT }, (_, i) => {
+              const tone = TONES[(Number(id) - 1 + i) % TONES.length]
+              const isActive = activeSlide === i
+              const isPast   = i < activeSlide
+
+              return (
+                <motion.div
+                  key={i}
+                  className="absolute inset-0"
+                  style={{
+                    backgroundColor: tone,
+                    zIndex: i + 1,
+                    // slide enters from the right, rests, never exits
+                    x: isActive || isPast ? "0%" : "100%",
+                  }}
+                  animate={{
+                    x: isActive || isPast ? "0%" : "100%",
+                  }}
+                  transition={{
+                    duration: 0.9,
+                    ease: [0.76, 0, 0.24, 1],
+                  }}
+                >
+                  {/* large number watermark */}
+                  <div className="absolute inset-0 flex items-end justify-start p-10 pointer-events-none select-none">
+                    <span
+                      className="font-serif leading-none"
+                      style={{
+                        fontSize: "clamp(120px, 20vw, 300px)",
+                        color: "rgba(80,65,50,0.06)",
+                        letterSpacing: "-0.04em",
+                      }}
+                    >
+                      {String(Number(id) * 10 + i + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+                  {/* counter */}
+                  <div
+                    className="absolute top-8 right-8 font-sans text-[9px] tracking-[0.28em]"
+                    style={{ color: "rgba(80,65,50,0.35)" }}
+                  >
+                    {String(i + 1).padStart(2, "0")} / {String(PHOTO_COUNT).padStart(2, "0")}
+                  </div>
+                </motion.div>
+              )
+            })}
+
+            {/* dot indicators */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+              {Array.from({ length: PHOTO_COUNT }, (_, i) => (
+                <div
+                  key={i}
+                  style={{
+                    width: i === activeSlide ? 24 : 6,
+                    height: 2,
+                    backgroundColor: i <= activeSlide ? "rgba(60,45,30,0.5)" : "rgba(60,45,30,0.18)",
+                    transition: "all 0.4s ease",
+                    borderRadius: 1,
+                  }}
+                />
+              ))}
+            </div>
           </div>
+
+          {/* Sentinels — invisible divs that trigger slide change on scroll */}
+          {Array.from({ length: PHOTO_COUNT }, (_, i) => (
+            <div
+              key={i}
+              ref={(el) => { sentinelRefs.current[i] = el }}
+              style={{
+                position: "absolute",
+                top: `${i * 100}vh`,
+                height: "100vh",
+                width: "1px",
+                pointerEvents: "none",
+              }}
+            />
+          ))}
         </div>
 
-        {/* RIGHT — sticky info panel */}
+        {/* ── RIGHT: sticky info panel ────────────────────────────── */}
         <div
-          className="md:w-1/2 md:sticky md:top-0 md:h-screen flex flex-col justify-between pt-24 pb-12 px-8 xl:px-16"
+          className="md:w-1/2 md:sticky md:top-0 md:h-screen flex flex-col justify-between pt-24 pb-12 px-10 xl:px-16"
           style={{ borderLeft: "1px solid #e8e2da" }}
         >
           {/* Breadcrumb */}
@@ -175,7 +183,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
               </motion.p>
               <motion.h1
                 className="font-serif leading-tight text-balance"
-                style={{ fontSize: "clamp(22px, 2.6vw, 36px)", letterSpacing: "0.06em", color: "#1a120a" }}
+                style={{ fontSize: "clamp(22px, 2.6vw, 38px)", letterSpacing: "0.06em", color: "#1a120a" }}
                 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.07 }}
               >
@@ -278,7 +286,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                   style={{ color: "#b0a090" }}
                   initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                 >
-                  — Please select a size
+                  — Select a size to continue
                 </motion.p>
               )}
             </AnimatePresence>
