@@ -4,6 +4,7 @@ import { use, useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
 import { useLang } from "@/lib/i18n"
 
 const TONES = [
@@ -327,6 +328,118 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
           </motion.div>
         </div>
       </div>
+
+      {/* ── BOUTIQUE BOOKING SECTION ──────────────────────────────── */}
+      <section
+        className="w-full grid grid-cols-1 md:grid-cols-2"
+        style={{ borderTop: "1px solid #e8e2da" }}
+      >
+        {/* Left — large label */}
+        <div
+          className="flex items-end p-10 md:p-16"
+          style={{ backgroundColor: "#f0ece4", borderRight: "1px solid #e8e2da" }}
+        >
+          <motion.p
+            className="font-serif leading-tight text-balance"
+            style={{
+              fontSize: "clamp(32px, 4.5vw, 72px)",
+              letterSpacing: "0.04em",
+              color: "#1a120a",
+            }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+          >
+            Reserve&nbsp;in<br />Boutique
+          </motion.p>
+        </div>
+
+        {/* Right — details */}
+        <motion.div
+          className="flex flex-col justify-between p-10 md:p-16 gap-10"
+          style={{ backgroundColor: "#f8f5f0" }}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.12 }}
+        >
+          <div className="flex flex-col gap-8">
+            {/* What is it */}
+            <div className="flex flex-col gap-3">
+              <p
+                className="font-sans text-[8px] tracking-[0.32em] uppercase"
+                style={{ color: "#b0a090" }}
+              >
+                Personal Appointment
+              </p>
+              <p
+                className="font-sans text-[12px] leading-loose max-w-sm"
+                style={{ color: "#5a4e44", letterSpacing: "0.03em" }}
+              >
+                Reserve this piece for a private fitting session at our Paris boutique.
+                A style advisor will prepare your selection and guide you through the
+                collection in a dedicated, unhurried space.
+              </p>
+            </div>
+
+            {/* Steps */}
+            <div className="flex flex-col gap-5">
+              {[
+                { n: "01", text: "Choose a preferred date and time online or by phone." },
+                { n: "02", text: "Your advisor confirms the appointment and holds the piece for you." },
+                { n: "03", text: "Arrive at the boutique — your fitting room is ready." },
+              ].map(({ n, text }) => (
+                <div key={n} className="flex gap-5 items-start">
+                  <span
+                    className="font-serif shrink-0 mt-0.5"
+                    style={{ fontSize: 11, color: "#b0a090", letterSpacing: "0.18em" }}
+                  >
+                    {n}
+                  </span>
+                  <p
+                    className="font-sans text-[11px] leading-relaxed"
+                    style={{ color: "#7a6e63", letterSpacing: "0.03em" }}
+                  >
+                    {text}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Contact */}
+            <div
+              className="flex flex-col gap-1.5 pt-4"
+              style={{ borderTop: "1px solid #e8e2da" }}
+            >
+              <p className="font-sans text-[8px] tracking-[0.28em] uppercase" style={{ color: "#b0a090" }}>
+                Paris — 39 Avenue Pierre 1er de Serbie, 75008
+              </p>
+              <p className="font-sans text-[8px] tracking-[0.28em] uppercase" style={{ color: "#b0a090" }}>
+                +33 (0)1 47 23 xx xx &nbsp;·&nbsp; boutique@jacquesfath.com
+              </p>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button
+              className="flex-1 h-13 font-sans text-[8px] tracking-[0.32em] py-4 transition-all duration-300 hover:opacity-80"
+              style={{ backgroundColor: "#1a120a", color: "#f8f5f0" }}
+            >
+              BOOK AN APPOINTMENT
+            </button>
+            <button
+              className="flex-1 h-13 font-sans text-[8px] tracking-[0.28em] py-4 transition-colors duration-200"
+              style={{ border: "1px solid #d0c8be", color: "#9a8b7c" }}
+            >
+              CALL THE BOUTIQUE
+            </button>
+          </div>
+        </motion.div>
+      </section>
+
+      <Footer />
     </div>
   )
 }
