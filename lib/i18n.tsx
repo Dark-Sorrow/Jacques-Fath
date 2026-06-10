@@ -4,23 +4,24 @@ import { createContext, useContext, useState, ReactNode } from "react"
 
 export type Lang = "RU" | "EN" | "FR"
 
-export type MegaMenuColumn = {
-  title: string
-  links: string[]
+export type MenuSection = {
+  label: string
+  links: { title: string; href: string }[]
 }
 
-export type MegaMenuData = {
-  catalog: MegaMenuColumn[]
+export type MenuData = {
+  catalog: MenuSection[]
+  editorial: MenuSection[]
 }
 
 export type Translations = {
   nav: {
-    catalog: string
+    menu: string
     search: string
     account: string
     bag: string
   }
-  megaMenu: MegaMenuData
+  menu: MenuData
   hero: {
     eyebrow: string
     headline: string[]
@@ -104,17 +105,22 @@ export type Translations = {
 const translations: Record<Lang, Translations> = {
   EN: {
     nav: {
-      catalog: "CATALOG",
+      menu: "MENU",
       search: "SEARCH",
       account: "ACCOUNT",
       bag: "BAG (0)",
     },
-    megaMenu: {
+    menu: {
       catalog: [
-        { title: "WOMEN", links: ["New Arrivals", "Dresses", "Coats & Jackets", "Tops & Blouses", "Trousers & Skirts", "Knitwear", "Evening Wear"] },
-        { title: "MEN", links: ["New Arrivals", "Suits", "Coats & Jackets", "Shirts", "Trousers", "Knitwear", "Tailoring"] },
-        { title: "ACCESSORIES", links: ["Bags", "Shoes", "Scarves & Silk", "Jewellery", "Belts", "Cufflinks"] },
-        { title: "COLLECTIONS", links: ["Couture", "Prêt-à-Porter", "Resort", "Archive", "View All"] },
+        { label: "WOMEN", links: [{ title: "New Arrivals", href: "/catalog" }, { title: "Dresses", href: "/catalog" }, { title: "Coats & Jackets", href: "/catalog" }, { title: "Tops & Blouses", href: "/catalog" }, { title: "Trousers & Skirts", href: "/catalog" }, { title: "Knitwear", href: "/catalog" }, { title: "Evening Wear", href: "/catalog" }] },
+        { label: "MEN", links: [{ title: "New Arrivals", href: "/catalog" }, { title: "Suits", href: "/catalog" }, { title: "Coats & Jackets", href: "/catalog" }, { title: "Shirts", href: "/catalog" }, { title: "Trousers", href: "/catalog" }, { title: "Knitwear", href: "/catalog" }, { title: "Tailoring", href: "/catalog" }] },
+        { label: "ACCESSORIES", links: [{ title: "Bags", href: "/catalog" }, { title: "Shoes", href: "/catalog" }, { title: "Scarves & Silk", href: "/catalog" }, { title: "Jewellery", href: "/catalog" }, { title: "Belts", href: "/catalog" }, { title: "Cufflinks", href: "/catalog" }] },
+        { label: "COLLECTIONS", links: [{ title: "Couture", href: "/catalog" }, { title: "Prêt-à-Porter", href: "/catalog" }, { title: "Resort", href: "/catalog" }, { title: "Archive", href: "/catalog" }, { title: "View All", href: "/catalog" }] },
+      ],
+      editorial: [
+        { label: "MAISON", links: [{ title: "Our Story", href: "/" }, { title: "Jacques Fath", href: "/" }, { title: "Heritage & Archives", href: "/" }, { title: "Savoir-Faire", href: "/" }] },
+        { label: "NEWS", links: [{ title: "Latest News", href: "/" }, { title: "Shows & Events", href: "/" }, { title: "Press", href: "/" }, { title: "Collaborations", href: "/" }] },
+        { label: "SERVICES", links: [{ title: "Personal Shopping", href: "/" }, { title: "Bespoke", href: "/" }, { title: "Boutiques", href: "/" }, { title: "Book an Appointment", href: "/" }] },
       ],
     },
     hero: {
@@ -253,17 +259,22 @@ const translations: Record<Lang, Translations> = {
   },
   FR: {
     nav: {
-      catalog: "CATALOGUE",
+      menu: "MENU",
       search: "RECHERCHER",
       account: "COMPTE",
       bag: "PANIER (0)",
     },
-    megaMenu: {
+    menu: {
       catalog: [
-        { title: "FEMME", links: ["Nouvelles Arrivées", "Robes", "Manteaux & Vestes", "Tops & Blouses", "Pantalons & Jupes", "Maille", "Tenues de Soirée"] },
-        { title: "HOMME", links: ["Nouvelles Arrivées", "Costumes", "Manteaux & Vestes", "Chemises", "Pantalons", "Maille", "Tailleur"] },
-        { title: "ACCESSOIRES", links: ["Sacs", "Chaussures", "Foulards & Soie", "Bijoux", "Ceintures", "Boutons de Manchette"] },
-        { title: "COLLECTIONS", links: ["Couture", "Prêt-à-Porter", "Resort", "Archives", "Tout Voir"] },
+        { label: "FEMME", links: [{ title: "Nouvelles Arrivées", href: "/catalog" }, { title: "Robes", href: "/catalog" }, { title: "Manteaux & Vestes", href: "/catalog" }, { title: "Tops & Blouses", href: "/catalog" }, { title: "Pantalons & Jupes", href: "/catalog" }, { title: "Maille", href: "/catalog" }, { title: "Tenues de Soirée", href: "/catalog" }] },
+        { label: "HOMME", links: [{ title: "Nouvelles Arrivées", href: "/catalog" }, { title: "Costumes", href: "/catalog" }, { title: "Manteaux & Vestes", href: "/catalog" }, { title: "Chemises", href: "/catalog" }, { title: "Pantalons", href: "/catalog" }, { title: "Maille", href: "/catalog" }, { title: "Tailleur", href: "/catalog" }] },
+        { label: "ACCESSOIRES", links: [{ title: "Sacs", href: "/catalog" }, { title: "Chaussures", href: "/catalog" }, { title: "Foulards & Soie", href: "/catalog" }, { title: "Bijoux", href: "/catalog" }, { title: "Ceintures", href: "/catalog" }, { title: "Boutons de Manchette", href: "/catalog" }] },
+        { label: "COLLECTIONS", links: [{ title: "Couture", href: "/catalog" }, { title: "Prêt-à-Porter", href: "/catalog" }, { title: "Resort", href: "/catalog" }, { title: "Archives", href: "/catalog" }, { title: "Tout Voir", href: "/catalog" }] },
+      ],
+      editorial: [
+        { label: "MAISON", links: [{ title: "Notre Histoire", href: "/" }, { title: "Jacques Fath", href: "/" }, { title: "Héritage & Archives", href: "/" }, { title: "Savoir-Faire", href: "/" }] },
+        { label: "ACTUALITÉS", links: [{ title: "Dernières Nouvelles", href: "/" }, { title: "Défilés & Événements", href: "/" }, { title: "Presse", href: "/" }, { title: "Collaborations", href: "/" }] },
+        { label: "SERVICES", links: [{ title: "Shopping Personnalisé", href: "/" }, { title: "Sur-Mesure", href: "/" }, { title: "Boutiques", href: "/" }, { title: "Prendre Rendez-vous", href: "/" }] },
       ],
     },
     hero: {
@@ -402,17 +413,22 @@ const translations: Record<Lang, Translations> = {
   },
   RU: {
     nav: {
-      catalog: "КАТАЛОГ",
+      menu: "МЕНЮ",
       search: "ПОИСК",
       account: "АККАУНТ",
       bag: "КОРЗИНА (0)",
     },
-    megaMenu: {
+    menu: {
       catalog: [
-        { title: "ЖЕНЩИНАМ", links: ["Новые Поступления", "Платья", "Пальто и Жакеты", "Топы и Блузки", "Брюки и Юбки", "Трикотаж", "Вечерние Наряды"] },
-        { title: "МУЖЧИНАМ", links: ["Новые Поступления", "Костюмы", "Пальто и Жакеты", "Рубашки", "Брюки", "Трикотаж", "Пошив"] },
-        { title: "АКСЕССУАРЫ", links: ["Сумки", "Обувь", "Платки и Шёлк", "Украшения", "Ремни", "Запонки"] },
-        { title: "КОЛЛЕКЦИИ", links: ["Кутюр", "Прет-а-порте", "Резорт", "Архив", "Смотреть Все"] },
+        { label: "ЖЕНЩИНАМ", links: [{ title: "Новые Поступления", href: "/catalog" }, { title: "Платья", href: "/catalog" }, { title: "Пальто и Жакеты", href: "/catalog" }, { title: "Топы и Блузки", href: "/catalog" }, { title: "Брюки и Юбки", href: "/catalog" }, { title: "Трикотаж", href: "/catalog" }, { title: "Вечерние Наряды", href: "/catalog" }] },
+        { label: "МУЖЧИНАМ", links: [{ title: "Новые Поступления", href: "/catalog" }, { title: "Костюмы", href: "/catalog" }, { title: "Пальто и Жакеты", href: "/catalog" }, { title: "Рубашки", href: "/catalog" }, { title: "Брюки", href: "/catalog" }, { title: "Трикотаж", href: "/catalog" }, { title: "Пошив", href: "/catalog" }] },
+        { label: "АКСЕССУАРЫ", links: [{ title: "Сумки", href: "/catalog" }, { title: "Обувь", href: "/catalog" }, { title: "Платки и Шёлк", href: "/catalog" }, { title: "Украшения", href: "/catalog" }, { title: "Ремни", href: "/catalog" }, { title: "Запонки", href: "/catalog" }] },
+        { label: "КОЛЛЕКЦИИ", links: [{ title: "Кутюр", href: "/catalog" }, { title: "Прет-а-порте", href: "/catalog" }, { title: "Резорт", href: "/catalog" }, { title: "Архив", href: "/catalog" }, { title: "Смотреть Все", href: "/catalog" }] },
+      ],
+      editorial: [
+        { label: "MAISON", links: [{ title: "Наша История", href: "/" }, { title: "Jacques Fath", href: "/" }, { title: "Наследие и Архив", href: "/" }, { title: "Мастерство", href: "/" }] },
+        { label: "НОВОСТИ", links: [{ title: "Последние Новости", href: "/" }, { title: "Показы и События", href: "/" }, { title: "Пресса", href: "/" }, { title: "Коллаборации", href: "/" }] },
+        { label: "СЕРВИС", links: [{ title: "Персональный Шопинг", href: "/" }, { title: "На Заказ", href: "/" }, { title: "Бутики", href: "/" }, { title: "Записаться на Приём", href: "/" }] },
       ],
     },
     hero: {
