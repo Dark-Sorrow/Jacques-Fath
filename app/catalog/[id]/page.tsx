@@ -185,14 +185,14 @@ function AlsoLikeSection({ currentId, products }: { currentId: string; products:
         </motion.p>
       </div>
 
-      {/* Cards — full width, 2 per row on desktop */}
-      <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: "2px" }}>
+      {/* Cards — single horizontal row, equal width */}
+      <div className="flex" style={{ gap: "2px" }}>
         {related.map((p, i) => (
           <motion.a
             key={p.id}
             href={`/catalog/${p.id}`}
-            className="group relative block overflow-hidden"
-            style={{ height: "70vh", backgroundColor: tones[i % tones.length] }}
+            className="group relative block overflow-hidden flex-1"
+            style={{ height: "65vh", backgroundColor: tones[i % tones.length] }}
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.15 }}
