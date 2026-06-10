@@ -442,22 +442,42 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                   {COLOR_SWATCHES.find((s) => s.value === selectedColor)?.label}
                 </span>
               </p>
-              <div className="flex items-center gap-4">
-                {COLOR_SWATCHES.map((sw) => (
-                  <button
-                    key={sw.value}
-                    aria-label={sw.label}
-                    onClick={() => setSelectedColor(sw.value)}
-                    className="transition-transform duration-200 hover:scale-110"
-                    style={{
-                      width: 26, height: 26, borderRadius: "50%",
-                      backgroundColor: sw.hex,
-                      border: selectedColor === sw.value ? "2px solid #4a3a2a" : "2px solid transparent",
-                      outline: selectedColor === sw.value ? "1px solid #c8bfb0" : "none",
-                      outlineOffset: "3px",
-                    }}
-                  />
-                ))}
+              <div className="flex items-end gap-5">
+                {COLOR_SWATCHES.map((sw) => {
+                  const active = selectedColor === sw.value
+                  return (
+                    <button
+                      key={sw.value}
+                      aria-label={sw.label}
+                      onClick={() => setSelectedColor(sw.value)}
+                      className="group flex flex-col items-center gap-2.5"
+                    >
+                      {/* swatch square */}
+                      <div
+                        className="relative transition-all duration-300"
+                        style={{
+                          width: active ? 34 : 28,
+                          height: active ? 34 : 28,
+                          backgroundColor: sw.hex,
+                          boxShadow: active
+                            ? `0 0 0 1px #f8f5f0, 0 0 0 2px ${sw.hex}`
+                            : "none",
+                        }}
+                      />
+                      {/* label — shows on hover or active */}
+                      <span
+                        className="font-sans text-[7px] tracking-[0.24em] uppercase transition-opacity duration-200"
+                        style={{
+                          color: "#9a8b7c",
+                          opacity: active ? 1 : 0,
+                          letterSpacing: "0.22em",
+                        }}
+                      >
+                        {sw.label}
+                      </span>
+                    </button>
+                  )
+                })}
               </div>
             </motion.div>
 
