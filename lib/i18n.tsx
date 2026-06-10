@@ -10,16 +10,12 @@ export type MegaMenuColumn = {
 }
 
 export type MegaMenuData = {
-  women: MegaMenuColumn[]
-  men: MegaMenuColumn[]
-  house: MegaMenuColumn[]
+  catalog: MegaMenuColumn[]
 }
 
 export type Translations = {
   nav: {
-    women: string
-    men: string
-    house: string
+    catalog: string
     search: string
     account: string
     bag: string
@@ -34,7 +30,7 @@ export type Translations = {
   collections: {
     women: string
     men: string
-    house: string
+    accessories: string
     discover: string
   }
   announcement: {
@@ -108,31 +104,17 @@ export type Translations = {
 const translations: Record<Lang, Translations> = {
   EN: {
     nav: {
-      women: "WOMEN",
-      men: "MEN",
-      house: "HOUSE",
+      catalog: "CATALOG",
       search: "SEARCH",
       account: "ACCOUNT",
       bag: "BAG (0)",
     },
     megaMenu: {
-      women: [
-        { title: "NEW IN", links: ["New Arrivals", "View All"] },
-        { title: "CLOTHING", links: ["Dresses", "Coats & Jackets", "Tops & Blouses", "Trousers & Skirts", "Knitwear", "Evening Wear"] },
-        { title: "ACCESSORIES", links: ["Bags", "Shoes", "Scarves & Silk", "Jewellery", "Belts"] },
-        { title: "COLLECTIONS", links: ["Couture", "Prêt-à-Porter", "Resort", "Archive"] },
-      ],
-      men: [
-        { title: "NEW IN", links: ["New Arrivals", "View All"] },
-        { title: "CLOTHING", links: ["Suits", "Coats & Jackets", "Shirts", "Trousers", "Knitwear", "Tailoring"] },
-        { title: "ACCESSORIES", links: ["Bags", "Shoes", "Ties & Pocket Squares", "Belts", "Cufflinks"] },
-        { title: "COLLECTIONS", links: ["Couture", "Prêt-à-Porter", "Resort", "Archive"] },
-      ],
-      house: [
-        { title: "THE HOUSE", links: ["Our Story", "Heritage", "Jacques Fath"] },
-        { title: "SAVOIR-FAIRE", links: ["Couture Ateliers", "Materials", "Archive"] },
-        { title: "NEWS", links: ["Latest News", "Events", "Press"] },
-        { title: "SERVICES", links: ["Personal Shopping", "Bespoke", "Boutiques"] },
+      catalog: [
+        { title: "WOMEN", links: ["New Arrivals", "Dresses", "Coats & Jackets", "Tops & Blouses", "Trousers & Skirts", "Knitwear", "Evening Wear"] },
+        { title: "MEN", links: ["New Arrivals", "Suits", "Coats & Jackets", "Shirts", "Trousers", "Knitwear", "Tailoring"] },
+        { title: "ACCESSORIES", links: ["Bags", "Shoes", "Scarves & Silk", "Jewellery", "Belts", "Cufflinks"] },
+        { title: "COLLECTIONS", links: ["Couture", "Prêt-à-Porter", "Resort", "Archive", "View All"] },
       ],
     },
     hero: {
@@ -144,7 +126,7 @@ const translations: Record<Lang, Translations> = {
     collections: {
       women: "WOMEN",
       men: "MEN",
-      house: "THE HOUSE",
+      accessories: "ACCESSORIES",
       discover: "Discover",
     },
     announcement: {
@@ -271,31 +253,17 @@ const translations: Record<Lang, Translations> = {
   },
   FR: {
     nav: {
-      women: "FEMME",
-      men: "HOMME",
-      house: "MAISON",
+      catalog: "CATALOGUE",
       search: "RECHERCHER",
       account: "COMPTE",
       bag: "PANIER (0)",
     },
     megaMenu: {
-      women: [
-        { title: "NOUVEAUTÉS", links: ["Nouvelles Arrivées", "Tout Voir"] },
-        { title: "VÊTEMENTS", links: ["Robes", "Manteaux & Vestes", "Tops & Blouses", "Pantalons & Jupes", "Maille", "Tenues de Soirée"] },
-        { title: "ACCESSOIRES", links: ["Sacs", "Chaussures", "Foulards & Soie", "Bijoux", "Ceintures"] },
-        { title: "COLLECTIONS", links: ["Couture", "Prêt-à-Porter", "Resort", "Archives"] },
-      ],
-      men: [
-        { title: "NOUVEAUTÉS", links: ["Nouvelles Arrivées", "Tout Voir"] },
-        { title: "VÊTEMENTS", links: ["Costumes", "Manteaux & Vestes", "Chemises", "Pantalons", "Maille", "Tailleur"] },
-        { title: "ACCESSOIRES", links: ["Sacs", "Chaussures", "Cravates & Pochettes", "Ceintures", "Boutons de Manchette"] },
-        { title: "COLLECTIONS", links: ["Couture", "Prêt-à-Porter", "Resort", "Archives"] },
-      ],
-      house: [
-        { title: "LA MAISON", links: ["Notre Histoire", "Héritage", "Jacques Fath"] },
-        { title: "SAVOIR-FAIRE", links: ["Ateliers Couture", "Matières", "Archives"] },
-        { title: "ACTUALITÉS", links: ["Dernières Nouvelles", "Événements", "Presse"] },
-        { title: "SERVICES", links: ["Shopping Personnalisé", "Sur-Mesure", "Boutiques"] },
+      catalog: [
+        { title: "FEMME", links: ["Nouvelles Arrivées", "Robes", "Manteaux & Vestes", "Tops & Blouses", "Pantalons & Jupes", "Maille", "Tenues de Soirée"] },
+        { title: "HOMME", links: ["Nouvelles Arrivées", "Costumes", "Manteaux & Vestes", "Chemises", "Pantalons", "Maille", "Tailleur"] },
+        { title: "ACCESSOIRES", links: ["Sacs", "Chaussures", "Foulards & Soie", "Bijoux", "Ceintures", "Boutons de Manchette"] },
+        { title: "COLLECTIONS", links: ["Couture", "Prêt-à-Porter", "Resort", "Archives", "Tout Voir"] },
       ],
     },
     hero: {
@@ -307,7 +275,7 @@ const translations: Record<Lang, Translations> = {
     collections: {
       women: "FEMME",
       men: "HOMME",
-      house: "LA MAISON",
+      accessories: "ACCESSOIRES",
       discover: "Découvrir",
     },
     announcement: {
@@ -434,31 +402,17 @@ const translations: Record<Lang, Translations> = {
   },
   RU: {
     nav: {
-      women: "ЖЕНЩИНАМ",
-      men: "МУЖЧИНАМ",
-      house: "ДОМ",
+      catalog: "КАТАЛОГ",
       search: "ПОИСК",
       account: "АККАУНТ",
       bag: "КОРЗИНА (0)",
     },
     megaMenu: {
-      women: [
-        { title: "НОВИНКИ", links: ["Новые Поступления", "Смотреть Все"] },
-        { title: "ОДЕЖДА", links: ["Платья", "Пальто и Жакеты", "Топы и Блузки", "Брюки и Юбки", "Трикотаж", "Вечерние Наряды"] },
-        { title: "АКСЕССУАРЫ", links: ["Сумки", "Обувь", "Платки и Шёлк", "Украшения", "Ремни"] },
-        { title: "КОЛЛЕКЦИИ", links: ["Кутюр", "Прет-а-порте", "Резорт", "Архив"] },
-      ],
-      men: [
-        { title: "НОВИНКИ", links: ["Новые Поступления", "Смотреть Все"] },
-        { title: "ОДЕЖДА", links: ["Костюмы", "Пальто и Жакеты", "Рубашки", "Брюки", "Трикотаж", "Пошив"] },
-        { title: "АКСЕССУАРЫ", links: ["Сумки", "Обувь", "Галстуки и Платки", "Ремни", "Запонки"] },
-        { title: "КОЛЛЕКЦИИ", links: ["Кутюр", "Прет-а-порте", "Резорт", "Архив"] },
-      ],
-      house: [
-        { title: "ДОМ", links: ["Наша История", "Наследие", "Jacques Fath"] },
-        { title: "МАСТЕРСТВО", links: ["Ателье Кутюр", "Материалы", "Архив"] },
-        { title: "НОВОСТИ", links: ["Последние Новости", "Мероприятия", "Пресса"] },
-        { title: "СЕРВИС", links: ["Персональный Шопинг", "На Заказ", "Бутики"] },
+      catalog: [
+        { title: "ЖЕНЩИНАМ", links: ["Новые Поступления", "Платья", "Пальто и Жакеты", "Топы и Блузки", "Брюки и Юбки", "Трикотаж", "Вечерние Наряды"] },
+        { title: "МУЖЧИНАМ", links: ["Новые Поступления", "Костюмы", "Пальто и Жакеты", "Рубашки", "Брюки", "Трикотаж", "Пошив"] },
+        { title: "АКСЕССУАРЫ", links: ["Сумки", "Обувь", "Платки и Шёлк", "Украшения", "Ремни", "Запонки"] },
+        { title: "КОЛЛЕКЦИИ", links: ["Кутюр", "Прет-а-порте", "Резорт", "Архив", "Смотреть Все"] },
       ],
     },
     hero: {
@@ -470,7 +424,7 @@ const translations: Record<Lang, Translations> = {
     collections: {
       women: "ЖЕНЩИНАМ",
       men: "МУЖЧИНАМ",
-      house: "ДОМ",
+      accessories: "АКСЕССУАРЫ",
       discover: "Открыть",
     },
     announcement: {
@@ -553,7 +507,7 @@ const translations: Record<Lang, Translations> = {
         { id: 4, name: "Плиссированная Блуза из Шифона", price: "€ 890", category: "tops" },
         { id: 5, name: "Широкие Шерстяные Брюки", price: "€ 1 450", category: "trousers" },
         { id: 6, name: "Водолазка из Мериноса", price: "€ 760", category: "knitwear" },
-        { id: 7, name: "Кожаные Туфли", price: "€ 1 100", category: "shoes" },
+        { id: 7, name: "Кожаные Т��фли", price: "€ 1 100", category: "shoes" },
         { id: 8, name: "Платье Миди с Поясом", price: "€ 2 700", category: "dresses" },
         { id: 9, name: "Двубортный Блейзер", price: "€ 3 400", category: "coats" },
         { id: 10, name: "Минодьер на Цепочке", price: "€ 1 800", category: "bags" },

@@ -8,7 +8,7 @@ import { useLang, type Lang, type MegaMenuColumn } from "@/lib/i18n"
 
 const LANGS: Lang[] = ["RU", "EN", "FR"]
 
-type NavKey = "women" | "men" | "house" | null
+type NavKey = "catalog" | null
 
 function MegaMenuPanel({
   columns,
@@ -98,19 +98,10 @@ export default function Navbar() {
   }, [])
 
   const navItems: { key: NavKey; label: string }[] = [
-    { key: "women", label: t.nav.women },
-    { key: "men", label: t.nav.men },
-    { key: "house", label: t.nav.house },
+    { key: "catalog", label: t.nav.catalog },
   ]
 
-  const megaColumns =
-    activeNav === "women"
-      ? t.megaMenu.women
-      : activeNav === "men"
-      ? t.megaMenu.men
-      : activeNav === "house"
-      ? t.megaMenu.house
-      : []
+  const megaColumns = activeNav === "catalog" ? t.megaMenu.catalog : []
 
   const isScrolledOrActive = scrolled || activeNav !== null
 
@@ -255,7 +246,7 @@ export default function Navbar() {
                 {/* Accordion nav items */}
                 {navItems.map(({ key, label }, i) => {
                   const isOpen = mobileExpanded === key
-                  const columns = t.megaMenu[key as Exclude<NavKey, null>]
+                  const columns = t.megaMenu.catalog
                   return (
                     <motion.div
                       key={key}

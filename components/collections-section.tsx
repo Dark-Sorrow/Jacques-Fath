@@ -12,7 +12,7 @@ export default function CollectionsSection() {
   const categories = [
     { key: "women", label: t.collections.women, bg: "#2e2c29", image: "/collection-women.png" },
     { key: "men", label: t.collections.men, bg: "#1e1e1e", image: "/collection-men.png" },
-    { key: "house", label: t.collections.house, bg: "#1a0a0a", image: "/collection-house.png" },
+    { key: "accessories", label: t.collections.accessories, bg: "#1a0a0a", image: "/collection-accessories.png" },
   ]
 
   return (
