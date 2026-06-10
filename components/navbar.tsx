@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import { Search, User, ShoppingBag, Menu, X } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
+import Link from "next/link"
 import { useLang, type Lang, type MegaMenuColumn } from "@/lib/i18n"
 
 const LANGS: Lang[] = ["RU", "EN", "FR"]
@@ -171,15 +172,15 @@ export default function Navbar() {
 
           {/* Center wordmark */}
           <div className="absolute left-1/2 -translate-x-1/2">
-            <a
-              href="#"
+            <Link
+              href="/"
               aria-label="Maison Jacques Fath — Home"
               className="opacity-90 hover:opacity-100 transition-opacity duration-300"
             >
               <span className="font-serif text-[11px] tracking-[0.28em] text-white/90 leading-none whitespace-nowrap">
                 MAISON JACQUES FATH
               </span>
-            </a>
+            </Link>
           </div>
 
           {/* Right nav */}
