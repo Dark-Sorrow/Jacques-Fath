@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Search, User, ShoppingBag, X } from "lucide-react"
+import { Search, User, ShoppingBag } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 import Link from "next/link"
 import { useLang, type Lang } from "@/lib/i18n"
@@ -40,13 +40,19 @@ export default function Navbar() {
         >
           <div className="flex items-center justify-between px-6 md:px-10 h-14">
 
-            {/* Left — MENU button */}
+            {/* Left — MENU button: text on desktop, hamburger on mobile */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               className="flex items-center gap-2.5 group"
             >
-              <div className="flex flex-col gap-[5px] w-5">
+              {/* Desktop: text only */}
+              <span className="hidden md:block font-sans text-[9px] tracking-[0.28em] text-white/70 group-hover:text-white transition-colors duration-200">
+                {t.nav.menu}
+              </span>
+
+              {/* Mobile: hamburger / X only */}
+              <div className="flex md:hidden flex-col gap-[5px] w-5">
                 <motion.span
                   animate={menuOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
                   transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
@@ -63,9 +69,6 @@ export default function Navbar() {
                   className="block h-px w-full bg-white/70 origin-center"
                 />
               </div>
-              <span className="hidden md:block font-sans text-[9px] tracking-[0.28em] text-white/70 group-hover:text-white transition-colors duration-200">
-                {menuOpen ? <X size={9} className="inline" /> : t.nav.menu}
-              </span>
             </button>
 
             {/* Center wordmark */}
