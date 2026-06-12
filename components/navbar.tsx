@@ -8,6 +8,56 @@ import { useLang, type Lang } from "@/lib/i18n"
 
 const LANGS: Lang[] = ["RU", "EN", "FR"]
 
+function MobileAccordion({
+  section,
+  onClose,
+}: {
+  section: { label: string; links: { title: string; href: string }[] }
+  onClose: () => void
+}) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+      <button
+        className="w-full flex items-center justify-between py-3.5"
+        onClick={() => setOpen(!open)}
+      >
+        <span className="font-serif text-[12px] tracking-[0.1em] text-white/80">{section.label}</span>
+        <motion.span
+          animate={{ rotate: open ? 45 : 0 }}
+          transition={{ duration: 0.22 }}
+          className="font-sans text-[18px] leading-none text-white/30 select-none"
+        >
+          +
+        </motion.span>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.ul
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden flex flex-col gap-2 pb-3"
+          >
+            {section.links.map((link) => (
+              <li key={link.title}>
+                <Link
+                  href={link.href}
+                  onClick={onClose}
+                  className="font-sans text-[10px] tracking-[0.06em] text-white/35 hover:text-white/75 transition-colors duration-200 block py-0.5"
+                >
+                  {link.title}
+                </Link>
+              </li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -154,8 +204,8 @@ export default function Navbar() {
               >
                 <div className="px-8 md:px-14 py-10 grid grid-cols-1 md:grid-cols-[3fr_1px_2fr] gap-0">
 
-                  {/* Catalog columns */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pr-0 md:pr-14 pb-10 md:pb-0">
+                    {/* ── DESKTOP: flat columns ── */}
+                  <div className="hidden md:grid md:grid-cols-4 gap-8 pr-14">
                     {t.menu.catalog.map((section, i) => (
                       <motion.div
                         key={section.label}
@@ -164,17 +214,11 @@ export default function Navbar() {
                         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: i * 0.05 }}
                         className="flex flex-col gap-3"
                       >
-                        <p className="font-serif text-white/85 text-[13px] tracking-[0.1em] mb-1">
-                          {section.label}
-                        </p>
+                        <p className="font-serif text-white/85 text-[13px] tracking-[0.1em] mb-1">{section.label}</p>
                         <ul className="flex flex-col gap-1.5">
                           {section.links.map((link) => (
                             <li key={link.title}>
-                              <Link
-                                href={link.href}
-                                onClick={() => setMenuOpen(false)}
-                                className="font-sans text-[10px] tracking-[0.06em] text-white/35 hover:text-white/80 transition-colors duration-200"
-                              >
+                              <Link href={link.href} onClick={() => setMenuOpen(false)} className="font-sans text-[10px] tracking-[0.06em] text-white/35 hover:text-white/80 transition-colors duration-200">
                                 {link.title}
                               </Link>
                             </li>
@@ -184,13 +228,11 @@ export default function Navbar() {
                     ))}
                   </div>
 
-                  {/* Vertical divider */}
-                  <div className="hidden md:block w-px mx-0" style={{ backgroundColor: "rgba(255,255,255,0.07)" }} />
+                  {/* Vertical divider — desktop only */}
+                  <div className="hidden md:block w-px" style={{ backgroundColor: "rgba(255,255,255,0.07)" }} />
 
-                  {/* Editorial columns */}
-                  <div className="flex flex-col md:flex-row gap-10 pl-0 md:pl-14"
-                    style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: "2.5rem" }}
-                  >
+                  {/* Desktop editorial */}
+                  <div className="hidden md:flex flex-row gap-10 pl-14">
                     {t.menu.editorial.map((section, i) => (
                       <motion.div
                         key={section.label}
@@ -199,17 +241,11 @@ export default function Navbar() {
                         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: 0.12 + i * 0.06 }}
                         className="flex flex-col gap-3 flex-1"
                       >
-                        <p className="font-serif text-white/85 text-[13px] tracking-[0.1em] mb-1">
-                          {section.label}
-                        </p>
+                        <p className="font-serif text-white/85 text-[13px] tracking-[0.1em] mb-1">{section.label}</p>
                         <ul className="flex flex-col gap-1.5">
                           {section.links.map((link) => (
                             <li key={link.title}>
-                              <Link
-                                href={link.href}
-                                onClick={() => setMenuOpen(false)}
-                                className="font-sans text-[10px] tracking-[0.06em] text-white/35 hover:text-white/80 transition-colors duration-200"
-                              >
+                              <Link href={link.href} onClick={() => setMenuOpen(false)} className="font-sans text-[10px] tracking-[0.06em] text-white/35 hover:text-white/80 transition-colors duration-200">
                                 {link.title}
                               </Link>
                             </li>
@@ -219,11 +255,33 @@ export default function Navbar() {
                     ))}
                   </div>
 
+                  {/* ── MOBILE: accordion ── */}
+                  <div className="flex md:hidden flex-col col-span-full">
+                    {[...t.menu.catalog, ...t.menu.editorial].map((section) => (
+                      <MobileAccordion key={section.label} section={section} onClose={() => setMenuOpen(false)} />
+                    ))}
+                    {/* Language switcher — mobile only */}
+                    <div className="flex items-center gap-0.5 pt-5 mt-2" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+                      {LANGS.map((l, i) => (
+                        <span key={l} className="flex items-center">
+                          <button
+                            onClick={() => setLang(l)}
+                            className="font-sans text-[9px] tracking-[0.22em] transition-colors duration-200 px-2 py-1"
+                            style={{ color: lang === l ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.25)" }}
+                          >
+                            {l}
+                          </button>
+                          {i < LANGS.length - 1 && <span className="text-white/15 text-[9px] select-none">/</span>}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
                 </div>
 
-                {/* Bottom strip */}
+                {/* Bottom strip — desktop only */}
                 <div
-                  className="px-8 md:px-14 py-4 flex items-center justify-between"
+                  className="hidden md:flex px-14 py-4 items-center justify-between"
                   style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
                 >
                   <div className="flex items-center gap-0.5">
