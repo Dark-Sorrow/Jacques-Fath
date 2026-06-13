@@ -264,25 +264,71 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
   const [added, setAdded] = useState(false)
   const [activeSlide, setActiveSlide] = useState(0)
 
-  // One sentinel div per slide — when it enters viewport, that slide activates
-  const sentinelRefs = useRef<(HTMLDivElement | null)[]>([])
+  const galleryRef    = useRef<HTMLDivElement>(null)
+  const activeSlideRef = useRef(0)
+  const lockedRef     = useRef(false)
+  const touchStartY   = useRef(0)
+
+  // Keep ref in sync with state
+  useEffect(() => { activeSlideRef.current = activeSlide }, [activeSlide])
 
   useEffect(() => {
-    const observers: IntersectionObserver[] = []
+    const THROTTLE = 800 // ms between slide changes
 
-    sentinelRefs.current.forEach((el, i) => {
-      if (!el) return
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) setActiveSlide(i)
-        },
-        { threshold: 0.5 }
-      )
-      obs.observe(el)
-      observers.push(obs)
-    })
+    const isGalleryInView = () => {
+      const el = galleryRef.current
+      if (!el) return false
+      const rect = el.getBoundingClientRect()
+      return rect.top <= 0 && rect.bottom >= window.innerHeight
+    }
 
-    return () => observers.forEach((o) => o.disconnect())
+    const tryAdvance = (direction: 1 | -1) => {
+      const cur = activeSlideRef.current
+      const next = cur + direction
+
+      if (next >= 0 && next < PHOTO_COUNT) {
+        // still have slides — lock page and switch
+        if (lockedRef.current) return
+        lockedRef.current = true
+        setActiveSlide(next)
+        setTimeout(() => { lockedRef.current = false }, THROTTLE)
+        return true // consumed
+      }
+      return false // let page scroll naturally
+    }
+
+    const onWheel = (e: WheelEvent) => {
+      if (!isGalleryInView()) return
+      const dir = e.deltaY > 0 ? 1 : -1
+      const consumed = tryAdvance(dir)
+      if (consumed) e.preventDefault()
+    }
+
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY.current = e.touches[0].clientY
+    }
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (!isGalleryInView()) return
+      const dy = touchStartY.current - e.touches[0].clientY
+      if (Math.abs(dy) < 10) return
+      const dir = dy > 0 ? 1 : -1
+      const consumed = tryAdvance(dir)
+      if (consumed) {
+        e.preventDefault()
+        touchStartY.current = e.touches[0].clientY
+      }
+    }
+
+    window.addEventListener("wheel", onWheel, { passive: false })
+    window.addEventListener("touchstart", onTouchStart, { passive: true })
+    window.addEventListener("touchmove", onTouchMove, { passive: false })
+
+    return () => {
+      window.removeEventListener("wheel", onWheel)
+      window.removeEventListener("touchstart", onTouchStart)
+      window.removeEventListener("touchmove", onTouchMove)
+    }
   }, [])
 
   const handleAdd = () => {
@@ -295,13 +341,12 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
     <div className="min-h-screen" style={{ backgroundColor: "#f8f5f0" }}>
       <Navbar />
 
-      <div className="flex flex-col md:flex-row" style={{ paddingTop: "0px" }}>
+      {/* Gallery + info — 100vh, no tall scroll container */}
+      <div ref={galleryRef} className="flex flex-col md:flex-row" style={{ height: "100vh" }}>
 
-        {/* ── LEFT: sticky photo viewer ───────────────────────────── */}
-        <div className="hidden md:block md:w-1/2 relative" style={{ height: `${PHOTO_COUNT * 100}vh` }}>
-
-          {/* sticky frame that holds the slides */}
-          <div className="sticky top-0 h-screen overflow-hidden">
+        {/* ── LEFT: photo viewer ──────────────────────────────────── */}
+        <div className="hidden md:block md:w-1/2 relative h-full overflow-hidden">
+          <div className="h-full overflow-hidden">
             {Array.from({ length: PHOTO_COUNT }, (_, i) => {
               const tone = TONES[(Number(id) - 1 + i) % TONES.length]
               const isActive = activeSlide === i
@@ -366,25 +411,11 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
             </div>
           </div>
 
-          {/* Sentinels — invisible divs that trigger slide change on scroll */}
-          {Array.from({ length: PHOTO_COUNT }, (_, i) => (
-            <div
-              key={i}
-              ref={(el) => { sentinelRefs.current[i] = el }}
-              style={{
-                position: "absolute",
-                top: `${i * 100}vh`,
-                height: "100vh",
-                width: "1px",
-                pointerEvents: "none",
-              }}
-            />
-          ))}
         </div>
 
-        {/* ── RIGHT: sticky info panel ────────────────────────────── */}
+        {/* ── RIGHT: info panel ───────────────────────────────────── */}
         <div
-          className="md:w-1/2 md:sticky md:top-0 md:h-screen flex flex-col justify-between pt-24 pb-12 px-10 xl:px-16"
+          className="md:w-1/2 h-full flex flex-col justify-between pt-24 pb-12 px-10 xl:px-16 overflow-y-auto"
           style={{ borderLeft: "1px solid #e8e2da" }}
         >
           {/* Breadcrumb */}
