@@ -281,25 +281,9 @@ export default function Navbar() {
 
                 {/* Bottom strip — desktop only */}
                 <div
-                  className="hidden md:flex px-14 py-4 items-center justify-between"
+                  className="hidden md:flex px-14 py-4 items-center justify-end"
                   style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
                 >
-                  <div className="flex items-center gap-0.5">
-                    {LANGS.map((l, i) => (
-                      <span key={l} className="flex items-center">
-                        <button
-                          onClick={() => setLang(l)}
-                          className="font-sans text-[8px] tracking-[0.22em] transition-colors duration-200 px-2 py-1"
-                          style={{ color: lang === l ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.22)" }}
-                        >
-                          {l}
-                        </button>
-                        {i < LANGS.length - 1 && (
-                          <span className="text-white/12 text-[8px] select-none">/</span>
-                        )}
-                      </span>
-                    ))}
-                  </div>
                   <p className="font-sans text-[7px] tracking-[0.28em] text-white/18">
                     MAISON JACQUES FATH — PARIS, EST. 1937
                   </p>
