@@ -295,47 +295,10 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
     <div className="min-h-screen" style={{ backgroundColor: "#f8f5f0" }}>
       <Navbar />
 
-      {/* Mobile layout — simple vertical stack */}
-      <div className="md:hidden flex flex-col">
-        {/* photo strip */}
-        <div className="flex gap-0.5 overflow-x-auto snap-x snap-mandatory" style={{ height: "60vw" }}>
-          {Array.from({ length: PHOTO_COUNT }, (_, i) => {
-            const tone = TONES[(Number(id) - 1 + i) % TONES.length]
-            return (
-              <div
-                key={i}
-                className="snap-start shrink-0 flex items-end p-4"
-                style={{ width: "85vw", height: "100%", backgroundColor: tone }}
-              >
-                <span className="font-serif" style={{ fontSize: 60, color: "rgba(80,65,50,0.08)", lineHeight: 1 }}>
-                  {String(Number(id) * 10 + i + 1).padStart(2, "0")}
-                </span>
-              </div>
-            )
-          })}
-        </div>
-        {/* info — scrollable below photo */}
-        <div className="px-6 pt-8 pb-12" style={{ backgroundColor: "#f8f5f0" }}>
-          <p className="font-sans text-[8px] tracking-[0.3em] mb-2 uppercase" style={{ color: "#b0a090" }}>
-            Maison Jacques Fath — Paris
-          </p>
-          <h1 className="font-serif leading-tight mb-2" style={{ fontSize: 24, letterSpacing: "0.06em", color: "#1a120a" }}>
-            {product.name}
-          </h1>
-          <p className="font-sans mb-8" style={{ fontSize: 14, letterSpacing: "0.14em", color: "#4a3a2a" }}>
-            {product.price}
-          </p>
-          <Link href="/catalog" className="font-sans text-[8px] tracking-[0.3em] underline" style={{ color: "#b0a090" }}>
-            {c.title}
-          </Link>
-        </div>
-      </div>
+      <div className="flex flex-col md:flex-row" style={{ paddingTop: "0px" }}>
 
-      {/* Two-column sticky layout — no overflow on any ancestor */}
-      <div className="hidden md:flex flex-row">
-
-        {/* ── LEFT: tall scroll container with sticky viewer inside ── */}
-        <div className="w-1/2 relative" style={{ height: `${PHOTO_COUNT * 100}vh` }}>
+        {/* ── LEFT: sticky photo viewer ───────────────────────────── */}
+        <div className="hidden md:block md:w-1/2 relative" style={{ height: `${PHOTO_COUNT * 100}vh` }}>
 
           {/* sticky frame that holds the slides */}
           <div className="sticky top-0 h-screen overflow-hidden">
@@ -421,8 +384,8 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
 
         {/* ── RIGHT: sticky info panel ────────────────────────────── */}
         <div
-          className="w-1/2 flex flex-col justify-between pt-24 pb-12 px-10 xl:px-16"
-          style={{ position: "sticky", top: 0, height: "100vh", borderLeft: "1px solid #e8e2da", overflowY: "auto" }}
+          className="md:w-1/2 md:sticky md:top-0 md:h-screen flex flex-col justify-between pt-24 pb-12 px-10 xl:px-16"
+          style={{ borderLeft: "1px solid #e8e2da" }}
         >
           {/* Breadcrumb */}
           <div>
