@@ -37,7 +37,9 @@ export default function RootLayout({
     <html lang="fr" className="bg-background">
       <body className={`${mulish.variable} ${cinzel.variable} font-sans antialiased`}>
         <LangProvider>
-          {children}
+          <div style={{ overflowX: "hidden" }}>
+            {children}
+          </div>
         </LangProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
