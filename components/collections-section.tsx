@@ -17,7 +17,7 @@ export default function CollectionsSection() {
 
   return (
     <section
-      className="w-full flex"
+      className="w-full flex overflow-hidden"
       style={{ height: "75vh" }}
       aria-label="Categories"
       onMouseLeave={() => setHovered(null)}
