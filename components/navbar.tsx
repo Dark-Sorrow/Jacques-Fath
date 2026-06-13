@@ -69,36 +69,23 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Prevent body scroll jitter — use padding compensation
-  useEffect(() => {
-    if (menuOpen) {
-      const scrollbarW = window.innerWidth - document.documentElement.clientWidth
-      document.body.style.paddingRight = `${scrollbarW}px`
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.paddingRight = ""
-      document.body.style.overflow = ""
-    }
-    return () => {
-      document.body.style.paddingRight = ""
-      document.body.style.overflow = ""
-    }
-  }, [menuOpen])
+  // No scroll lock — menu is a dropdown, not fullscreen
+  // Nothing to do here
 
   const solidBg = scrolled || menuOpen
 
   return (
     <>
-      {/* Always reserve 1px border so layout never shifts */}
-      <div className="fixed top-0 left-0 right-0 z-50" style={{ borderBottom: "1px solid transparent" }}>
-        <header
-          className="transition-colors duration-400"
-          style={{
-            backgroundColor: solidBg ? "rgba(14,12,10,0.97)" : "transparent",
-            borderBottom: solidBg ? "1px solid rgba(255,255,255,0.07)" : "1px solid transparent",
-            backdropFilter: solidBg ? "blur(14px)" : "none",
-          }}
-        >
+      <header
+        className="fixed top-0 left-0 z-50 transition-colors duration-400"
+        style={{
+          right: "0px",
+          width: "100%",
+          backgroundColor: solidBg ? "rgba(14,12,10,0.97)" : "transparent",
+          borderBottom: solidBg ? "1px solid rgba(255,255,255,0.07)" : "1px solid transparent",
+          backdropFilter: solidBg ? "blur(14px)" : "none",
+        }}
+      >
           <div className="flex items-center justify-between px-6 md:px-10 h-14">
 
             {/* Left — MENU */}
@@ -291,8 +278,7 @@ export default function Navbar() {
               </motion.div>
             )}
           </AnimatePresence>
-        </header>
-      </div>
+      </header>
 
       {/* Click-away backdrop */}
       <AnimatePresence>
