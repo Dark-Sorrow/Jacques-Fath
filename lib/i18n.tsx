@@ -119,7 +119,7 @@ const translations: Record<Lang, Translations> = {
       ],
       editorial: [
         { label: "MAISON", links: [{ title: "Our Story", href: "/" }, { title: "Jacques Fath", href: "/" }, { title: "Heritage & Archives", href: "/" }, { title: "Savoir-Faire", href: "/" }] },
-        { label: "NEWS", links: [{ title: "Latest News", href: "/" }, { title: "Shows & Events", href: "/" }, { title: "Press", href: "/" }, { title: "Collaborations", href: "/" }] },
+        { label: "NEWS", links: [{ title: "Latest News", href: "/news" }, { title: "Shows & Events", href: "/" }, { title: "Press", href: "/" }, { title: "Collaborations", href: "/" }] },
         { label: "SERVICES", links: [{ title: "Personal Shopping", href: "/" }, { title: "Bespoke", href: "/" }, { title: "Boutiques", href: "/" }, { title: "Book an Appointment", href: "/" }] },
       ],
     },
@@ -273,7 +273,7 @@ const translations: Record<Lang, Translations> = {
       ],
       editorial: [
         { label: "MAISON", links: [{ title: "Notre Histoire", href: "/" }, { title: "Jacques Fath", href: "/" }, { title: "Héritage & Archives", href: "/" }, { title: "Savoir-Faire", href: "/" }] },
-        { label: "ACTUALITÉS", links: [{ title: "Dernières Nouvelles", href: "/" }, { title: "Défilés & Événements", href: "/" }, { title: "Presse", href: "/" }, { title: "Collaborations", href: "/" }] },
+        { label: "ACTUALITÉS", links: [{ title: "Dernières Nouvelles", href: "/news" }, { title: "Défilés & Événements", href: "/" }, { title: "Presse", href: "/" }, { title: "Collaborations", href: "/" }] },
         { label: "SERVICES", links: [{ title: "Shopping Personnalisé", href: "/" }, { title: "Sur-Mesure", href: "/" }, { title: "Boutiques", href: "/" }, { title: "Prendre Rendez-vous", href: "/" }] },
       ],
     },
@@ -427,7 +427,7 @@ const translations: Record<Lang, Translations> = {
       ],
       editorial: [
         { label: "MAISON", links: [{ title: "Наша История", href: "/" }, { title: "Jacques Fath", href: "/" }, { title: "Наследие и Архив", href: "/" }, { title: "Мастерство", href: "/" }] },
-        { label: "НОВОСТИ", links: [{ title: "Последние Новости", href: "/" }, { title: "Показы и События", href: "/" }, { title: "Пресса", href: "/" }, { title: "Коллаборации", href: "/" }] },
+        { label: "НОВОСТИ", links: [{ title: "Последние Новости", href: "/news" }, { title: "Показы и События", href: "/" }, { title: "Пресса", href: "/" }, { title: "Коллаборации", href: "/" }] },
         { label: "СЕРВИС", links: [{ title: "Персональный Шопинг", href: "/" }, { title: "На Заказ", href: "/" }, { title: "Бутики", href: "/" }, { title: "Записаться на Приём", href: "/" }] },
       ],
     },
@@ -478,7 +478,7 @@ const translations: Record<Lang, Translations> = {
       },
       madeIn: {
         title: "СДЕЛАНО ВО ФРАНЦИИ",
-        description: "Изготовлено с исключительным мастерством во Франции.",
+        description: "Изготовлено с исключительным мастерством во Фра��ции.",
       },
     },
     catalog: {
@@ -492,7 +492,7 @@ const translations: Record<Lang, Translations> = {
         { value: "price-desc", label: "Цена: По убыванию" },
       ],
       categories: [
-        { value: "all", label: "Все Позиции" },
+        { value: "all", label: "Все Пози��ии" },
         { value: "dresses", label: "Платья" },
         { value: "coats", label: "Пальто и Жакеты" },
         { value: "tops", label: "Топы и Блузки" },
