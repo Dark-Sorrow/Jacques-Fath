@@ -1,7 +1,6 @@
 import Navbar from "@/components/navbar"
 import HeroSection from "@/components/hero-section"
 import CollectionsSection from "@/components/collections-section"
-import AnnouncementSection from "@/components/announcement-section"
 import MaisonSection from "@/components/maison-section"
 import NewArrivalsSection from "@/components/new-arrivals-section"
 import HeritageSection from "@/components/heritage-section"
@@ -14,7 +13,6 @@ export default function Home() {
       <main>
         <HeroSection />
         <CollectionsSection />
-        <AnnouncementSection />
         <MaisonSection />
         <NewArrivalsSection />
         <HeritageSection />
