@@ -8,28 +8,24 @@ import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import { useLang } from "@/lib/i18n"
 
-const TONES = [
-  "#e8e2d9", "#ddd6cc", "#e5dfd6", "#d8d1c7",
-  "#ebe5dc", "#d5cec4", "#e0d9cf", "#dbd4ca",
-  "#e3ddd4", "#d6cfc5", "#ece6dd", "#d9d2c8",
+// Real product images — cycle through for all 12 products
+const PRODUCT_IMAGES = [
+  "/images/products/studio-489.jpg",  // teal/magenta dress
+  "/images/products/studio-044.jpg",  // brocade gown
+  "/images/products/studio-026.jpg",  // red dress
+  "/images/products/studio-276.jpg",  // white ruffle dress
+  "/images/products/studio-438.jpg",  // blazer + culottes
 ]
 
-function Placeholder({ index, tone }: { index: number; tone: string }) {
+function ProductImage({ index }: { index: number }) {
+  const src = PRODUCT_IMAGES[(index - 1) % PRODUCT_IMAGES.length]
   return (
-    <div
-      className="absolute inset-0 flex items-end justify-start p-8"
-      style={{ backgroundColor: tone }}
-    >
-      <span
-        className="font-serif select-none leading-none"
-        style={{
-          fontSize: "clamp(80px, 14vw, 200px)",
-          color: "rgba(80,65,50,0.08)",
-          letterSpacing: "-0.04em",
-        }}
-      >
-        {String(index).padStart(2, "0")}
-      </span>
+    <div className="absolute inset-0 overflow-hidden" style={{ backgroundColor: "#c8955e" }}>
+      <img
+        src={src}
+        alt=""
+        className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+      />
     </div>
   )
 }
@@ -50,7 +46,6 @@ function ProductCard({
   isNew: boolean
 }) {
   const [hovered, setHovered] = useState(false)
-  const tone = TONES[index % TONES.length]
   const router = useRouter()
 
   return (
@@ -65,8 +60,8 @@ function ProductCard({
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: (index % 3) * 0.18 }}
     >
-      {/* Full-bleed placeholder */}
-      <Placeholder index={product.id} tone={tone} />
+      {/* Product image */}
+      <ProductImage index={product.id} />
 
       {/* Subtle bottom gradient for text legibility */}
       <div
