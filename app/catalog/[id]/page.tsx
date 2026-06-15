@@ -309,7 +309,15 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
     }
 
     const onWheel = (e: WheelEvent) => {
-      if (!slideLockedRef.current) return
+      // If unlocked but user scrolled back to very top — re-lock and go to last slide
+      if (!slideLockedRef.current) {
+        if (e.deltaY < 0 && window.scrollY === 0) {
+          setSlideLocked(true)
+          setActiveSlide(PHOTO_COUNT - 1)
+          activeSlideRef.current = PHOTO_COUNT - 1
+        }
+        return
+      }
       e.preventDefault()
       advance(e.deltaY > 0 ? 1 : -1)
     }
@@ -319,9 +327,19 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
     }
 
     const onTouchMove = (e: TouchEvent) => {
-      if (!slideLockedRef.current) return
       const dy = touchStartY.current - e.touches[0].clientY
       if (Math.abs(dy) < 10) return
+
+      // If unlocked but scrolled back to top — re-lock
+      if (!slideLockedRef.current) {
+        if (dy < 0 && window.scrollY === 0) {
+          setSlideLocked(true)
+          setActiveSlide(PHOTO_COUNT - 1)
+          activeSlideRef.current = PHOTO_COUNT - 1
+          touchStartY.current = e.touches[0].clientY
+        }
+        return
+      }
       e.preventDefault()
       advance(dy > 0 ? 1 : -1)
       touchStartY.current = e.touches[0].clientY
