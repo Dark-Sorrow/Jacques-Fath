@@ -263,45 +263,55 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
   const [selectedSize,  setSelectedSize]  = useState<string | null>(null)
   const [added, setAdded] = useState(false)
   const [activeSlide, setActiveSlide] = useState(0)
+  // true = still viewing slides, page is locked
+  const [slideLocked, setSlideLocked] = useState(true)
 
-  const galleryRef    = useRef<HTMLDivElement>(null)
   const activeSlideRef = useRef(0)
-  const lockedRef     = useRef(false)
-  const touchStartY   = useRef(0)
+  const slideLockedRef = useRef(true)
+  const throttleRef    = useRef(false)
+  const touchStartY    = useRef(0)
 
-  // Keep ref in sync with state
+  // Keep refs in sync
   useEffect(() => { activeSlideRef.current = activeSlide }, [activeSlide])
+  useEffect(() => { slideLockedRef.current = slideLocked }, [slideLocked])
+
+  // Lock / unlock body scroll
+  useEffect(() => {
+    if (slideLocked) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+    return () => { document.body.style.overflow = "" }
+  }, [slideLocked])
 
   useEffect(() => {
-    const THROTTLE = 800 // ms between slide changes
+    const THROTTLE = 750
 
-    const isGalleryInView = () => {
-      const el = galleryRef.current
-      if (!el) return false
-      const rect = el.getBoundingClientRect()
-      return rect.top <= 0 && rect.bottom >= window.innerHeight
-    }
+    const advance = (dir: 1 | -1) => {
+      if (!slideLockedRef.current) return // already unlocked, native scroll
+      if (throttleRef.current) return
+      throttleRef.current = true
+      setTimeout(() => { throttleRef.current = false }, THROTTLE)
 
-    const tryAdvance = (direction: 1 | -1) => {
-      const cur = activeSlideRef.current
-      const next = cur + direction
+      const next = activeSlideRef.current + dir
 
       if (next >= 0 && next < PHOTO_COUNT) {
-        // still have slides — lock page and switch
-        if (lockedRef.current) return
-        lockedRef.current = true
         setActiveSlide(next)
-        setTimeout(() => { lockedRef.current = false }, THROTTLE)
-        return true // consumed
+        // if scrolling forward and reached last slide, unlock after transition
+        if (next === PHOTO_COUNT - 1 && dir === 1) {
+          setTimeout(() => setSlideLocked(false), THROTTLE)
+        }
+        // if scrolling backward and not on first slide yet, keep locked
+      } else if (dir === -1 && activeSlideRef.current === 0) {
+        // already at first — stay locked, nothing to do
       }
-      return false // let page scroll naturally
     }
 
     const onWheel = (e: WheelEvent) => {
-      if (!isGalleryInView()) return
-      const dir = e.deltaY > 0 ? 1 : -1
-      const consumed = tryAdvance(dir)
-      if (consumed) e.preventDefault()
+      if (!slideLockedRef.current) return
+      e.preventDefault()
+      advance(e.deltaY > 0 ? 1 : -1)
     }
 
     const onTouchStart = (e: TouchEvent) => {
@@ -309,15 +319,12 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
     }
 
     const onTouchMove = (e: TouchEvent) => {
-      if (!isGalleryInView()) return
+      if (!slideLockedRef.current) return
       const dy = touchStartY.current - e.touches[0].clientY
       if (Math.abs(dy) < 10) return
-      const dir = dy > 0 ? 1 : -1
-      const consumed = tryAdvance(dir)
-      if (consumed) {
-        e.preventDefault()
-        touchStartY.current = e.touches[0].clientY
-      }
+      e.preventDefault()
+      advance(dy > 0 ? 1 : -1)
+      touchStartY.current = e.touches[0].clientY
     }
 
     window.addEventListener("wheel", onWheel, { passive: false })
@@ -341,8 +348,8 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
     <div className="min-h-screen" style={{ backgroundColor: "#f8f5f0" }}>
       <Navbar />
 
-      {/* Gallery + info — 100vh, no tall scroll container */}
-      <div ref={galleryRef} className="flex flex-col md:flex-row" style={{ height: "100vh" }}>
+      {/* Gallery + info */}
+      <div className="flex flex-col md:flex-row" style={{ height: "100vh" }}>
 
         {/* ── LEFT: photo viewer ──────────────────────────────────── */}
         <div className="hidden md:block md:w-1/2 relative h-full overflow-hidden">
