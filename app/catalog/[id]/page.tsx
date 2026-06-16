@@ -14,6 +14,14 @@ const TONES = [
 
 const PHOTO_COUNT = 4
 
+const PRODUCT_IMAGES = [
+  "/images/products/studio-489.jpg",
+  "/images/products/studio-044.jpg",
+  "/images/products/studio-026.jpg",
+  "/images/products/studio-276.jpg",
+  "/images/products/studio-438.jpg",
+]
+
 const COLOR_SWATCHES = [
   { value: "ivory",    hex: "#f0ece4", label: "Ivory"    },
   { value: "noir",     hex: "#1a1a1a", label: "Noir"     },
@@ -382,7 +390,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                   key={i}
                   className="absolute inset-0"
                   style={{
-                    backgroundColor: tone,
+                    backgroundColor: "#c8955e",
                     zIndex: i + 1,
                     // slide enters from the right, rests, never exits
                     x: isActive || isPast ? "0%" : "100%",
@@ -395,6 +403,13 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                     ease: [0.76, 0, 0.24, 1],
                   }}
                 >
+                  {/* product photo */}
+                  <img
+                    src={PRODUCT_IMAGES[(Number(id) - 1 + i) % PRODUCT_IMAGES.length]}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover object-top"
+                  />
+
                   {/* large number watermark */}
                   <div className="absolute inset-0 flex items-end justify-start p-10 pointer-events-none select-none">
                     <span
