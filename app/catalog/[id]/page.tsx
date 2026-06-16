@@ -200,12 +200,19 @@ function AlsoLikeSection({ currentId, products }: { currentId: string; products:
             key={p.id}
             href={`/catalog/${p.id}`}
             className="group relative block overflow-hidden flex-1"
-            style={{ height: "65vh", backgroundColor: tones[i % tones.length] }}
+            style={{ height: "65vh", backgroundColor: "#c8955e" }}
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.15 }}
             transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: (i % 2) * 0.14 }}
           >
+            {/* product photo */}
+            <img
+              src={PRODUCT_IMAGES[(p.id - 1) % PRODUCT_IMAGES.length]}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+            />
+
             {/* number watermark */}
             <div className="absolute inset-0 flex items-end justify-start p-8 pointer-events-none select-none">
               <span
