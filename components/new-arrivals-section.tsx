@@ -6,6 +6,14 @@ import { useLang } from "@/lib/i18n"
 
 const prices = ["€2,450", "€1,950", "€2,950", "€990", "€890"]
 
+const PRODUCT_IMAGES = [
+  "/images/products/studio-489.jpg",
+  "/images/products/studio-044.jpg",
+  "/images/products/studio-026.jpg",
+  "/images/products/studio-276.jpg",
+  "/images/products/studio-438.jpg",
+]
+
 const container = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.1 } },
@@ -49,12 +57,12 @@ export default function NewArrivalsSection() {
             aria-label={name}
           >
             {/* Image */}
-            <div className="aspect-[3/4] relative overflow-hidden bg-[#f0eee9]">
+            <div className="aspect-[3/4] relative overflow-hidden" style={{ backgroundColor: "#c8955e" }}>
               <Image
-                src="/product-placeholder.png"
+                src={PRODUCT_IMAGES[idx]}
                 alt={name}
                 fill
-                className="object-contain p-6 transition-transform duration-700 group-hover:scale-105"
+                className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
               />
               <motion.div
                 className="absolute inset-0 bg-black/0"
