@@ -278,6 +278,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
   const [selectedSize,  setSelectedSize]  = useState<string | null>(null)
   const [added, setAdded] = useState(false)
   const [activeSlide, setActiveSlide] = useState(0)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
   // true = still viewing slides, page is locked
   const [slideLocked, setSlideLocked] = useState(true)
 
@@ -440,6 +441,23 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                 </motion.div>
               )
             })}
+
+            {/* zoom button */}
+            <button
+              onClick={() => setLightboxOpen(true)}
+              aria-label="Expand image"
+              className="absolute bottom-8 right-8 z-20 flex items-center justify-center transition-opacity duration-200 hover:opacity-70"
+              style={{ width: 36, height: 36 }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="36" height="36" fill="none" stroke="rgba(80,65,50,0.5)" strokeWidth="5" strokeLinecap="square">
+                <line x1="50" y1="43" x2="50" y2="57" />
+                <line x1="43" y1="50" x2="57" y2="50" />
+                <path d="M 25 35 L 25 25 L 35 25" />
+                <path d="M 75 35 L 75 25 L 65 25" />
+                <path d="M 25 65 L 25 75 L 35 75" />
+                <path d="M 75 65 L 75 75 L 65 75" />
+              </svg>
+            </button>
 
             {/* dot indicators */}
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
@@ -637,6 +655,46 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
           </motion.div>
         </div>
       </div>
+
+      {/* ── LIGHTBOX ─────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {lightboxOpen && (
+          <motion.div
+            className="fixed inset-0 z-[100] flex items-center justify-center"
+            style={{ backgroundColor: "rgba(10,8,6,0.96)" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={() => setLightboxOpen(false)}
+          >
+            <motion.img
+              src={PRODUCT_IMAGES[(Number(id) - 1 + activeSlide) % PRODUCT_IMAGES.length]}
+              alt=""
+              className="max-h-[90vh] max-w-[90vw] object-contain"
+              initial={{ scale: 0.94, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.94, opacity: 0 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              onClick={(e) => e.stopPropagation()}
+            />
+            <button
+              onClick={() => setLightboxOpen(false)}
+              aria-label="Close"
+              className="absolute top-8 right-8 font-sans text-white/40 hover:text-white/90 transition-colors duration-200"
+              style={{ fontSize: 24, lineHeight: 1 }}
+            >
+              &#x2715;
+            </button>
+            <div
+              className="absolute bottom-8 left-1/2 -translate-x-1/2 font-sans text-[9px] tracking-[0.28em]"
+              style={{ color: "rgba(255,255,255,0.25)" }}
+            >
+              {String(activeSlide + 1).padStart(2, "0")} / {String(PHOTO_COUNT).padStart(2, "0")}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── ACCORDION DETAILS ─────────────────────────────────────── */}
       <AccordionSection productName={product.name} />
