@@ -447,9 +447,9 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
               onClick={() => setLightboxOpen(true)}
               aria-label="Expand image"
               className="absolute bottom-8 right-8 z-20 flex items-center justify-center transition-opacity duration-200 hover:opacity-70"
-              style={{ width: 36, height: 36 }}
+              style={{ width: 56, height: 56 }}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="36" height="36" fill="none" stroke="rgba(80,65,50,0.5)" strokeWidth="5" strokeLinecap="square">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="56" height="56" fill="none" stroke="rgba(80,65,50,0.55)" strokeWidth="5" strokeLinecap="square">
                 <line x1="50" y1="43" x2="50" y2="57" />
                 <line x1="43" y1="50" x2="57" y2="50" />
                 <path d="M 25 35 L 25 25 L 35 25" />
