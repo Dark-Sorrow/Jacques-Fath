@@ -389,9 +389,9 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
         <div className="hidden md:block md:w-1/2 relative h-full overflow-hidden">
           <div className="h-full overflow-hidden">
             {Array.from({ length: PHOTO_COUNT }, (_, i) => {
-              const tone = TONES[(Number(id) - 1 + i) % TONES.length]
               const isActive = activeSlide === i
               const isPast   = i < activeSlide
+              const visible  = isActive || isPast
 
               return (
                 <motion.div
@@ -400,26 +400,49 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                   style={{
                     backgroundColor: "#c8955e",
                     zIndex: i + 1,
-                    // slide enters from the right, rests, never exits
-                    x: isActive || isPast ? "0%" : "100%",
                   }}
+                  initial={false}
                   animate={{
-                    x: isActive || isPast ? "0%" : "100%",
+                    clipPath: visible
+                      ? "inset(0% 0% 0% 0%)"
+                      : "inset(0% 0% 0% 100%)",
                   }}
                   transition={{
-                    duration: 0.9,
+                    duration: 1.05,
                     ease: [0.76, 0, 0.24, 1],
                   }}
                 >
-                  {/* product photo */}
-                  <img
+                  {/* product photo — parallax scale */}
+                  <motion.img
                     src={PRODUCT_IMAGES[(Number(id) - 1 + i) % PRODUCT_IMAGES.length]}
                     alt=""
                     className="absolute inset-0 w-full h-full object-cover object-top"
+                    initial={false}
+                    animate={{
+                      scale: visible ? 1 : 1.08,
+                    }}
+                    transition={{
+                      duration: 1.15,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                  />
+
+                  {/* colour wash overlay — fades out as slide settles */}
+                  <motion.div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{ backgroundColor: "#e8dfd4", mixBlendMode: "overlay" }}
+                    initial={false}
+                    animate={{ opacity: isActive ? 0 : 0 }}
+                    transition={{ duration: 0.6 }}
                   />
 
                   {/* large number watermark */}
-                  <div className="absolute inset-0 flex items-end justify-start p-10 pointer-events-none select-none">
+                  <motion.div
+                    className="absolute inset-0 flex items-end justify-start p-10 pointer-events-none select-none"
+                    initial={false}
+                    animate={{ opacity: isActive ? 1 : 0.4, x: isActive ? 0 : -12 }}
+                    transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                  >
                     <span
                       className="font-serif leading-none"
                       style={{
@@ -430,14 +453,27 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                     >
                       {String(Number(id) * 10 + i + 1).padStart(2, "0")}
                     </span>
-                  </div>
-                  {/* counter */}
-                  <div
+                  </motion.div>
+
+                  {/* counter — animates in with the slide */}
+                  <motion.div
                     className="absolute top-8 right-8 font-sans text-[9px] tracking-[0.28em]"
                     style={{ color: "rgba(80,65,50,0.35)" }}
+                    initial={false}
+                    animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : -6 }}
+                    transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
                   >
                     {String(i + 1).padStart(2, "0")} / {String(PHOTO_COUNT).padStart(2, "0")}
-                  </div>
+                  </motion.div>
+
+                  {/* thin progress line — draws left-to-right while slide is active */}
+                  <motion.div
+                    className="absolute bottom-0 left-0 h-px"
+                    style={{ backgroundColor: "rgba(80,65,50,0.22)", originX: 0 }}
+                    initial={false}
+                    animate={{ scaleX: isActive ? 1 : 0 }}
+                    transition={{ duration: 0.85, ease: "linear", delay: isActive ? 0.1 : 0 }}
+                  />
                 </motion.div>
               )
             })}
@@ -462,15 +498,16 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
             {/* dot indicators */}
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
               {Array.from({ length: PHOTO_COUNT }, (_, i) => (
-                <div
+                <motion.div
                   key={i}
-                  style={{
-                    width: i === activeSlide ? 24 : 6,
-                    height: 2,
-                    backgroundColor: i <= activeSlide ? "rgba(60,45,30,0.5)" : "rgba(60,45,30,0.18)",
-                    transition: "all 0.4s ease",
-                    borderRadius: 1,
+                  animate={{
+                    width: i === activeSlide ? 28 : 6,
+                    backgroundColor: i <= activeSlide
+                      ? "rgba(60,45,30,0.55)"
+                      : "rgba(60,45,30,0.18)",
                   }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  style={{ height: 2, borderRadius: 1 }}
                 />
               ))}
             </div>
